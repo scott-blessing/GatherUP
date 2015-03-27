@@ -1,0 +1,81 @@
+﻿<!--Navbar-->
+<div class="container-fliud">
+  <div class=" nav navbar navbar-default nav">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="index.html">
+        <img alt="GatherUP" src="Images/logo_v3.png" />
+      </a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li>
+        <a>Example</a>
+      </li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right" data-ng-show="user != null">
+      <li><a>{{user.name}}</a></li>
+      <li><a data-ng-click="logOut()">SIGN OUT</a></li>
+    </ul>
+  </div>
+</div>
+
+<!--HOME-->
+<div id="HomeDiv" data-ng-show="curPageType == pageType.HOME">
+  <div class="home-island">
+    <h1>Welcome to GatherUP</h1>
+    <p>The #1 site for Gathering people UP!</p>
+  </div>
+  <div class="home-island">
+    <table class="home-reg-table">
+      <tbody>
+        <tr>
+          <td>
+            <h1>Sign in</h1>
+            <p>Sign in stuff</p>
+          </td>
+          <td>
+            <h1>Register</h1>
+            <p>Register Stuff</p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!--EVENT LIST-->
+<div id="EventListDiv" data-ng-show="curPageType == pageType.EVENTLIST">
+  <div class="container-fluid">
+    <div class="col-lg-4 event-list">
+      <h5 class="event-list-title">
+        <u>Events You're Hosting</u>
+      </h5>
+      <div class="event" data-ng-repeat="e in events.hostedEvents">
+        <div class="event-title">{{e.name}}</div>
+        <div class="event-date">{{e.date}}</div>
+        <div class="event-location">{{e.loc}}</div>
+      </div>
+    </div>
+    <div class="col-lg-4 event-list">
+      <h5 class="event-list-title"><u>Events You're Attending</u></h5>
+      <div class="event" data-ng-repeat="e in events.attendEvents">
+        <div class="event-title">{{e.name}}</div>
+        <div class="event-date">{{e.date}}</div>
+        <div class="event-location">{{e.loc}}</div>
+      </div>
+    </div>
+    <div class="col-lg-4 event-list">
+      <h5 class="event-list-title"><u>Nearby Events</u></h5>
+      <div class="event" data-ng-repeat="e in events.localEvents">
+        <div class="event-title">{{e.name}}</div>
+        <div class="event-date">{{e.date}}</div>
+        <div class="event-location">{{e.loc}}</div>
+      </div>
+      <h4 ng-hide="event.localEvents">Looks like there's nothing happening nearby.  You should live somewhere cooler</h4>
+    </div>
+  </div>
+</div>
+
+<!--EVENT-->
+<div id="EventDiv" data-ng-show="curPageType == pageType.EVENT">
+  <div>Event</div>
+</div>

@@ -1,0 +1,9 @@
+﻿/*Navbar*/
+.navbar {
+    background-color: #BBBBBB;
+    border-radius: 0px;
+}
+
+.navbar-brand {
+    padding-top: 10px;
+}
