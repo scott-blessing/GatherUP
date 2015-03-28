@@ -3,12 +3,8 @@
   .config(function ($routeProvider) {
     $routeProvider
       .when('/', {
-        templateUrl: 'Views/Home.html',
-        controller: 'HomeCtrl'
-      })
-      .when('/event', {
-        templateUrl: 'Views/Event.html',
-        controller: 'EventCtrl'
+        templateUrl: 'Views/Main.html',
+        controller: 'MainCtrl'
       })
       .otherwise({
         redirectTo: '/'

@@ -1,0 +1,115 @@
+﻿<!--Navbar-->
+<div class="container-fliud">
+  <div class=" nav navbar navbar-default nav">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="index.html">
+        <img alt="GatherUP" src="Images/logo_v3.png" />
+      </a>
+    </div>
+    <ul class="nav navbar-nav navbar-right" data-ng-show="user != null">
+      <li><a>{{user.name}}</a></li>
+      <li><a data-ng-click="logOut()">SIGN OUT</a></li>
+    </ul>
+  </div>
+</div>
+
+<!--HOME-->
+<div id="HomeDiv" data-ng-show="curPageType == pageType.HOME">
+  <div class="home-island text-center">
+    <h1>Welcome to GatherUP</h1>
+    <p>The #1 site for Gathering people UP!</p>
+  </div>
+  <div class="home-island">
+    <div class="container">
+      <div class="col-lg-6">
+        <h1>Sign in</h1>
+        <form>
+          <label for="user">Username:</label>
+          <input name="user" type="text" data-ng-model="signinData.username" />
+          <br />
+          <label for="pass">Password:</label>
+          <input name="pass" type="password" data-ng-model="signinData.password" />
+          <br />
+          <input class="btn btn-primary" type="button" value="Sign In" data-ng-click="logIn()" />
+        </form>
+      </div>
+      <div class="col-lg-6">
+        <h1>Register</h1>
+        <form>
+          <label for="user">Username:</label>
+          <input name="user" type="text" data-ng-model="registerData.username" />
+          <br />
+          <label for="pass">Password:</label>
+          <input name="pass" type="password" data-ng-model="registerData.password1" />
+          <br />
+          <label for="pass2">Password Again:</label>
+          <input name="pass2" type="password" data-ng-model="registerData.password2" />
+          <br />
+          <label for="email">Email:</label>
+          <input name="email" type="email" data-ng-model="registerData.email" />
+          <br />
+          <label for="addr">Home Address:</label>
+          <input name="addr" type="text" data-ng-model="registerData.address" />
+          <br />
+          <input class="btn btn-primary" type="button" value="Register" data-ng-click="register()" />
+        </form>
+      </div>
+    </div>  
+  </div>
+</div>
+
+<!--EVENT LIST-->
+<div id="EventListDiv" data-ng-show="curPageType == pageType.EVENTLIST">
+  <div class="container-fluid">
+    <div class="col-lg-4 event-list">
+      <h5 class="event-list-title">
+        <u>Events You're Hosting</u>
+      </h5>
+      <div class="event" data-ng-repeat="e in events.hostedEvents" data-ng-click="openEventPage(e.ID)">
+        <button class="btn btn-xs btn-danger event-corner-btn" data-ng-click="deleteEvent($event, e.ID)">x</button>
+        <div class="event-title">{{e.name}}</div>
+        <div class="event-date">{{e.date}}</div>
+        <div class="event-location">{{e.loc}}</div> 
+      </div>
+      <div class="text-center">
+        <button id="createNewBtn" class="btn btn-warning" data-ng-click="createNewEvent()">Create New Event</button> 
+      </div>
+    </div>
+    <div class="col-lg-4 event-list">
+      <h5 class="event-list-title"><u>Events You're Attending</u></h5>
+      <div class="event" data-ng-repeat="e in events.attendEvents" data-ng-click="openEventPage(e.ID)">
+        <button class="btn btn-xs btn-danger event-corner-btn" data-ng-click="unattendEvent($event, e.ID)">x</button>
+        <div class="event-title">{{e.name}}</div>
+        <div class="event-date">{{e.date}}</div>
+        <div class="event-location">{{e.loc}}</div>
+      </div>
+      <div data-ng-show="events.inviteEvents.length > 0">
+        <h5 class="event-list-title"><u>Invited</u></h5>
+        <div class="event" data-ng-repeat="e in events.inviteEvents" data-ng-click="openEventPage(e.ID)">
+          <button class="btn btn-xs btn-info event-corner-btn" data-ng-click="attendEvent($event, e.ID)">Attend</button>
+          <div class="event-title">{{e.name}}</div>
+          <div class="event-date">{{e.date}}</div>
+          <div class="event-location">{{e.loc}}</div>
+        </div>
+      </div>
+      <h4 data-ng-show="events.attendEvents.length == 0 && events.inviteEvents.length == 0">
+        Don't be shy! Sign up for one of the public events in the list to the right.
+      </h4>
+    </div>
+    <div class="col-lg-4 event-list">
+      <h5 class="event-list-title"><u>Nearby Events</u></h5>
+      <div class="event" data-ng-repeat="e in events.localEvents" data-ng-click="openEventPage(e.ID)">
+        <button class="btn btn-xs btn-info event-corner-btn" data-ng-click="attendEvent($event, e.ID)">Attend</button>
+        <div class="event-title">{{e.name}}</div>
+        <div class="event-date">{{e.date}}</div>
+        <div class="event-location">{{e.loc}}</div>
+      </div>
+      <h4 data-ng-show="events.localEvents.length == 0">Looks like there's nothing happening nearby.  You should live somewhere better.</h4>
+    </div>
+  </div>
+</div>
+
+<!--EVENT-->
+<div id="EventDiv" data-ng-show="curPageType == pageType.EVENT">
+  <div>Event</div>
+</div>
