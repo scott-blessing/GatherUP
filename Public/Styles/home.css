@@ -2,13 +2,10 @@
 .home-island {
     position:relative; 
     left:30px;
+    border: solid 3px #000000;
     border-radius: 8px;
     background-color: white;
     padding: 3px;
     width: 95%;
     margin-bottom: 10px;
-}
-
-.home-reg-table td {
-  padding-right: 50px;
 }
