@@ -4,11 +4,23 @@
   $scope.pageType = {
     HOME: 0,
     EVENTLIST: 1,
-    EVENT: 2
-  }
+    EVENTVIEW: 2
+  };
+
+  //An "enum" of event attendance status
+  $scope.eventStatus = {
+    VIEWER: 0,  //View only
+    GUEST: 1,   //Can comment
+    ADMIN: 2,   //Can apply for supplies
+    HOST: 3,    //Able to remove comments
+    HOSTEDIT: 4 //Edit event details
+  };
 
   //Determines the current page that the user sees
   $scope.curPageType = $scope.pageType.HOME;
+
+  //Determines how the event page appears
+  $scope.curEventStatus = $scope.eventStatus.GUEST;
 
   //Data collected by the sign in form
   $scope.signinData = {
@@ -34,47 +46,97 @@
       ID: 0,
       name: "BBQ Gala",
       date: "5/18/2015",
-      loc: "507 Abc Street, Urbana IL"
+      loc: "507 Abc Street, Urbana IL",
+      status: $scope.eventStatus.HOST
     },
     {
       ID: 1,
       name: "CS 461 Presentation",
       date: "4/5/2015",
-      loc: "Siebel Center"
+      loc: "Siebel Center",
+      status: $scope.eventStatus.HOST
     },
     {
       ID: 2,
       name: "Dhruv's Death",
       date: "3/28/2015",
-      loc: "1517 Thornwood Dr, Downers Grove IL"
+      loc: "1517 Thornwood Dr, Downers Grove IL",
+      status: $scope.eventStatus.HOST
     }],
     attendEvents: [{
       ID: 3,
       name: "Chris B-day",
       date: "4/22/2015",
-      loc: "507 Defg Street, Urbana IL"
+      loc: "507 Defg Street, Urbana IL",
+      status: $scope.eventStatus.ADMIN
     },
     {
       ID: 4,
       name: "CS 411 Procrastination",
       date: "6/6/2015",
-      loc: "Cocomero"
+      loc: "Cocomero",
+      status: $scope.eventStatus.GUEST
     }],
     inviteEvents: [
       {
         ID: 6,
         name: "Dhruv's Funeral",
         date: "3/29/2015",
-        loc: "5830 Kirby Ave, Champaign IL"
+        loc: "5830 Kirby Ave, Champaign IL",
+        status: $scope.eventStatus.VIEWER
       }
     ],
     localEvents: [{
       ID: 5,
       name: "Sewing Club 17th annual Make-Your-Own-Sleepingbag Sleepover Extravaganza",
       date: "12/26/2015",
-      loc: "Daddy's O Pub"
+      loc: "Daddy's O Pub",
+      status: $scope.eventStatus.VIEWER
     }]
   };
+
+  //Data of the currently selected event (this must be populated from the DB)
+  $scope.curEvent = {
+    ID: 0,
+    name: "BBQ Gala",
+    loc: "507 Abc Street, Urbana IL",
+    startTime: new Date("May 18, 2015 17:00:00"),
+    endTime: new Date("May 18, 2015 23:00:00"),
+    desc: "Come on down and enjoy some delicious southern-style BBQ fresh off our grills",
+    guests:
+      [{
+        email: "bob@bob.com",
+        name: "Bob Vance",
+        isGuest: true
+      },
+      {
+        email: "example@dummydata.net",
+        name: "Jill Vance",
+        isGuest: false
+      },
+      {
+        email: "example2@dummydata.net",
+        name: "Jerry McGuire",
+        isGuest: true
+      }],
+    supplies: [],
+    comments:
+      [{
+        ID: 0,
+        email: "bob@bob.com",
+        username: "Bob Vance",
+        text: "This seems like it'll be a lot of fun",
+        date: new Date("October 13, 2014 11:13:00")
+      },
+      {
+        ID: 1,
+        email: "example@dummydata.net",
+        username: "Jill Vance",
+        text: "This seems like it'll be no fun whatsoever",
+        date: new Date("October 12, 2014 11:13:00")
+      }]
+  };
+
 
 /********************************************NAVBAR***************************************************************/
 
@@ -94,7 +156,8 @@
 
     $scope.curPageType = $scope.pageType.EVENTLIST;
     $scope.user = {
-      name: $scope.signinData.username
+      name: $scope.signinData.username,
+      email: "example@dummydata.net"
     };
 
     $scope.signinData = {
@@ -109,7 +172,10 @@
 
     if ($scope.registerData.password1 === $scope.registerData.password2) {
       $scope.curPageType = $scope.pageType.EVENTLIST;
-      $scope.user = { name: $scope.register.username };
+      $scope.user = {
+        name: $scope.registerData.username,
+        email: $scope.registerData.email
+      };
     }
 
     $scope.registerData = {
@@ -157,13 +223,26 @@
   };
 
   //Sends the user to the event page of the given event
-  $scope.openEventPage = function (eventID) {
+  $scope.openEventPage = function (status, eventID) {
     //TODO: this
-    alert("Not Implemented - OpenEventPage(" + eventID + ")");
+    alert("Not Implemented - OpenEventPage(" + status + "," + eventID + ")");
+
+    $scope.curPageType = $scope.pageType.EVENTVIEW;
+    $scope.curEventStatus = status;
   };
 
-  /********************************************EVENT***************************************************************/
+  /********************************************EVENT VIEW***************************************************************/
 
+  //Propts the user for comment text, then creates the comment
+  $scope.createComment = function () {
+    //TODO: this
+    alert("Not Implemented - CreateComment()");
+  };
 
+  //Delete the given comment - if the comment's user email doesn't match user.email, don't delete but replace text with "[removed by host]"
+  $scope.deleteComment = function (commentID) {
+    //TODO: This
+    alert("Not Implemented - DeleteComment(" + commentID + ")");
+  };
 
 }

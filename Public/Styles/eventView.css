@@ -1,0 +1,16 @@
+﻿.eventview-island {
+    border: solid 3px #000000;
+    border-radius: 8px;
+    background-color: white;
+    padding: 3px;
+    margin-bottom: 10px;
+}
+
+.eventview-comment {
+  border-bottom: solid 1px #000000;
+}
+
+.eventview-comment-delete {
+  position: static;
+  float: right; 
+}

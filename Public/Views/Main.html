@@ -1,17 +1,20 @@
 ﻿<!--Navbar-->
 <div class="container-fliud">
-  <div class=" nav navbar navbar-default nav">
+  <div class="nav navbar navbar-default">
     <div class="navbar-header">
       <a class="navbar-brand" href="index.html">
         <img alt="GatherUP" src="Images/logo_v3.png" />
       </a>
     </div>
     <ul class="nav navbar-nav navbar-right" data-ng-show="user != null">
+      <li><a data-ng-click="curPageType = pageType.EVENTLIST">My Events</a></li>
       <li><a>{{user.name}}</a></li>
       <li><a data-ng-click="logOut()">SIGN OUT</a></li>
     </ul>
   </div>
 </div>
+
+
 
 <!--HOME-->
 <div id="HomeDiv" data-ng-show="curPageType == pageType.HOME">
@@ -36,27 +39,41 @@
       <div class="col-lg-6">
         <h1>Register</h1>
         <form>
-          <label for="user">Username:</label>
-          <input name="user" type="text" data-ng-model="registerData.username" />
-          <br />
-          <label for="pass">Password:</label>
-          <input name="pass" type="password" data-ng-model="registerData.password1" />
-          <br />
-          <label for="pass2">Password Again:</label>
-          <input name="pass2" type="password" data-ng-model="registerData.password2" />
-          <br />
-          <label for="email">Email:</label>
-          <input name="email" type="email" data-ng-model="registerData.email" />
-          <br />
-          <label for="addr">Home Address:</label>
-          <input name="addr" type="text" data-ng-model="registerData.address" />
-          <br />
-          <input class="btn btn-primary" type="button" value="Register" data-ng-click="register()" />
+          <table class="form-table">
+            <tbody>
+              <tr>
+                <td><label for="user">Username:</label></td>
+                <td><input name="user" type="text" data-ng-model="registerData.username" /></td>
+              </tr>
+              <tr>
+                <td><label for="pass">Password:</label></td>
+                <td><input name="pass" type="password" data-ng-model="registerData.password1" /></td>
+              </tr>
+              <tr>
+                <td><label for="pass2">Password Again:</label></td>
+                <td><input name="pass2" type="password" data-ng-model="registerData.password2" /></td>
+              </tr>
+              <tr>
+                <td><label for="email">Email:</label></td>
+                <td><input name="email" type="email" data-ng-model="registerData.email" /></td>
+              </tr>
+              <tr>
+                <td><label for="addr">Home Address:</label></td>
+                <td><input name="addr" type="text" data-ng-model="registerData.address" /></td>
+              </tr>
+              <tr>
+                <td></td>
+                <td><input class="btn btn-primary" type="button" value="Register" data-ng-click="register()" /></td>
+              </tr>
+            </tbody>
+          </table>
         </form>
       </div>
     </div>  
   </div>
 </div>
+
+
 
 <!--EVENT LIST-->
 <div id="EventListDiv" data-ng-show="curPageType == pageType.EVENTLIST">
@@ -65,7 +82,7 @@
       <h5 class="event-list-title">
         <u>Events You're Hosting</u>
       </h5>
-      <div class="event" data-ng-repeat="e in events.hostedEvents" data-ng-click="openEventPage(e.ID)">
+      <div class="event" data-ng-repeat="e in events.hostedEvents" data-ng-click="openEventPage(e.status, e.ID)">
         <button class="btn btn-xs btn-danger event-corner-btn" data-ng-click="deleteEvent($event, e.ID)">x</button>
         <div class="event-title">{{e.name}}</div>
         <div class="event-date">{{e.date}}</div>
@@ -77,15 +94,18 @@
     </div>
     <div class="col-lg-4 event-list">
       <h5 class="event-list-title"><u>Events You're Attending</u></h5>
-      <div class="event" data-ng-repeat="e in events.attendEvents" data-ng-click="openEventPage(e.ID)">
+      <div class="event" data-ng-repeat="e in events.attendEvents" data-ng-click="openEventPage(e.status, e.ID)">
         <button class="btn btn-xs btn-danger event-corner-btn" data-ng-click="unattendEvent($event, e.ID)">x</button>
-        <div class="event-title">{{e.name}}</div>
+        <div class="event-title">
+          <span>{{e.name}}</span>
+          <span data-ng-show="e.status == eventStatus.ADMIN">(Admin)</span>
+        </div>
         <div class="event-date">{{e.date}}</div>
         <div class="event-location">{{e.loc}}</div>
       </div>
       <div data-ng-show="events.inviteEvents.length > 0">
         <h5 class="event-list-title"><u>Invited</u></h5>
-        <div class="event" data-ng-repeat="e in events.inviteEvents" data-ng-click="openEventPage(e.ID)">
+        <div class="event" data-ng-repeat="e in events.inviteEvents" data-ng-click="openEventPage(e.status, e.ID)">
           <button class="btn btn-xs btn-info event-corner-btn" data-ng-click="attendEvent($event, e.ID)">Attend</button>
           <div class="event-title">{{e.name}}</div>
           <div class="event-date">{{e.date}}</div>
@@ -98,7 +118,7 @@
     </div>
     <div class="col-lg-4 event-list">
       <h5 class="event-list-title"><u>Nearby Events</u></h5>
-      <div class="event" data-ng-repeat="e in events.localEvents" data-ng-click="openEventPage(e.ID)">
+      <div class="event" data-ng-repeat="e in events.localEvents" data-ng-click="openEventPage(e.status, e.ID)">
         <button class="btn btn-xs btn-info event-corner-btn" data-ng-click="attendEvent($event, e.ID)">Attend</button>
         <div class="event-title">{{e.name}}</div>
         <div class="event-date">{{e.date}}</div>
@@ -109,7 +129,46 @@
   </div>
 </div>
 
-<!--EVENT-->
-<div id="EventDiv" data-ng-show="curPageType == pageType.EVENT">
-  <div>Event</div>
+
+
+<!--EVENT VIEWER-->
+<div id="EventDiv" data-ng-show="curPageType == pageType.EVENTVIEW">
+  <div class="eventview-titledisplay" data-ng-show="curEventStatus <= eventStatus.HOST">
+    <div class="home-island eventview-title">
+      <button class="btn btn-warning eventview-title-editbutton" data-ng-show="curEventStatus == eventStatus.HOST" data-ng-click="curEventStatus = eventStatus.HOSTEDIT">Edit</button>
+      <h2>{{curEvent.name}}</h2>
+      <h4>{{curEvent.startTime.toLocaleTimeString()}} {{curEvent.startTime.toLocaleDateString()}} - {{curEvent.endTime.toLocaleTimeString()}} {{curEvent.endTime.toLocaleDateString()}}</h4>
+      <h4>{{curEvent.loc}}</h4>
+    </div>
+    <div class="home-island eventview-desc">
+      {{curEvent.desc}}
+    </div>
+  </div>
+  <div class="eventview-titleedit" data-ng-show="curEventStatus == eventStatus.HOSTEDIT">
+    <div class="home-island">
+      <!--Edit Form-->
+    </div>
+  </div>
+  <div class="eventview-commentlist home-island">
+    <h3><u>Comments</u></h3>
+    <div class="eventview-comment" data-ng-repeat="comm in curEvent.comments">
+      <button class="eventview-comment-delete btn btn-xs btn-danger" data-ng-show="curEventStatus >= eventStatus.HOST || comm.email == user.email">x</button>  
+      <h6>{{comm.username}} - {{comm.date.toLocaleTimeString()}} {{comm.date.toLocaleDateString()}}</h6>
+      <p>{{comm.text}}</p>
+    </div>
+    <button class="btn btn-info" data-ng-click="createComment()" data-ng-show="curEventStatus >= eventStatus.GUEST">Comment</button>
+  </div> 
+  <div class="eventview-guestsuppliesblock" data-ng-show="curEventStatus >= eventStatus.ADMIN">
+    <div class="container">
+      <div class="eventview-island eventview-guestlist col-lg-6">
+        <!--TODO: This-->
+        <h3><u>Admins</u></h3>
+        <h3><u>Guests</u></h3>
+      </div>
+      <div class="eventview-island eventview-supplylist col-lg-6">
+        <!--TODO: This-->
+        <h3><u>Supplies</u></h3>
+      </div>
+    </div>
+  </div>
 </div>

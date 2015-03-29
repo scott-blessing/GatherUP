@@ -7,3 +7,7 @@
 .navbar-brand {
     padding-top: 10px;
 }
+
+.nav a:hover {
+  cursor: pointer;
+}
