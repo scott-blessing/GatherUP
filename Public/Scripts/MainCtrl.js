@@ -112,8 +112,9 @@
     loc: "507 Abc Street, Urbana IL",
     startTime: new Date("May 18, 2015 17:00:00"),
     endTime: new Date("May 18, 2015 23:00:00"),
-    desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin tincidunt, erat nec tempus dictum, arcu est pulvinar arcu, id gravida ipsum nisl eu metus. Proin mauris enim, luctus id ante vitae, blandit ultricies orci. In non metus non sem ultrices pharetra. Suspendisse faucibus eu augue id efficitur. Aliquam eget nunc ut eros posuere semper. Proin scelerisque libero urna, sit amet maximus diam congue non. Cras efficitur augue in orci tempus ultricies in et metus. Donec non posuere nisl, vel commodo augue. Nulla massa odio, fringilla et consectetur at, ultrices nec leo. Nullam turpis felis, interdum at volutpat ut, eleifend in lectus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris quis volutpat lorem, ullamcorper rutrum ipsum.  Praesent condimentum maximus tempus. Cras maximus odio in mauris suscipit ullamcorper. Morbi quis fringilla turpis. Nullam accumsan at metus et rhoncus. Morbi dictum neque sagittis lacus tempor, vel condimentum eros luctus. Sed molestie pharetra porta. Etiam tincidunt felis quis erat condimentum sodales. Vivamus dictum, est at vestibulum accumsan, odio magna convallis lorem, eu rhoncus ipsum felis et ante. Aliquam ultrices risus ut dolor dignissim, ac aliquet mi egestas. Mauris eget tellus venenatis, placerat eros nec, suscipit urna. Curabitur imperdiet vehicula tellus, eget placerat turpis tempor blandit. Cras at lectus tortor.  Fusce convallis pulvinar vehicula. Vivamus fringilla dui ac velit eleifend malesuada. Nunc pellentesque tempor turpis. In metus dui, ultricies ut ipsum at, porta semper turpis. Donec eget risus ut urna placerat commodo. Suspendisse sed est dui. Nunc euismod dolor malesuada ornare feugiat. Phasellus at semper nunc. Maecenas urna ex, rhoncus vel auctor quis, efficitur vitae magna. Cras eleifend tempus magna, eu laoreet lectus mattis quis. Praesent tempus nisi nec justo molestie vestibulum. Cras id pretium mauris, a interdum augue. Suspendisse eros arcu, tincidunt vitae nibh et, dictum accumsan eros. Sed laoreet felis venenatis, maximus sapien nec, facilisis felis. Cras ac aliquam arcu, vel mattis tellus.",
+    desc: "Come on down for some delicious Texas-style BBQ.  This event is happening May 18th to celebrate the end of the semester and the start of Summer.  Bring your swimtrunks to since there will be an outdoor pool as well.",
     hostName: "Jill Vance",
+    isPublic: true,
     guests:
       [{
         email: "bob@bob.com",
@@ -174,7 +175,7 @@
 
   //Called when the user presses the login button
   $scope.logIn = function () {
-    //TODO: Validate $scope.signin against DB
+    //TODO: Validate $scope.signinData against DB
     //If valid set $scope.user with DB info
 
     $scope.curPageType = $scope.pageType.EVENTLIST;
@@ -191,14 +192,16 @@
 
   //Called when the user presses the register button
   $scope.register = function () {
-    //TODO: Validate, check for collisions, and create in DB
-
-    if ($scope.registerData.password1 === $scope.registerData.password2) {
-      $scope.curPageType = $scope.pageType.EVENTLIST;
-      $scope.user = {
-        name: $scope.registerData.username,
-        email: $scope.registerData.email
-      };
+    //TODO: Validate, check for email collisions, and create in DB
+    var data = $scope.registerData;
+    if (data.password1 === data.password2) {
+      if (data.email !== null) { //HTML does this validation for us
+        $scope.curPageType = $scope.pageType.EVENTLIST;
+        $scope.user = {
+          name: $scope.registerData.username,
+          email: $scope.registerData.email
+        };
+      }
     }
 
     $scope.registerData = {
@@ -230,10 +233,28 @@
     alert("Not Implemented - UnattendEvent(" + eventID + ")");
   };
 
-  //Triggers an event creation dialog for the user
+  //Creates a blank event hosted by the user
+  //Sends the user to that event's HOSTEDIT page
   $scope.createNewEvent = function () {
-    //TODO: Trigger a dialog/model/div to create a new event
+    //TODO: This
     alert("Not Implemented - CreateNewEvent()");
+
+    //Get appropriate ID from DB
+    $scope.curEvent = {
+      ID: 1,
+      name: "",
+      loc: "",
+      startTime: new Date(),
+      endTime: new Date(),
+      desc: "",
+      hostName: $scope.user.name,
+      isPublic: true,
+      guests: [],
+      supplies: [],
+      comments: []
+    };
+    $scope.curEventStatus = $scope.eventStatus.HOSTEDIT;
+    $scope.curPageType = $scope.pageType.EVENTVIEW;
   };
 
   //Signs the user up as a guest to the given event
@@ -258,14 +279,38 @@
 
   //Propts the user for comment text, then creates the comment
   $scope.createComment = function () {
-    //TODO: this
-    alert("Not Implemented - CreateComment()");
+    //TODO: Create comment in DB - get ID from DB
+    alert("Not Implemented Fully - CreateComment()");
+
+    var commText = prompt("Comment");
+    commText = commText.trim();
+    if (commText != null && commText.length > 0) {
+      $scope.curEvent.comments.push({
+        ID: 2,
+        email: $scope.user.email,
+        username: $scope.user.name,
+        text: commText,
+        date: new Date()
+      });
+    }
   };
 
   //Delete the given comment - if the comment's user email doesn't match user.email, don't delete but replace text with "[removed by host]"
   $scope.deleteComment = function (commentID) {
-    //TODO: This
-    alert("Not Implemented - DeleteComment(" + commentID + ")");
+    alert("Not Implemented Fully - DeleteComment(" + commentID + ")");
+
+    var comments = $scope.curEvent.comments;
+    for (var i = 0; i < comments.length; i++) {
+      if (comments[i].ID === commentID) {
+        if (comments[i].email !== $scope.user.email) {
+          comments[i].text = "[Removed by Host]";
+        } else {
+          comments.splice(i, 1);
+          //TODO: Remove comment from DB as well
+        }
+        break;
+      }
+    }
   };
 
   //Saves any changes made to curEvent back to the database

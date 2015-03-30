@@ -133,18 +133,7 @@
 
 <!--EVENT VIEWER-->
 <div id="EventViewDiv" data-ng-show="curPageType == pageType.EVENTVIEW">
-  <div class="eventview-titledisplay" data-ng-show="curEventStatus <= eventStatus.HOST">
-    <div class="home-island eventview-title">
-      <button class="btn btn-warning eventview-title-rightbutton" data-ng-show="curEventStatus == eventStatus.HOST" data-ng-click="curEventStatus = eventStatus.HOSTEDIT">Edit</button>
-      <h2>{{curEvent.name}}</h2>
-      <h4>{{curEvent.startTime.toLocaleTimeString()}} {{curEvent.startTime.toLocaleDateString()}} - {{curEvent.endTime.toLocaleTimeString()}} {{curEvent.endTime.toLocaleDateString()}}</h4>
-      <h4>{{curEvent.loc}}</h4>
-    </div>
-    <div class="home-island eventview-desc">
-      {{curEvent.desc}}
-    </div>
-  </div>
-  <div class="eventview-titleedit" data-ng-show="curEventStatus == eventStatus.HOSTEDIT">
+  <div class="eventview-edit" data-ng-show="curEventStatus == eventStatus.HOSTEDIT">
     <div class="home-island">
       <button class="btn btn-danger eventview-title-rightbutton" data-ng-click="deleteCurEvent()">Cancel Event</button>
       <form>
@@ -171,6 +160,10 @@
               <td><textarea name="desc" data-ng-model="curEvent.desc"></textarea></td>
             </tr>
             <tr>
+              <td><label for="public">Visible to Public?:</label></td>
+              <td><input name="public" type="checkbox" data-ng-model="curEvent.isPublic" /></td>
+            </tr>
+            <tr>
               <td></td>
               <td><button class="btn btn-primary" data-ng-click="saveEventChanges(); curEventStatus = eventStatus.HOST;">Save Changes</button></td>
             </tr>
@@ -179,35 +172,51 @@
       </form>
     </div>
   </div>
-  <div class="eventview-commentlist home-island">
-    <h3><u>Comments</u></h3>
-    <div class="eventview-comment" data-ng-repeat="comm in curEvent.comments">
-      <button class="eventview-comment-delete btn btn-xs btn-danger" data-ng-show="curEventStatus >= eventStatus.HOST || comm.email == user.email">x</button>  
-      <h6>{{comm.username}} - {{comm.date.toLocaleTimeString()}} {{comm.date.toLocaleDateString()}}</h6>
-      <p>{{comm.text}}</p>
+  <div class="eventview-nonedit" data-ng-show="curEventStatus != eventStatus.HOSTEDIT">
+    <div class="eventview-titledisplay" data-ng-show="curEventStatus <= eventStatus.HOST">
+      <div class="home-island eventview-title">
+        <button class="btn btn-warning eventview-title-rightbutton" data-ng-show="curEventStatus == eventStatus.HOST" data-ng-click="curEventStatus = eventStatus.HOSTEDIT">Edit</button>
+        <h2>{{curEvent.name}}</h2>
+        <h4>{{curEvent.startTime.toLocaleTimeString()}} {{curEvent.startTime.toLocaleDateString()}} - {{curEvent.endTime.toLocaleTimeString()}} {{curEvent.endTime.toLocaleDateString()}}</h4>
+        <h4>{{curEvent.loc}}</h4>
+      </div>
+      <div class="home-island eventview-desc">
+        {{curEvent.desc}}
+      </div>
     </div>
-    <button class="btn btn-info" data-ng-click="createComment()" data-ng-show="curEventStatus >= eventStatus.GUEST">Comment</button>
+    <div class="eventview-commentlist home-island">
+      <h3><u>Comments</u></h3>
+      <div class="eventview-comment" data-ng-repeat="comm in curEvent.comments">
+        <button class="eventview-comment-delete btn btn-xs btn-danger" 
+                data-ng-show="curEventStatus >= eventStatus.HOST || comm.email == user.email" 
+                data-ng-click="deleteComment(comm.ID)">x</button>
+        <h6>{{comm.username}} - {{comm.date.toLocaleTimeString()}} {{comm.date.toLocaleDateString()}}</h6>
+        <p>{{comm.text}}</p>
+      </div>
+      <button class="btn btn-info" data-ng-click="createComment()" data-ng-show="curEventStatus >= eventStatus.GUEST">Comment</button>
+    </div>
+    <div class="eventview-guestsuppliesblock" data-ng-show="curEventStatus >= eventStatus.ADMIN">
+      <div class="container">
+        <div class="eventview-island eventview-guestlist col-lg-6">
+          <h3><u>Guests</u> <small>{{curEvent.guests.length}} people attending</small></h3>
+          <div class="eventview-guest" data-ng-repeat="g in curEvent.guests">
+            <h5><span>{{g.name}}</span><span data-ng-show="g.isGuest == false"> (ADMIN)</span></h5>
+          </div>
+          <div data-ng-show="curEvent.guests.length == 1 && curEvent.isPublic == false">This event is private, so you'll need to invite anyone you want to come</div>
+          <!--TODO: Ability to add guests and Admins-->
+        </div>
+        <div class="eventview-island eventview-supplylist col-lg-6">
+          <h3><u>Supplies</u></h3>
+          <div class="eventview-supply" data-ng-repeat="s in curEvent.supplies">
+            <h5><strong>{{s.name}}</strong></h5>
+            <h6>{{s.quantity}}</h6>
+            <h6 data-ng-show="s.username != null">{{s.username}} is bringing this</h6>
+          </div>
+          <!--TODO: Ability to manipulate supplies-->
+        </div>
+      </div>
+    </div>
   </div> 
-  <div class="eventview-guestsuppliesblock" data-ng-show="curEventStatus >= eventStatus.ADMIN">
-    <div class="container">
-      <div class="eventview-island eventview-guestlist col-lg-6">
-        <h3><u>Guests</u> <small>{{curEvent.guests.length}} people attending</small></h3>
-        <div class="eventview-guest" data-ng-repeat="g in curEvent.guests">
-          <h5><span>{{g.name}}</span><span data-ng-show="g.isGuest == false"> (ADMIN)</span></h5>
-        </div>
-        <!--TODO: Ability to add guests and Admins-->
-      </div>
-      <div class="eventview-island eventview-supplylist col-lg-6">
-        <h3><u>Supplies</u></h3>
-        <div class="eventview-supply" data-ng-repeat="s in curEvent.supplies">
-          <h5><strong>{{s.name}}</strong></h5>
-          <h6>{{s.quantity}}</h6>
-          <h6 data-ng-show="s.username != null">{{s.username}} is bringing this</h6>
-        </div>
-        <!--TODO: Ability to manipulate supplies-->
-      </div>
-    </div>
-  </div>
 </div>
 
 
