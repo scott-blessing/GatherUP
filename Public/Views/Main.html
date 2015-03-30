@@ -2,13 +2,13 @@
 <div class="container-fliud">
   <div class="nav navbar navbar-default">
     <div class="navbar-header">
-      <a class="navbar-brand" href="index.html">
+      <a class="navbar-brand">
         <img alt="GatherUP" src="Images/logo_v3.png" />
       </a>
     </div>
     <ul class="nav navbar-nav navbar-right" data-ng-show="user != null">
       <li><a data-ng-click="curPageType = pageType.EVENTLIST">My Events</a></li>
-      <li><a>{{user.name}}</a></li>
+      <li><a data-ng-click="loadProfilePage()">{{user.name}}</a></li>
       <li><a data-ng-click="logOut()">SIGN OUT</a></li>
     </ul>
   </div>
@@ -132,10 +132,10 @@
 
 
 <!--EVENT VIEWER-->
-<div id="EventDiv" data-ng-show="curPageType == pageType.EVENTVIEW">
+<div id="EventViewDiv" data-ng-show="curPageType == pageType.EVENTVIEW">
   <div class="eventview-titledisplay" data-ng-show="curEventStatus <= eventStatus.HOST">
     <div class="home-island eventview-title">
-      <button class="btn btn-warning eventview-title-editbutton" data-ng-show="curEventStatus == eventStatus.HOST" data-ng-click="curEventStatus = eventStatus.HOSTEDIT">Edit</button>
+      <button class="btn btn-warning eventview-title-rightbutton" data-ng-show="curEventStatus == eventStatus.HOST" data-ng-click="curEventStatus = eventStatus.HOSTEDIT">Edit</button>
       <h2>{{curEvent.name}}</h2>
       <h4>{{curEvent.startTime.toLocaleTimeString()}} {{curEvent.startTime.toLocaleDateString()}} - {{curEvent.endTime.toLocaleTimeString()}} {{curEvent.endTime.toLocaleDateString()}}</h4>
       <h4>{{curEvent.loc}}</h4>
@@ -146,7 +146,37 @@
   </div>
   <div class="eventview-titleedit" data-ng-show="curEventStatus == eventStatus.HOSTEDIT">
     <div class="home-island">
-      <!--Edit Form-->
+      <button class="btn btn-danger eventview-title-rightbutton" data-ng-click="deleteCurEvent()">Cancel Event</button>
+      <form>
+        <table>
+          <tbody>
+            <tr>
+              <td><label for="name">Name:</label></td>
+              <td><input name="name" type="text" data-ng-model="curEvent.name" /></td>
+            </tr>
+            <tr>
+              <td><label for="loc">Location:</label></td>
+              <td><input name="loc" type="text" data-ng-model="curEvent.loc" /></td>
+            </tr>
+            <tr>
+              <td><label for="sTime">Start Time:</label></td>
+              <td><input name="sTime" type="datetime" data-ng-model="curEvent.startTime" /></td>
+            </tr>
+            <tr>
+              <td><label for="eTime">End Time:</label></td>
+              <td><input name="eTime" type="datetime" data-ng-model="curEvent.endTime" /></td>
+            </tr>
+            <tr>
+              <td><label for="desc">Description:</label></td>
+              <td><textarea name="desc" data-ng-model="curEvent.desc"></textarea></td>
+            </tr>
+            <tr>
+              <td></td>
+              <td><button class="btn btn-primary" data-ng-click="saveEventChanges(); curEventStatus = eventStatus.HOST;">Save Changes</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </form>
     </div>
   </div>
   <div class="eventview-commentlist home-island">
@@ -161,14 +191,59 @@
   <div class="eventview-guestsuppliesblock" data-ng-show="curEventStatus >= eventStatus.ADMIN">
     <div class="container">
       <div class="eventview-island eventview-guestlist col-lg-6">
-        <!--TODO: This-->
-        <h3><u>Admins</u></h3>
-        <h3><u>Guests</u></h3>
+        <h3><u>Guests</u> <small>{{curEvent.guests.length}} people attending</small></h3>
+        <div class="eventview-guest" data-ng-repeat="g in curEvent.guests">
+          <h5><span>{{g.name}}</span><span data-ng-show="g.isGuest == false"> (ADMIN)</span></h5>
+        </div>
+        <!--TODO: Ability to add guests and Admins-->
       </div>
       <div class="eventview-island eventview-supplylist col-lg-6">
-        <!--TODO: This-->
         <h3><u>Supplies</u></h3>
+        <div class="eventview-supply" data-ng-repeat="s in curEvent.supplies">
+          <h5><strong>{{s.name}}</strong></h5>
+          <h6>{{s.quantity}}</h6>
+          <h6 data-ng-show="s.username != null">{{s.username}} is bringing this</h6>
+        </div>
+        <!--TODO: Ability to manipulate supplies-->
       </div>
     </div>
+  </div>
+</div>
+
+
+
+<!--PROFILE-->
+<div id="ProfileDiv" data-ng-show="curPageType == pageType.PROFILE">
+  <div class="home-island profile-form">
+    <form>
+      <table>
+        <tbody>
+          <tr>
+            <td><label for="p-name">Name:</label></td>
+            <td><input name="p-name" type="text" data-ng-model="userData.name" /></td>
+          </tr>
+          <tr>
+            <td><label>Email:</label></td>
+            <td><div>{{user.email}}</div></td>
+          </tr>
+          <tr>
+            <td><label for="p-password1">Change Password:</label></td>
+            <td><input name="p-password1" type="password" data-ng-model="userData.password1" /></td>
+          </tr>
+          <tr>
+            <td><label for="p-password2">Confirm New Password:</label></td>
+            <td><input name="p-password2" type="password" data-ng-model="userData.password2" /></td>
+          </tr>
+          <tr>
+            <td><label for="p-loc">Home Address:</label></td>
+            <td><input name="p-loc" type="text" data-ng-model="userData.addr" /></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td><button class="btn btn-info" data-ng-click="saveProfileChanges()">Save Changes</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </form>
   </div>
 </div>

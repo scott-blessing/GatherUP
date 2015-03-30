@@ -4,7 +4,8 @@
   $scope.pageType = {
     HOME: 0,
     EVENTLIST: 1,
-    EVENTVIEW: 2
+    EVENTVIEW: 2,
+    PROFILE: 3
   };
 
   //An "enum" of event attendance status
@@ -39,6 +40,15 @@
 
   //Data of the currently logged in user - null if not logged in
   $scope.user = null;
+
+  //Data about the user to be manipulated on the profile page
+  $scope.userData = {
+    name: "",
+    email: "",
+    password1: "",
+    password2: "",
+    addr: ""
+  }
 
   //All of the events that should be displayed on the event list screen
   $scope.events = {
@@ -102,7 +112,8 @@
     loc: "507 Abc Street, Urbana IL",
     startTime: new Date("May 18, 2015 17:00:00"),
     endTime: new Date("May 18, 2015 23:00:00"),
-    desc: "Come on down and enjoy some delicious southern-style BBQ fresh off our grills",
+    desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin tincidunt, erat nec tempus dictum, arcu est pulvinar arcu, id gravida ipsum nisl eu metus. Proin mauris enim, luctus id ante vitae, blandit ultricies orci. In non metus non sem ultrices pharetra. Suspendisse faucibus eu augue id efficitur. Aliquam eget nunc ut eros posuere semper. Proin scelerisque libero urna, sit amet maximus diam congue non. Cras efficitur augue in orci tempus ultricies in et metus. Donec non posuere nisl, vel commodo augue. Nulla massa odio, fringilla et consectetur at, ultrices nec leo. Nullam turpis felis, interdum at volutpat ut, eleifend in lectus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris quis volutpat lorem, ullamcorper rutrum ipsum.  Praesent condimentum maximus tempus. Cras maximus odio in mauris suscipit ullamcorper. Morbi quis fringilla turpis. Nullam accumsan at metus et rhoncus. Morbi dictum neque sagittis lacus tempor, vel condimentum eros luctus. Sed molestie pharetra porta. Etiam tincidunt felis quis erat condimentum sodales. Vivamus dictum, est at vestibulum accumsan, odio magna convallis lorem, eu rhoncus ipsum felis et ante. Aliquam ultrices risus ut dolor dignissim, ac aliquet mi egestas. Mauris eget tellus venenatis, placerat eros nec, suscipit urna. Curabitur imperdiet vehicula tellus, eget placerat turpis tempor blandit. Cras at lectus tortor.  Fusce convallis pulvinar vehicula. Vivamus fringilla dui ac velit eleifend malesuada. Nunc pellentesque tempor turpis. In metus dui, ultricies ut ipsum at, porta semper turpis. Donec eget risus ut urna placerat commodo. Suspendisse sed est dui. Nunc euismod dolor malesuada ornare feugiat. Phasellus at semper nunc. Maecenas urna ex, rhoncus vel auctor quis, efficitur vitae magna. Cras eleifend tempus magna, eu laoreet lectus mattis quis. Praesent tempus nisi nec justo molestie vestibulum. Cras id pretium mauris, a interdum augue. Suspendisse eros arcu, tincidunt vitae nibh et, dictum accumsan eros. Sed laoreet felis venenatis, maximus sapien nec, facilisis felis. Cras ac aliquam arcu, vel mattis tellus.",
+    hostName: "Jill Vance",
     guests:
       [{
         email: "bob@bob.com",
@@ -116,10 +127,22 @@
       },
       {
         email: "example2@dummydata.net",
-        name: "Jerry McGuire",
+        name: "Jerry McCaffery",
         isGuest: true
       }],
-    supplies: [],
+    supplies:
+      [{
+        name: "Ribs",
+        quantity: "5 lbs",
+        userEmail: "bob@bob.com",
+        username: "Bob Vance"
+      },
+      {
+        name: "BBQ Sauce",
+        quantity: "700 gallons",
+        userEmail: null,
+        username: null
+      }],
     comments:
       [{
         ID: 0,
@@ -245,4 +268,38 @@
     alert("Not Implemented - DeleteComment(" + commentID + ")");
   };
 
+  //Saves any changes made to curEvent back to the database
+  $scope.saveEventChanges = function () {
+    //TODO: This
+    alert("Not Implemented - saveEventChanges()");
+  };
+
+  //Deletes the curEvent from the DB and sends the user back to eventList
+  $scope.deleteCurEvent = function () {
+    //TODO: This
+    alert("Not Implemented - deleteCurEvent()");
+  };
+
+  /********************************************PROFILE***************************************************************/
+
+  //Swithches the page to profile and loads in userData
+  $scope.loadProfilePage = function () {
+
+    //TODO: Define this from database
+    $scope.userData = {
+      name: $scope.user.name,
+      email: $scope.user.email,
+      password1: "",
+      password2: "",
+      addr: ""
+    };
+
+    $scope.curPageType = $scope.pageType.PROFILE;
+  };
+
+  //Save changes to profile as indicated by $scope.userData
+  $scope.saveProfileChanges = function () {
+    //TODO: This
+    alert("Not Implemented - SaveProfileChanges()");
+  };
 }

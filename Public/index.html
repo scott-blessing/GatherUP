@@ -20,15 +20,20 @@
     <link href="Styles/eventList.css" rel="stylesheet" />
     <link href="Styles/eventView.css" rel="stylesheet" />
     <link href="Styles/navbar.css" rel="stylesheet" />
+    <link href="Styles/profile.css" rel="stylesheet" />
 
 </head>
 <body ng-app="gatherUPApp">
+  <div id="fullPage">
 
-    <div ng-view=""></div> <!-- Angular App -->
+    <!-- Angular App -->
+    <div id="app" data-ng-view=""></div>
 
     <!-- Footer -->
-    <footer>
-        <div id="legal">&copy; 2015 - Team Double Stuf</div>
-    </footer>
+    <div class="text-center" style="margin-top:10px;">
+      <div id="legal"><strong>&copy; 2015 - Team Double Stuf</strong></div>
+    </div>
+    
+  </div>
 </body>
 </html>

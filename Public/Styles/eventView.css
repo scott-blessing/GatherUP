@@ -6,6 +6,15 @@
     margin-bottom: 10px;
 }
 
+.eventview-title-rightbutton {
+  position: static;
+  float: right;
+}
+
+.eventview-titleedit td{
+  padding: 1px;
+}
+
 .eventview-comment {
   border-bottom: solid 1px #000000;
 }
@@ -14,3 +23,4 @@
   position: static;
   float: right; 
 }
+
