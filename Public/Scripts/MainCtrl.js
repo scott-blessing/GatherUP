@@ -162,7 +162,7 @@
   };
 
 
-/********************************************NAVBAR***************************************************************/
+  /********************************************NAVBAR***************************************************************/
 
   //Called when the user chooses log out
   $scope.logOut = function () {
@@ -171,19 +171,19 @@
   };
 
 
-/********************************************HOME***************************************************************/
+  /********************************************HOME***************************************************************/
 
   //Called when the user presses the login button
   $scope.logIn = function () {
     console.log("Login");
     $http({
-      method  : 'POST',
-      url     : 'login.php',
-      data    : $.param($scope.signinData),  // pass in data as strings
-      headers : { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
-    }).success(function(data) {
+      method: 'POST',
+      url: 'login.php',
+      data: $.param($scope.signinData),  // pass in data as strings
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
+    }).success(function (data) {
       console.log(data);
-      if (data.success){
+      if (data.success) {
         $scope.curPageType = $scope.pageType.EVENTLIST;
         $scope.user = {
           name: $scope.signinData.username,
@@ -191,10 +191,10 @@
         };
       }
       else
-      	alert(data.error);
+        alert(data.error);
       $scope.signinData = {
-          username: "",
-          password: ""
+        username: "",
+        password: ""
       };
     });
   };
@@ -204,13 +204,13 @@
     //TODO: Validate, check for email collisions, and create in DB
     console.log("Register");
     $http({
-      method  : 'POST',
-      url     : 'register.php',
-      data    : $.param($scope.registerData),  // pass in data as strings
-      headers : { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
-    }).success(function(data) {
+      method: 'POST',
+      url: 'register.php',
+      data: $.param($scope.registerData),  // pass in data as strings
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
+    }).success(function (data) {
       console.log(data);
-      if (data.success){
+      if (data.success) {
         $scope.curPageType = $scope.pageType.EVENTLIST;
         $scope.user = {
           name: $scope.registerData.username,
@@ -218,13 +218,13 @@
         };
       }
       else
-      	alert(data.error);
+        alert(data.error);
       $scope.registerData = {
-      	username: "",
-      	password1: "",
-      	password2: "",
-      	email: "",
-      	address: ""
+        username: "",
+        password1: "",
+        password2: "",
+        email: "",
+        address: ""
       };
     });
   };
@@ -347,18 +347,18 @@
   $scope.loadProfilePage = function () {
     console.log("Profile");
     $http({
-      method  : 'POST',
-      url     : 'profile.php',
-      data    : $.param($scope.user),  // pass in data as strings
-      headers : { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
-    }).success(function(data) {
+      method: 'POST',
+      url: 'profile.php',
+      data: $.param($scope.user),  // pass in data as strings
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
+    }).success(function (data) {
       console.log(data);
       $scope.userData = {
-      	name: $scope.user.name,
-      	email: $scope.user.email,
-      	password1: "",
-      	password2: "",
-      	addr: data.address
+        name: $scope.user.name,
+        email: $scope.user.email,
+        password1: "",
+        password2: "",
+        addr: data.address
       };
       $scope.curPageType = $scope.pageType.PROFILE;
     });
@@ -368,36 +368,43 @@
   $scope.saveProfileChanges = function () {
     console.log("Update");
     $http({
-      method  : 'POST',
-      url     : 'updateProfile.php',
-      data    : $.param($scope.userData),  // pass in data as strings
-      headers : { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
-    }).success(function(data) {
+      method: 'POST',
+      url: 'updateProfile.php',
+      data: $.param($scope.userData),  // pass in data as strings
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
+    }).success(function (data) {
       console.log(data);
-      if(data.usersuccess){
-      	$scope.userData = {
-      		name: $scope.userData.name,
-      		email: $scope.userData.email,
-      		password1: "",
-      		password2: "",
-      		addr: $scope.userData.addr
-      	};
-      	$scope.user = {
-      		name: $scope.userData.name,
-      		email: $scope.userData.email,
-      	};
-      	alert("Changes Successful");
+      if (data.usersuccess) {
+        $scope.userData = {
+          name: $scope.userData.name,
+          email: $scope.userData.email,
+          password1: "",
+          password2: "",
+          addr: $scope.userData.addr
+        };
+        $scope.user = {
+          name: $scope.userData.name,
+          email: $scope.userData.email,
+        };
+        alert("Changes Successful");
       }
-      else{
-      	$scope.userData = {
-      		name: $scope.user.name,
-      		email: $scope.user.email,
-      		password1: "",
-      		password2: "",
-      		addr: $scope.userData.addr
-      	};
+      else {
+        $scope.userData = {
+          name: $scope.user.name,
+          email: $scope.user.email,
+          password1: "",
+          password2: "",
+          addr: $scope.userData.addr
+        };
       }
-      $scope.curPageType = $scope.pageType.PROFILE;
     });
   };
-}
+
+  //Deletes the current account and sends the user back to the login screen
+  $scope.deleteAccount = function () {
+    //TODO: delete account
+
+    $scope.user = null;
+    $scope.curPageType = $scope.pageType.HOME;
+  };
+};

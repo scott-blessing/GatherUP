@@ -1,3 +1,8 @@
 ﻿.profile-form td {
   padding: 1px;
 }
+
+.profile-delete-btn {
+  position: static;
+  float: right;
+}
