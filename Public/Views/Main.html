@@ -7,7 +7,7 @@
       </a>
     </div>
     <ul class="nav navbar-nav navbar-right" data-ng-show="user != null">
-      <li><a data-ng-click="curPageType = pageType.EVENTLIST">My Events</a></li>
+      <li><a data-ng-click="loadEventListPage()">My Events</a></li>
       <li><a data-ng-click="loadProfilePage()">{{user.name}}</a></li>
       <li><a data-ng-click="logOut()">SIGN OUT</a></li>
     </ul>
@@ -27,13 +27,22 @@
       <div class="col-lg-6">
         <h1>Sign in</h1>
         <form>
-          <label for="user">Email:</label>
-          <input name="user" type="email" data-ng-model="signinData.email" />
-          <br />
-          <label for="pass">Password:</label>
-          <input name="pass" type="password" data-ng-model="signinData.password" />
-          <br />
-          <input class="btn btn-primary" type="button" value="Sign In" data-ng-click="logIn()" />
+          <table class="form-table">
+            <tbody>
+              <tr>
+                <td><label for="user">Email:</label></td>
+                <td><input name="user" type="email" data-ng-model="signinData.email" /></td>
+              </tr>
+              <tr>
+                <td><label for="pass">Password:</label></td>
+                <td><input name="pass" type="password" data-ng-model="signinData.password" /></td>
+              </tr>
+              <tr>
+                <td></td>
+                <td><input class="btn btn-primary" type="button" value="Sign In" data-ng-click="logIn()" /></td>
+              </tr>
+            </tbody>
+          </table>
         </form>
       </div>
       <div class="col-lg-6">
@@ -224,7 +233,7 @@
 <!--PROFILE-->
 <div id="ProfileDiv" data-ng-show="curPageType == pageType.PROFILE">
   <div class="home-island profile-form">
-    <button class="btn btn-warning profile-delete-btn" data-ng-click="deleteAccount()">Delete Account</button> 
+    <button class="btn btn-danger profile-delete-btn" data-ng-click="deleteAccount()">Delete Account</button> 
     <form>
       <table>
         <tbody>

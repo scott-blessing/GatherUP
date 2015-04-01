@@ -184,14 +184,16 @@
     }).success(function (data) {
       console.log(data);
       if (data.success) {
-        $scope.curPageType = $scope.pageType.EVENTLIST;
         $scope.user = {
           name: data.username,
           email: data.email
         };
+        $scope.loadEventListPage();
       }
-      else
+      else {
         alert(data.error);
+      }
+        
       $scope.signinData = {
         email: "",
         password: ""
@@ -201,7 +203,6 @@
 
   //Called when the user presses the register button
   $scope.register = function () {
-    //TODO: Validate, check for email collisions, and create in DB
     console.log("Register");
     $http({
       method: 'POST',
@@ -211,14 +212,16 @@
     }).success(function (data) {
       console.log(data);
       if (data.success) {
-        $scope.curPageType = $scope.pageType.EVENTLIST;
         $scope.user = {
           name: $scope.registerData.username,
           email: data.email
         };
+        $scope.loadEventListPage();
       }
-      else
+      else {
         alert(data.error);
+      }
+
       $scope.registerData = {
         username: "",
         password1: "",
@@ -230,6 +233,20 @@
   };
 
   /********************************************EVENT LIST***************************************************************/
+
+  $scope.loadEventListPage = function () {
+    
+    //TODO: Populate $scope.events from DB using $scope.user.email
+
+    //$scope.events.hostedEvents = [] (Status = HOST)
+    //$scope.events.attendEvents = [] (Status = ADMIN or GUEST)
+    //$scope.events.inviteEvents = [] (Status = VIEWER)
+    //$scope.events.localEvents = []  (Status = VIEWER)
+    //event {ID, name, date, loc, status}
+    //Date should be a javascript date object - I need to fix this above and in the HTML
+
+    $scope.curPageType = $scope.pageType.EVENTLIST;
+  };
 
   //Deletes the event with the given ID from the database
   $scope.deleteEvent = function (angEvent, eventID) {
@@ -282,6 +299,9 @@
     alert("Not Implemented - AttendEvent(" + eventID + ")");
   };
 
+
+  /********************************************EVENT VIEW***************************************************************/
+
   //Sends the user to the event page of the given event
   $scope.openEventPage = function (status, eventID) {
     //TODO: this
@@ -290,8 +310,6 @@
     $scope.curPageType = $scope.pageType.EVENTVIEW;
     $scope.curEventStatus = status;
   };
-
-  /********************************************EVENT VIEW***************************************************************/
 
   //Propts the user for comment text, then creates the comment
   $scope.createComment = function () {
@@ -377,7 +395,7 @@
       if (data.success) {
         $scope.user.name = $scope.userData.name;
         alert("Account Updated Successfully");
-        $scope.curPageType = $scope.pageType.EVENTLIST;
+        $scope.loadEventListPage();
       }
       else
       	alert(data.error);
@@ -386,7 +404,6 @@
 
   //Deletes the current account and sends the user back to the login screen
   $scope.deleteAccount = function () {
-    //TODO: delete account
     console.log("Delete");
     $http({
       method: 'POST',
