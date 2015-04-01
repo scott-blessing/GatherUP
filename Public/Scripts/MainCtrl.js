@@ -1,4 +1,4 @@
-﻿function MainCtrl($scope) {
+﻿function MainCtrl($scope, $http) {
 
   //An "enum" of the current page
   $scope.pageType = {
@@ -168,49 +168,65 @@
   $scope.logOut = function () {
     $scope.curPageType = $scope.pageType.HOME;
     $scope.user = null;
-  }
+  };
 
 
 /********************************************HOME***************************************************************/
 
   //Called when the user presses the login button
   $scope.logIn = function () {
-    //TODO: Validate $scope.signinData against DB
-    //If valid set $scope.user with DB info
-
-    $scope.curPageType = $scope.pageType.EVENTLIST;
-    $scope.user = {
-      name: $scope.signinData.username,
-      email: "example@dummydata.net"
-    };
-
-    $scope.signinData = {
-      username: "",
-      password: ""
-    };
+    console.log("Login");
+    $http({
+      method  : 'POST',
+      url     : 'login.php',
+      data    : $.param($scope.signinData),  // pass in data as strings
+      headers : { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
+    }).success(function(data) {
+      console.log(data);
+      if (data.success){
+        $scope.curPageType = $scope.pageType.EVENTLIST;
+        $scope.user = {
+          name: $scope.signinData.username,
+          email: data.email
+        };
+      }
+      else
+      	alert(data.error);
+      $scope.signinData = {
+          username: "",
+          password: ""
+      };
+    });
   };
 
   //Called when the user presses the register button
   $scope.register = function () {
     //TODO: Validate, check for email collisions, and create in DB
-    var data = $scope.registerData;
-    if (data.password1 === data.password2) {
-      if (data.email !== null) { //HTML does this validation for us
+    console.log("Register");
+    $http({
+      method  : 'POST',
+      url     : 'register.php',
+      data    : $.param($scope.registerData),  // pass in data as strings
+      headers : { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
+    }).success(function(data) {
+      console.log(data);
+      if (data.success){
         $scope.curPageType = $scope.pageType.EVENTLIST;
         $scope.user = {
           name: $scope.registerData.username,
-          email: $scope.registerData.email
+          email: data.email
         };
       }
-    }
-
-    $scope.registerData = {
-      username: "",
-      password1: "",
-      password2: "",
-      email: "",
-      address: ""
-    };
+      else
+      	alert(data.error);
+      $scope.registerData = {
+      	username: "",
+      	password1: "",
+      	password2: "",
+      	email: "",
+      	address: ""
+      };
+    });
   };
 
   /********************************************EVENT LIST***************************************************************/
@@ -329,22 +345,59 @@
 
   //Swithches the page to profile and loads in userData
   $scope.loadProfilePage = function () {
-
-    //TODO: Define this from database
-    $scope.userData = {
-      name: $scope.user.name,
-      email: $scope.user.email,
-      password1: "",
-      password2: "",
-      addr: ""
-    };
-
-    $scope.curPageType = $scope.pageType.PROFILE;
+    console.log("Profile");
+    $http({
+      method  : 'POST',
+      url     : 'profile.php',
+      data    : $.param($scope.user),  // pass in data as strings
+      headers : { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
+    }).success(function(data) {
+      console.log(data);
+      $scope.userData = {
+      	name: $scope.user.name,
+      	email: $scope.user.email,
+      	password1: "",
+      	password2: "",
+      	addr: data.address
+      };
+      $scope.curPageType = $scope.pageType.PROFILE;
+    });
   };
 
   //Save changes to profile as indicated by $scope.userData
   $scope.saveProfileChanges = function () {
-    //TODO: This
-    alert("Not Implemented - SaveProfileChanges()");
+    console.log("Update");
+    $http({
+      method  : 'POST',
+      url     : 'updateProfile.php',
+      data    : $.param($scope.userData),  // pass in data as strings
+      headers : { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
+    }).success(function(data) {
+      console.log(data);
+      if(data.usersuccess){
+      	$scope.userData = {
+      		name: $scope.userData.name,
+      		email: $scope.userData.email,
+      		password1: "",
+      		password2: "",
+      		addr: $scope.userData.addr
+      	};
+      	$scope.user = {
+      		name: $scope.userData.name,
+      		email: $scope.userData.email,
+      	};
+      	alert("Changes Successful");
+      }
+      else{
+      	$scope.userData = {
+      		name: $scope.user.name,
+      		email: $scope.user.email,
+      		password1: "",
+      		password2: "",
+      		addr: $scope.userData.addr
+      	};
+      }
+      $scope.curPageType = $scope.pageType.PROFILE;
+    });
   };
 }
