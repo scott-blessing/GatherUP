@@ -10,22 +10,15 @@ $tbl_name = "User"; //Table name
 $conn = mysqli_connect($host, $username, $password, $db_name) or die("cannot connect server ");
 $data = array();
 $data['success']=false;
-$data['error']="Invalid email";
-if ($_POST['email'] && $_POST['password1'])
+if ($_POST['name'] || $_POST['password1'])
 	{
-		$username = mysqli_real_escape_string($conn, $_POST['username']);
+		$username = mysqli_real_escape_string($conn, $_POST['name']);
 		$password1 = mysqli_real_escape_string($conn, hash("sha512", $_POST['password1']));
 		$password2 = mysqli_real_escape_string($conn, hash("sha512", $_POST['password2']));
 		$email = mysqli_real_escape_string($conn, $_POST['email']);
-		$address = mysqli_real_escape_string($conn, $_POST['address']);
+		$address = mysqli_real_escape_string($conn, $_POST['addr']);
 		
 		
-		$check = mysqli_fetch_array(mysqli_query($conn, "SELECT * FROM `User` WHERE Email='".$email."'"));
-		if ($check != null){
-			$data['success'] = false;
-			$data['error'] = "Email already exists.";
-		}
-		else
 		if (!ctype_alnum($username)){
 			$data['success'] = false;
 			$data['error'] = "Username contains invalid characters. Only use numbers and letters please.";
@@ -41,11 +34,13 @@ if ($_POST['email'] && $_POST['password1'])
 			$data['error'] = "Passwords do not match.";
 		}
 		else{
-			mysqli_query($conn, "INSERT INTO User (Email, Password, Address, Username) VALUES ('".$email."','".$password1."','".$address."','".$username."')");
+			mysqli_query($conn, "UPDATE `User` SET Password='".$password1."' WHERE Email='".$email."'");
+			mysqli_query($conn, "UPDATE `User` SET Address='".$address."' WHERE Email='".$email."'");
+			mysqli_query($conn, "UPDATE `User` SET Username='".$username."' WHERE Email='".$email."'");
 			$data['success']=true;
-			$data['email']=$email;
 		}
+		
 	}
-mysqli_close($conn);	
+	
 echo(json_encode($data));
 ?>

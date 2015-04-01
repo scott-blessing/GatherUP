@@ -25,7 +25,7 @@
 
   //Data collected by the sign in form
   $scope.signinData = {
-    username: "",
+    email: "",
     password: ""
   };
 
@@ -186,14 +186,14 @@
       if (data.success) {
         $scope.curPageType = $scope.pageType.EVENTLIST;
         $scope.user = {
-          name: $scope.signinData.username,
+          name: data.username,
           email: data.email
         };
       }
       else
         alert(data.error);
       $scope.signinData = {
-        username: "",
+        email: "",
         password: ""
       };
     });
@@ -374,37 +374,27 @@
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
     }).success(function (data) {
       console.log(data);
-      if (data.usersuccess) {
-        $scope.userData = {
-          name: $scope.userData.name,
-          email: $scope.userData.email,
-          password1: "",
-          password2: "",
-          addr: $scope.userData.addr
-        };
-        $scope.user = {
-          name: $scope.userData.name,
-          email: $scope.userData.email,
-        };
-        alert("Changes Successful");
+      if (data.success) {
+        $scope.user.name = $scope.userData.name;
+        alert("Account Updated Successfully");
+        $scope.curPageType = $scope.pageType.EVENTLIST;
       }
-      else {
-        $scope.userData = {
-          name: $scope.user.name,
-          email: $scope.user.email,
-          password1: "",
-          password2: "",
-          addr: $scope.userData.addr
-        };
-      }
+      else
+      	alert(data.error);
     });
   };
 
   //Deletes the current account and sends the user back to the login screen
   $scope.deleteAccount = function () {
     //TODO: delete account
-
-    $scope.user = null;
-    $scope.curPageType = $scope.pageType.HOME;
+    console.log("Delete");
+    $http({
+      method: 'POST',
+      url: 'deleteProfile.php',
+      data: $.param($scope.userData),  // pass in data as strings
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
+    }).success(function (data) {
+       $scope.logOut();
+    });
   };
 };

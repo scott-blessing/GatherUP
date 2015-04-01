@@ -10,15 +10,15 @@ $tbl_name = "user"; //Table name
 $conn = mysqli_connect($host, $username, $password, $db_name) or die("cannot connect server "); 
 $data = array();
 
-if ($_POST['username'] && $_POST['password'])
+if ($_POST['email'] && $_POST['password'])
 	{
-		$username = mysqli_real_escape_string($conn, $_POST['username']); 
+		$email = mysqli_real_escape_string($conn, $_POST['email']); 
 		$password = mysqli_real_escape_string($conn, hash("sha512", $_POST['password']));
-		$user = mysqli_fetch_array(mysqli_query($conn, "SELECT * FROM `User` WHERE username='".$username."'"));
+		$user = mysqli_fetch_array(mysqli_query($conn, "SELECT * FROM `User` WHERE Email='".$email."'"));
 		
 		if ($user == null){
                         $data['success']=false;
-                        $data['error']="Username does not exist";
+                        $data['error']="Email does not exist";
                 }
 		else
 		if ($user['Password'] != $password){
@@ -29,6 +29,7 @@ if ($_POST['username'] && $_POST['password'])
 			$email = $user['Email'];
                		$data['success']=true;
                		$data['email']=$email;
+               		$data['username']=$user['Username'];
 		}
 
 	}
