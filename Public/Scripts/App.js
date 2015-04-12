@@ -1,5 +1,5 @@
 ﻿angular
-  .module('gatherUPApp', ['ngRoute'])
+  .module('gatherUPApp', ['ngRoute', 'ui.bootstrap'])
   .config(function ($routeProvider) {
     $routeProvider
       .when('/', {
