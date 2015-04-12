@@ -55,35 +55,35 @@
     hostedEvents: [{
       ID: 0,
       name: "BBQ Gala",
-      date: "5/18/2015",
+      date: new Date("October 13, 2014 11:13:00"),
       loc: "507 Abc Street, Urbana IL",
       status: $scope.eventStatus.HOST
     },
     {
       ID: 1,
       name: "CS 461 Presentation",
-      date: "4/5/2015",
+      date: new Date("October 14, 2014 11:13:00"),
       loc: "Siebel Center",
       status: $scope.eventStatus.HOST
     },
     {
       ID: 2,
       name: "Dhruv's Death",
-      date: "3/28/2015",
+      date: new Date("October 13, 2015 11:13:00"),
       loc: "1517 Thornwood Dr, Downers Grove IL",
       status: $scope.eventStatus.HOST
     }],
     attendEvents: [{
       ID: 3,
       name: "Chris B-day",
-      date: "4/22/2015",
+      date: new Date("October 23, 2015 11:13:00"),
       loc: "507 Defg Street, Urbana IL",
       status: $scope.eventStatus.ADMIN
     },
     {
       ID: 4,
       name: "CS 411 Procrastination",
-      date: "6/6/2015",
+      date: new Date("November 13, 2014 11:13:00"),
       loc: "Cocomero",
       status: $scope.eventStatus.GUEST
     }],
@@ -91,7 +91,7 @@
       {
         ID: 6,
         name: "Dhruv's Funeral",
-        date: "3/29/2015",
+        date: new Date("October 3, 2014 11:13:00"),
         loc: "5830 Kirby Ave, Champaign IL",
         status: $scope.eventStatus.VIEWER
       }
@@ -99,7 +99,7 @@
     localEvents: [{
       ID: 5,
       name: "Sewing Club 17th annual Make-Your-Own-Sleepingbag Sleepover Extravaganza",
-      date: "12/26/2015",
+      date: new Date("April 16, 2016 11:13:00"),
       loc: "Daddy's O Pub",
       status: $scope.eventStatus.VIEWER
     }]
@@ -371,6 +371,8 @@
     alert("Not Implemented - deleteCurEvent()");
   };
 
+  $scope.todayDate = new Date();
+
   /********************************************PROFILE***************************************************************/
 
   //Swithches the page to profile and loads in userData
@@ -412,6 +414,11 @@
       else
       	alert(data.error);
     });
+  };
+
+  //Save changed password
+  $scope.updatePassword = function () {
+    //TODO: This
   };
 
   //Deletes the current account and sends the user back to the login screen

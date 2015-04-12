@@ -130,7 +130,7 @@
       <div class="event" data-ng-repeat="e in events.localEvents" data-ng-click="openEventPage(e.status, e.ID)">
         <button class="btn btn-xs btn-info event-corner-btn" data-ng-click="attendEvent($event, e.ID)">Attend</button>
         <div class="event-title">{{e.name}}</div>
-        <div class="event-date">{{e.date}}</div>
+        <div class="event-date">{{e.date.toLocaleTimeString()}} {{e.date.toLocaleDateString()}}</div>
         <div class="event-location">{{e.loc}}</div>
       </div>
       <h4 data-ng-show="events.localEvents.length == 0">Looks like there's nothing happening nearby.  You should live somewhere better.</h4>
@@ -158,11 +158,21 @@
             </tr>
             <tr>
               <td><label for="sTime">Start Time:</label></td>
-              <td><input name="sTime" type="datetime" data-ng-model="curEvent.startTime" /></td>
+              <td><timepicker data-ng-model="curEvent.startTime"></timepicker></td>
             </tr>
             <tr>
-              <td><label for="eTime">End Time:</label></td>
-              <td><input name="eTime" type="datetime" data-ng-model="curEvent.endTime" /></td>
+              <td><label for="sTime">Start Day:</label></td>
+              <td>
+                <datepicker ng-model="curEvent.startTime" min-date="todayDate" show-weeks="true" class="well well-sm"></datepicker>
+              </td>
+            </tr>
+            <tr>
+              <td><label for="sTime">End Time:</label></td>
+              <td><timepicker data-ng-model="curEvent.endTime"></timepicker></td>
+            </tr>
+            <tr>
+              <td><label for="eTime">End Day:</label></td>
+              <td><datepicker ng-model="curEvent.endTime" min-date="todayDate" show-weeks="true" class="well well-sm"></datepicker></td>
             </tr>
             <tr>
               <td><label for="desc">Description:</label></td>
@@ -238,12 +248,20 @@
       <table>
         <tbody>
           <tr>
+            <td><label>Email:</label></td>
+            <td><div>{{user.email}}</div></td>
+          </tr>
+          <tr>
             <td><label for="p-name">Name:</label></td>
             <td><input name="p-name" type="text" data-ng-model="userData.name" /></td>
           </tr>
           <tr>
-            <td><label>Email:</label></td>
-            <td><div>{{user.email}}</div></td>
+            <td><label for="p-loc">Home Address:</label></td>
+            <td><input name="p-loc" type="text" data-ng-model="userData.addr" /></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td><button class="btn btn-info" data-ng-click="saveProfileChanges()">Save Changes</button></td>
           </tr>
           <tr>
             <td><label for="p-password1">Change Password:</label></td>
@@ -254,12 +272,8 @@
             <td><input name="p-password2" type="password" data-ng-model="userData.password2" /></td>
           </tr>
           <tr>
-            <td><label for="p-loc">Home Address:</label></td>
-            <td><input name="p-loc" type="text" data-ng-model="userData.addr" /></td>
-          </tr>
-          <tr>
             <td></td>
-            <td><button class="btn btn-info" data-ng-click="saveProfileChanges()">Save Changes</button></td>
+            <td><button class="btn btn-info" data-ng-click="updatePassword()">Change Password</button></td>
           </tr>
         </tbody>
       </table>
