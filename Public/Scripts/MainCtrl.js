@@ -239,7 +239,7 @@
     //TODO: Populate $scope.events from DB using $scope.user.email
 
     $scope.events.hostedEvents = [];
-    //$scope.events.attendEvents = [] (Status = ADMIN or GUEST)
+    $scope.events.attendEvents = []; 
     //$scope.events.inviteEvents = [] (Status = VIEWER)
     //$scope.events.localEvents = []  (Status = VIEWER)
     //event {ID, name, date, loc, status}
@@ -255,6 +255,20 @@
 		for	(index = 0; index < data.length; index++) {
 			var event = {ID: data[index]['ID'], name: data[index]['Name'], date: data[index]['Date'], loc: data[index]['Location'], status: 3};
 			$scope.events.hostedEvents.push(event);
+		}
+    });
+	$http({
+		method: 'POST',
+		url: 'attendList.php',
+		data: $.param($scope.user),  // pass in data as strings
+		headers: { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
+    }).success(function (data) {
+		console.log(data);
+		var index;
+		for	(index = 0; index < data.length; index++) {
+			var event = {ID: data[index]['ID'], name: data[index]['Name'], date: data[index]['Date'], loc: data[index]['Location'], status: data[index]['Status']};
+			if (event.status == 1 || event.status == 2)
+				$scope.events.attendEvents.push(event);
 		}
     });
     $scope.curPageType = $scope.pageType.EVENTLIST;
