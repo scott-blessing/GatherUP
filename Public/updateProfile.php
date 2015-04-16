@@ -10,11 +10,9 @@ $tbl_name = "User"; //Table name
 $conn = mysqli_connect($host, $username, $password, $db_name) or die("cannot connect server ");
 $data = array();
 $data['success']=false;
-if ($_POST['name'] || $_POST['password1'])
+if ($_POST['name'] && $_POST['address'])
 	{
 		$username = mysqli_real_escape_string($conn, $_POST['name']);
-		$password1 = mysqli_real_escape_string($conn, hash("sha512", $_POST['password1']));
-		$password2 = mysqli_real_escape_string($conn, hash("sha512", $_POST['password2']));
 		$email = mysqli_real_escape_string($conn, $_POST['email']);
 		$address = mysqli_real_escape_string($conn, $_POST['addr']);
 		
@@ -27,14 +25,8 @@ if ($_POST['name'] || $_POST['password1'])
 		if (strlen($username) > 20){
 			$data['success'] = false;
 			$data['error'] = "Username must be less than 20 characters long.";
-		} 
-		else
-		if($password1 != $password2){
-			$data['success'] = false;
-			$data['error'] = "Passwords do not match.";
 		}
 		else{
-			mysqli_query($conn, "UPDATE `User` SET Password='".$password1."' WHERE Email='".$email."'");
 			mysqli_query($conn, "UPDATE `User` SET Address='".$address."' WHERE Email='".$email."'");
 			mysqli_query($conn, "UPDATE `User` SET Username='".$username."' WHERE Email='".$email."'");
 			$data['success']=true;

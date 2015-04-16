@@ -20,7 +20,6 @@ $data = array();
 	$address = $user['Address'];
 	
 	$data['password'] = $password;
-	$data['address'] = $address;
 	
 	
 	mysqli_close($conn);

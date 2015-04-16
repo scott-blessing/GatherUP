@@ -240,7 +240,7 @@
 
     $scope.events.hostedEvents = [];
     $scope.events.attendEvents = []; 
-    //$scope.events.inviteEvents = [] (Status = VIEWER)
+    $scope.events.inviteEvents = [];
     //$scope.events.localEvents = []  (Status = VIEWER)
     //event {ID, name, date, loc, status}
     //Date should be a javascript date object - I need to fix this above and in the HTML
@@ -269,6 +269,9 @@
 			var event = {ID: data[index]['ID'], name: data[index]['Name'], date: data[index]['Date'], loc: data[index]['Location'], status: data[index]['Status']};
 			if (event.status == 1 || event.status == 2)
 				$scope.events.attendEvents.push(event);
+			else 
+			if (event.status == 0)
+				$scope.events.inviteEvents.push(event);
 		}
     });
     $scope.curPageType = $scope.pageType.EVENTLIST;
@@ -432,7 +435,21 @@
 
   //Save changed password
   $scope.updatePassword = function () {
-    //TODO: This
+    console.log("Password Update");
+    $http({
+      method: 'POST',
+      url: 'updatePassword.php',
+      data: $.param($scope.userData),  // pass in data as strings
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
+    }).success(function (data) {
+      console.log(data);
+      if (data.success) {
+        alert("Account Updated Successfully");
+        $scope.loadEventListPage();
+      }
+      else
+      	alert(data.error);
+    });
   };
 
   //Deletes the current account and sends the user back to the login screen
