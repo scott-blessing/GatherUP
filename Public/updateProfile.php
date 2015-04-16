@@ -10,7 +10,7 @@ $tbl_name = "User"; //Table name
 $conn = mysqli_connect($host, $username, $password, $db_name) or die("cannot connect server ");
 $data = array();
 $data['success']=false;
-if ($_POST['name'] && $_POST['address'])
+if ($_POST['name'] && $_POST['addr'])
 	{
 		$username = mysqli_real_escape_string($conn, $_POST['name']);
 		$email = mysqli_real_escape_string($conn, $_POST['email']);

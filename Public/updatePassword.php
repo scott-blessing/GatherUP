@@ -10,7 +10,7 @@ $tbl_name = "User"; //Table name
 $conn = mysqli_connect($host, $username, $password, $db_name) or die("cannot connect server ");
 $data = array();
 $data['success']=false;
-if ($_POST['password'])
+if ($_POST['password1'] && $_POST['password2'])
 	{
 		$password1 = mysqli_real_escape_string($conn, hash("sha512", $_POST['password1']));
 		$password2 = mysqli_real_escape_string($conn, hash("sha512", $_POST['password2']));
