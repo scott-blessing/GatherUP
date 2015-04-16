@@ -1,5 +1,5 @@
 ﻿angular
-  .module('gatherUPApp', ['ngRoute', 'ui.bootstrap'])
+  .module('gatherUPApp', ['ngRoute', 'ui.bootstrap', 'ngAutocomplete'])
   .config(function ($routeProvider) {
     $routeProvider
       .when('/', {
@@ -10,3 +10,4 @@
         redirectTo: '/'
       })
   });
+  
