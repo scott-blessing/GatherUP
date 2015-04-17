@@ -1,9 +1,9 @@
 <?php
 //Variables to be used to connect to MySQL database.
 $host = "engr-cpanel-mysql.engr.illinois.edu"; //Host name
-$username = "vajpeyi2_dhruv"; //Mysql username
+$username = "gatherup_user"; //Mysql username
 $password = "pass(1234)"; //Mysql password
-$db_name = "vajpeyi2_gatherup"; //Database name
+$db_name = "gatherup_vajpeyi2_gatherup"; //Database name
 $tbl_name = "user"; //Table name
 
 //Connect to server and select database.
