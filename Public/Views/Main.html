@@ -219,10 +219,15 @@
         <div class="eventview-island eventview-guestlist col-lg-6">
           <h3><u>Guests</u> <small>{{curEvent.guests.length}} people attending</small></h3>
           <div class="eventview-guest" data-ng-repeat="g in curEvent.guests">
+            <button class="btn btn-xs btn-danger eventview-title-rightbutton" 
+                    data-ng-click="removeGuest(g.email)"
+                    data-ng-show="curEventStatus >= eventStatus.ADMIN">x</button>
             <h5><span>{{g.name}}</span><span data-ng-show="g.isGuest == false"> (ADMIN)</span></h5>
           </div>
           <div data-ng-show="curEvent.guests.length == 1 && curEvent.isPublic == false">This event is private, so you'll need to invite anyone you want to come</div>
-          <!--TODO: Ability to add guests and Admins-->
+          <input type="text" data-ng-model="inviteGuestEmail" placeholder="Invite somebody" /> <!--TODO: Typeahead? -->
+          <button class="btn btn-primary" data-ng-click="inviteAsAdmin()">Invite as Admin</button>
+          <button class="btn btn-info" data-ng-click="inviteAsGuest()">Invite as Guest</button>  
         </div>
         <div class="eventview-island eventview-supplylist col-lg-6">
           <h3><u>Supplies</u></h3>
@@ -235,6 +240,16 @@
         </div>
       </div>
     </div>
+    <div class="eventview-carpool home-island">
+      <label for="carpool">Willing to carpool?</label>
+      <input name="carpool" type="checkbox" data-ng-model="willingToCarpool" />
+      <br />
+      <div data-ng-show="willingToCarpool">
+        <label for="seats">Number of open seats in your car (not counting yours):</label>
+        <input name="seats" type="number" min="0" step="1" max="20" data-ng-model="" />
+      </div>
+      <button class="btn btn-primary" data-ng-click="getDirections()">Get directions to event</button>    
+    </div> 
   </div> 
 </div>
 

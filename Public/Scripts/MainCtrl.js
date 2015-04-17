@@ -390,6 +390,33 @@
 
   $scope.todayDate = new Date();
 
+  //Removes the guest from the event
+  $scope.removeGuest = function (email) {
+    alert("NOT IMPLEMENTED - removeGuest(" + email + ")")
+    //TODO: This
+  };
+
+  //Invite guest input model
+  $scope.inviteGuestEmail = "";
+
+  //Invite a guest as specified by inviteGuestEmail and set as Admin
+  $scope.inviteAsAdmin = function () {
+    alert("NOT IMPLEMENTED - inviteAsAdmin(" + inviteGuestEmail + ")");
+    //TODO: This
+
+    alert("Invite sent");
+    $scope.inviteGuestEmail = "";
+  }
+
+  //Invite inviteGuestEmail to the event as a Guest
+  $scope.inviteAsGuest = function () {
+    alert("NOT IMPLEMENTED - inviteAsGuest(" + inviteGuestEmail + ")");
+    //TODO: This
+
+    alert("Invite sent");
+    $scope.inviteGuestEmail = "";
+  }
+
   /********************************************PROFILE***************************************************************/
 
   //Swithches the page to profile and loads in userData
