@@ -287,7 +287,7 @@
     $http({
       method: 'POST',
       url: 'deleteEvent.php',
-      data: $.param($scope.curEvent),  // pass in data as strings
+      data: $.param(eventID),  // pass in data as strings
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
     });
 
@@ -303,7 +303,7 @@
     $http({
       method: 'POST',
       url: 'unattendEvent.php',
-      data: $.param($scope.curEvent),  // pass in data as strings
+      data: $.param(eventID,scope.user.email),  // pass in data as strings
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
     });
   };
