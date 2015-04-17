@@ -8,9 +8,10 @@ $db_name = "vajpeyi2_gatherup"; //Database name
 //Connect to server and select database.
 $conn = mysqli_connect($host, $username, $password, $db_name) or die("cannot connect server "); 
 
-if ($_POST['eventid'] && $_POST['email'])
+//TODO: get email from user in JS
+if ($_POST['ID'] && $_POST['email'])
 	{
-		mysqli_query($conn, "DELETE FROM Attends WHERE Email = '".$_POST['email']"' AND EventID = '".$_POST['eventid']"'");
+		mysqli_query($conn, "DELETE FROM Attends WHERE Email = '".$_POST['ID']"' AND EventID = '".$_POST['ID']"'");
 	}
 
 ?>

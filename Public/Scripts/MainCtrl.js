@@ -282,12 +282,12 @@
     angEvent.preventDefault();
     angEvent.stopPropagation();
 
-    //TODO: this
+    //TODO: Review what ryan did
     console.log("Delete event");
     $http({
       method: 'POST',
       url: 'deleteEvent.php',
-      data: $.param($scope.userData),  // pass in data as strings
+      data: $.param($scope.curEvent),  // pass in data as strings
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
     });
 
@@ -298,8 +298,14 @@
     angEvent.preventDefault();
     angEvent.stopPropagation();
 
-    //TODO: this
-    alert("Not Implemented - UnattendEvent(" + eventID + ")");
+    //TODO: Review what ryan did, add email somehow
+    console.log("unattend event");
+    $http({
+      method: 'POST',
+      url: 'unattendEvent.php',
+      data: $.param($scope.curEvent),  // pass in data as strings
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
+    });
   };
 
   //Creates a blank event hosted by the user
