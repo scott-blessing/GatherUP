@@ -15,7 +15,16 @@ if ($_POST['name'] && $_POST['addr'])
 		$username = mysqli_real_escape_string($conn, $_POST['name']);
 		$email = mysqli_real_escape_string($conn, $_POST['email']);
 		$address = mysqli_real_escape_string($conn, $_POST['addr']);
-		
+		$url = urlencode($address);
+		$request_url = "http://maps.googleapis.com/maps/api/geocode/xml?address=".$url."&sensor=true";
+		$xml = simplexml_load_file($request_url) or die("url not loading");
+		$status = $xml->status;
+		$Lat = 0.0;
+		$Lon = 0.0;
+		if ($status=="OK") {
+			$Lat = $xml->result->geometry->location->lat;
+			$Lon = $xml->result->geometry->location->lng;
+		}
 		
 		if (!ctype_alnum($username)){
 			$data['success'] = false;
@@ -29,6 +38,8 @@ if ($_POST['name'] && $_POST['addr'])
 		else{
 			mysqli_query($conn, "UPDATE `User` SET Address='".$address."' WHERE Email='".$email."'");
 			mysqli_query($conn, "UPDATE `User` SET Username='".$username."' WHERE Email='".$email."'");
+			mysqli_query($conn, "UPDATE `User` SET lat=".strval($Lat)." WHERE Email='".$email."'");
+			mysqli_query($conn, "UPDATE `User` SET `long`=".strval($Lon)." WHERE Email='".$email."'");
 			$data['success']=true;
 		}
 		
