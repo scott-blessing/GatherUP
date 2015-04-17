@@ -314,7 +314,7 @@
     //TODO: This
     alert("Not Implemented - CreateNewEvent()");
 
-    //Get appropriate ID from DB
+    //Get appropriate ID from DB 
     $scope.curEvent = {
       ID: 1,
       name: "",
