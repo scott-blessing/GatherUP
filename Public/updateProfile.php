@@ -25,6 +25,12 @@ if ($_POST['name'] && $_POST['addr'])
 			$Lat = $xml->result->geometry->location->lat;
 			$Lon = $xml->result->geometry->location->lng;
 		}
+		else if ($status == "ZERO_RESULTS")
+		{
+			//Output to the user that they inputted an invalid address.
+			$data['success'] = false;
+			$data['error'] = "Invalid address.";
+		}
 		
 		if (!ctype_alnum($username)){
 			$data['success'] = false;

@@ -28,6 +28,12 @@ if ($_POST['email'] && $_POST['password1'])
 			$Lat = $xml->result->geometry->location->lat;
 			$Lon = $xml->result->geometry->location->lng;
 		}
+		else if ($status == "ZERO_RESULTS")
+		{
+			//Output to the user that they inputted an invalid address. 
+			$data['success'] = false;
+			$data['error'] = "Invalid address.";
+		}
 		
 		$check = mysqli_fetch_array(mysqli_query($conn, "SELECT * FROM `User` WHERE Email='".$email."'"));
 		if ($check != null){
