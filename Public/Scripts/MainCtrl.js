@@ -337,8 +337,14 @@
     angEvent.preventDefault();
     angEvent.stopPropagation();
 
-    //TODO: this
-    alert("Not Implemented - AttendEvent(" + eventID + ")");
+    // TODO: do we jsust want this created with email, eventid and as guest?
+    console.log("attend event");
+    $http({
+      method: 'POST',
+      url: 'attendEvent.php',
+      data: $.param(eventID,scope.user.email),  // pass in data as strings
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
+    });
   };
 
 
