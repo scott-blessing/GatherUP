@@ -22,20 +22,14 @@ if ($_POST['email'] && $_POST['password1'])
 		$request_url = "http://maps.googleapis.com/maps/api/geocode/xml?address=".$url."&sensor=true";
 		$xml = simplexml_load_file($request_url) or die("url not loading");
 		$status = $xml->status;
-		$Lat = 0.0;
-		$Lon = 0.0;
-		if ($status=="OK") {
-			$Lat = $xml->result->geometry->location->lat;
-			$Lon = $xml->result->geometry->location->lng;
-		}
-		else if ($status == "ZERO_RESULTS")
+		$check = mysqli_fetch_array(mysqli_query($conn, "SELECT * FROM `User` WHERE Email='".$email."'"));
+		if ($status != "OK")
 		{
 			//Output to the user that they inputted an invalid address. 
 			$data['success'] = false;
 			$data['error'] = "Invalid address.";
 		}
-		
-		$check = mysqli_fetch_array(mysqli_query($conn, "SELECT * FROM `User` WHERE Email='".$email."'"));
+		else
 		if ($check != null){
 			$data['success'] = false;
 			$data['error'] = "Email already exists.";
@@ -56,6 +50,8 @@ if ($_POST['email'] && $_POST['password1'])
 			$data['error'] = "Passwords do not match.";
 		}
 		else{
+			$Lat = $xml->result->geometry->location->lat;
+			$Lon = $xml->result->geometry->location->lng;
 			mysqli_query($conn, "INSERT INTO `User` (`Email`, `Password`, `Address`, `Username`, `lat`, `long`) VALUES ('".$email."','".$password1."','".$address."','".$username."', ".strval($Lat).", ".strval($Lon).")");
 			$data['success']=true;
 			$data['email']=$email;
