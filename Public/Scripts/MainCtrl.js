@@ -107,7 +107,7 @@
 
   //Data of the currently selected event (this must be populated from the DB)
   $scope.curEvent = {
-    ID: 0,
+    ID: 1,
     name: "BBQ Gala",
     loc: "507 Abc Street, Urbana IL",
     startTime: new Date("May 18, 2015 17:00:00"),
@@ -361,13 +361,27 @@
     var commText = prompt("Comment");
     commText = commText.trim();
     if (commText != null && commText.length > 0) {
-      $scope.curEvent.comments.push({
-        ID: 2,
+		$scope.commentStruct = {
+			email: $scope.user.email,
+			id: $scope.curEvent.ID,
+			text: commText
+		}
+		$http({
+		method: 'POST',
+		url: 'newComment.php',
+		data: $.param($scope.commentStruct),  // pass in data as strings
+		headers: { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
+    }).success(function (data) {
+		console.log(data);
+		$scope.curEvent.comments.push({
+        ID: data['id'],
         email: $scope.user.email,
         username: $scope.user.name,
         text: commText,
         date: new Date()
       });
+    });
+      
     }
   };
 
