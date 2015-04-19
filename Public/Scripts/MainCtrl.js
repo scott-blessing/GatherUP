@@ -243,7 +243,7 @@
 		  console.log(data);
 		  var index;
 		  for	(index = 0; index < data.length; index++) {
-			  var event = {ID: data[index]['ID'], name: data[index]['Name'], date: data[index]['StartTime'], loc: data[index]['Location'], status: 3};
+			  var event = {ID: data[index]['ID'], name: data[index]['Name'], date: new Date(data[index]['StartTime']), loc: data[index]['Location'], status: 3};
 			  $scope.events.hostedEvents.push(event);
 		  }
     });
