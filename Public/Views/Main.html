@@ -190,6 +190,9 @@
         </table>
       </form>
     </div>
+    <div class="home-island">
+      <!-- TODO: Edit supplies -->
+    </div>
   </div>
   <div class="eventview-nonedit" data-ng-show="curEventStatus != eventStatus.HOSTEDIT">
     <div class="eventview-titledisplay">
@@ -239,14 +242,13 @@
             <button class="btn btn-sm btn-info" 
                     data-ng-show="s.userEmail == null"
                     data-ng-click="bringSupply(s)">Volunteer to bring</button>
-            <h6 data-ng-show="s.userEmail != user.email">{{s.username}} is bringing this</h6>
+            <h6 data-ng-show="s.userEmail != null && s.userEmail != user.email">{{s.username}} is bringing this</h6>
             <div data-ng-show="s.userEmail == user.email">
               <h6>You are bringing this</h6>
               <button class="btn btn-xs btn-danger"
                       data-ng-click="bailOnSupply(s)">Bail</button>  
             </div>
           </div>
-          <!--TODO: Ability to manipulate supplies-->
         </div>
       </div>
     </div>

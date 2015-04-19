@@ -223,9 +223,8 @@
   /********************************************EVENT LIST***************************************************************/
 
 	$scope.loadEventListPage = function () {
-    
-    //TODO: Populate $scope.events from DB using $scope.user.email
 
+    //Clear JS arrays
     $scope.events.hostedEvents = [];
     $scope.events.attendEvents = []; 
     $scope.events.inviteEvents = [];
@@ -362,7 +361,6 @@
 
   //Sends the user to the event page of the given event
   $scope.openEventPage = function (status, eventID) {
-    //TODO: this
     console.log("Open event page");
 	  $http({
       method: 'POST',
@@ -420,6 +418,7 @@
 
 			$scope.curPageType = $scope.pageType.EVENTVIEW;
 			$scope.curEventStatus = status;
+			$scope.inviteGuestEmail = "";
 			initializeMap();
 		});
   };
@@ -723,5 +722,13 @@
     }).success(function (data) {
        $scope.logOut();
     });
+  };
+
+  /********************************************MISC******************************************************************/
+
+  //Converts sql DateTime strings into JS date objects
+  function formatDate(sqlString) {
+    var dateParts = sqlString.split("-");
+    return new Date(dateParts[0], dateParts[1] - 1, dateParts[2].substr(0, 2), dateParts[2].substr(3, 2), dateParts[2].substr(6, 2), dateParts[2].substr(9, 2));
   };
 };
