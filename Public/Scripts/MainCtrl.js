@@ -58,20 +58,6 @@
       date: new Date("October 13, 2014 11:13:00"),
       loc: "507 Abc Street, Urbana IL",
       status: $scope.eventStatus.HOST
-    },
-    {
-      ID: 1,
-      name: "CS 461 Presentation",
-      date: new Date("October 14, 2014 11:13:00"),
-      loc: "Siebel Center",
-      status: $scope.eventStatus.HOST
-    },
-    {
-      ID: 2,
-      name: "Dhruv's Death",
-      date: new Date("October 13, 2015 11:13:00"),
-      loc: "1517 Thornwood Dr, Downers Grove IL",
-      status: $scope.eventStatus.HOST
     }],
     attendEvents: [{
       ID: 3,
@@ -286,7 +272,6 @@
     angEvent.preventDefault();
     angEvent.stopPropagation();
 
-    //TODO: Review what ryan did
     console.log("Delete event");
     $http({
       method: 'POST',
@@ -304,7 +289,6 @@
     angEvent.preventDefault();
     angEvent.stopPropagation();
 
-    //TODO: Review what ryan did, add email somehow
     console.log("unattend event");
     $http({
       method: 'POST',
@@ -320,8 +304,7 @@
   //Creates a blank event hosted by the user
   //Sends the user to that event's HOSTEDIT page
   $scope.createNewEvent = function () {
-    //TODO: This
-	console.log("Create event");
+	  console.log("Create event");
     $http({
       method: 'POST',
       url: 'newEvent.php',
@@ -331,7 +314,7 @@
 			console.log(data);
 			$scope.curEvent = {
 				ID: data['id'],
-				name: "",
+				name: "My Event",
 				loc: "",
 				startTime: new Date(),
 				endTime: new Date(),
@@ -352,7 +335,6 @@
     angEvent.preventDefault();
     angEvent.stopPropagation();
 
-    // TODO: do we jsust want this created with email, eventid and as guest?
     console.log("attend event");
     $http({
       method: 'POST',
@@ -478,9 +460,16 @@
     $scope.inviteGuestEmail = "";
   };
 
+  $scope.showMap = false;
+
   //Determine carpooling directions to event
   $scope.getDirections = function () {
+    //Generate carpooling setup
+    //Determine if curUser is a driver or not
+    //If driver/not carpooling, return directions
+    //If not driver, return user who is
 
+    $scope.showMap = true;
   };
 
   /********************************************PROFILE***************************************************************/
