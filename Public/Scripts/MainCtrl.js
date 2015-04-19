@@ -366,35 +366,38 @@
 		});
   };
 
+  //Loads all supplies data from DB and sends user to edit page
+  $scope.editCurEvent = function () {
+    //TODO: Load complete supplies data into <tbd structure>
+
+    $scope.curEventStatus = $scope.eventStatus.HOSTEDIT;
+  };
+
   //Propts the user for comment text, then creates the comment
   $scope.createComment = function () {
-    //TODO: Create comment in DB - get ID from DB
-    alert("Not Implemented Fully - CreateComment()");
-
     var commText = prompt("Comment");
     commText = commText.trim();
     if (commText != null && commText.length > 0) {
-		$scope.commentStruct = {
-			email: $scope.user.email,
-			id: $scope.curEvent.ID,
-			text: commText
-		}
-		$http({
-		method: 'POST',
-		url: 'newComment.php',
-		data: $.param($scope.commentStruct),  // pass in data as strings
-		headers: { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
-    }).success(function (data) {
-		console.log(data);
-		$scope.curEvent.comments.push({
-        ID: data['id'],
-        email: $scope.user.email,
-        username: $scope.user.name,
-        text: commText,
-        date: new Date()
-      });
-    });
-      
+		  $scope.commentStruct = {
+			  email: $scope.user.email,
+			  id: $scope.curEvent.ID,
+			  text: commText
+		  }
+		  $http({
+		    method: 'POST',
+		    url: 'newComment.php',
+		    data: $.param($scope.commentStruct),  // pass in data as strings
+		    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
+      }).success(function (data) {
+		    console.log(data);
+		    $scope.curEvent.comments.push({
+          ID: data['id'],
+          email: $scope.user.email,
+          username: $scope.user.name,
+          text: commText,
+          date: new Date()
+        });
+      });   
     }
   };
 
@@ -409,7 +412,7 @@
           comments[i].text = "[Removed by Host]";
         } else {
           comments.splice(i, 1);
-          //TODO: Remove comment from DB as well
+          //TODO: Remove comment from DB
         }
         break;
       }
@@ -461,6 +464,11 @@
 
     alert("Invite sent");
     $scope.inviteGuestEmail = "";
+  };
+
+  //Update the user's carpooling info (curEvent.isCarpooling and curEvent.numOpenSeats)
+  $scope.updateCarpool = function () {
+    //TODO: Update the users carpool info in DB
   };
 
   $scope.showMap = false;

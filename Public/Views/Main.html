@@ -194,7 +194,9 @@
   <div class="eventview-nonedit" data-ng-show="curEventStatus != eventStatus.HOSTEDIT">
     <div class="eventview-titledisplay" data-ng-show="curEventStatus <= eventStatus.HOST">
       <div class="home-island eventview-title">
-        <button class="btn btn-warning eventview-title-rightbutton" data-ng-show="curEventStatus == eventStatus.HOST" data-ng-click="curEventStatus = eventStatus.HOSTEDIT">Edit</button>
+        <button class="btn btn-warning eventview-title-rightbutton" 
+                data-ng-show="curEventStatus == eventStatus.HOST"
+                data-ng-click="editCurEvent()">Edit</button>
         <h2>{{curEvent.name}}</h2>
         <h4>{{curEvent.startTime.toLocaleTimeString()}} {{curEvent.startTime.toLocaleDateString()}} - {{curEvent.endTime.toLocaleTimeString()}} {{curEvent.endTime.toLocaleDateString()}}</h4>
         <h4>{{curEvent.loc}}</h4>
@@ -244,12 +246,16 @@
     <div class="eventview-carpool home-island" data-ng-show="curEventStatus != eventStatus.VIEWER">
       <h3><u>Directions</u></h3>
       <label for="carpool">Willing to carpool?</label>
-      <input name="carpool" type="checkbox" data-ng-model="curEvent.isCarpooling" />
+      <input name="carpool" type="checkbox" 
+             data-ng-model="curEvent.isCarpooling"
+             data-ng-change="updateCarpool()" />
       <br />
       <!--TODO: Trigger database updates on changes to these fields -->
       <div data-ng-show="curEvent.isCarpooling">
         <label for="seats">Number of open seats in your car (not counting yours):</label>
-        <input name="seats" type="number" min="0" step="1" max="8" data-ng-model="curEvent.numOpenSeats" />
+        <input name="seats" type="number" min="0" step="1" max="8" 
+               data-ng-model="curEvent.numOpenSeats" 
+               data-ng-change="updateCarpool()"/>
       </div>
       <button class="btn btn-primary" data-ng-click="getDirections()">Get directions to event</button>  
       <div class="eventview-carpool-map" data-ng-show="showMap">
