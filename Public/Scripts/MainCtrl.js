@@ -255,7 +255,7 @@
 		console.log(data);
 		var index;
 		for	(index = 0; index < data.length; index++) {
-			var event = {ID: data[index]['ID'], name: data[index]['Name'], date: data[index]['Date'], loc: data[index]['Location'], status: 3};
+			var event = {ID: data[index]['ID'], name: data[index]['Name'], date: data[index]['StartTime'], loc: data[index]['Location'], status: 3};
 			$scope.events.hostedEvents.push(event);
 		}
     });
@@ -268,7 +268,7 @@
 		console.log(data);
 		var index;
 		for	(index = 0; index < data.length; index++) {
-			var event = {ID: data[index]['ID'], name: data[index]['Name'], date: data[index]['Date'], loc: data[index]['Location'], status: data[index]['Status']};
+			var event = {ID: data[index]['ID'], name: data[index]['Name'], date: data[index]['StartTime'], loc: data[index]['Location'], status: data[index]['Status']};
 			if (event.status == 1 || event.status == 2)
 				$scope.events.attendEvents.push(event);
 			else 
@@ -371,7 +371,17 @@
   //Sends the user to the event page of the given event
   $scope.openEventPage = function (status, eventID) {
     //TODO: this
-    alert("Not Implemented - OpenEventPage(" + status + "," + eventID + ")");
+    console.log("Open event page");
+	$http({
+      method: 'POST',
+      url: 'openEvent.php',
+      data: $.param({ID:eventID, email:$scope.user.email}),  // pass in data as strings
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
+    }).success(function (data){
+			console.log(data);
+			$scope.curEventStatus = $scope.eventStatus.HOSTEDIT;
+			$scope.curPageType = $scope.pageType.EVENTVIEW;
+		});
 
     $scope.curPageType = $scope.pageType.EVENTVIEW;
     $scope.curEventStatus = status;
