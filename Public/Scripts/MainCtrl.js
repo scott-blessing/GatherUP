@@ -446,7 +446,19 @@
           comments[i].text = "[Removed by Host]";
         } else {
           comments.splice(i, 1);
-          //TODO: Remove comment from DB
+		  
+		       
+          $scope.commentStruct = {
+				commentID: commentID
+			}
+          $http({
+			method: 'POST',
+			url: 'deleteComment.php',
+			data: $.param($scope.commentStruct),  // pass in data as strings
+			headers: { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
+        }
+        break;
+          
         }
         break;
       }
