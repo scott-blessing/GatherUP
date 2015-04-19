@@ -115,6 +115,8 @@
     desc: "Come on down for some delicious Texas-style BBQ.  This event is happening May 18th to celebrate the end of the semester and the start of Summer.  Bring your swimtrunks to since there will be an outdoor pool as well.",
     hostName: "Jill Vance",
     isPublic: true,
+    isCarpooling: false,
+    numOpenSeats: 0,
     guests:
       [{
         email: "bob@bob.com",
@@ -455,7 +457,7 @@
 
     alert("Invite sent");
     $scope.inviteGuestEmail = "";
-  }
+  };
 
   //Invite inviteGuestEmail to the event as a Guest
   $scope.inviteAsGuest = function () {
@@ -464,7 +466,12 @@
 
     alert("Invite sent");
     $scope.inviteGuestEmail = "";
-  }
+  };
+
+  //Determine carpooling directions to event
+  $scope.getDirections = function () {
+
+  };
 
   /********************************************PROFILE***************************************************************/
 

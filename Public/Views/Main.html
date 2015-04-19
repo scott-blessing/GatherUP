@@ -94,7 +94,7 @@
       <div class="event" data-ng-repeat="e in events.hostedEvents" data-ng-click="openEventPage(e.status, e.ID)">
         <button class="btn btn-xs btn-danger event-corner-btn" data-ng-click="deleteEvent($event, e.ID)">x</button>
         <div class="event-title">{{e.name}}</div>
-        <div class="event-date">{{e.date}}</div>
+        <div class="event-date">{{e.date.toLocaleTimeString()}} {{e.date.toLocaleDateString()}}</div>
         <div class="event-location">{{e.loc}}</div> 
       </div>
       <div class="text-center">
@@ -109,7 +109,7 @@
           <span>{{e.name}}</span>
           <span data-ng-show="e.status == eventStatus.ADMIN">(Admin)</span>
         </div>
-        <div class="event-date">{{e.date}}</div>
+        <div class="event-date">{{e.date.toLocaleTimeString()}} {{e.date.toLocaleDateString()}}</div>
         <div class="event-location">{{e.loc}}</div>
       </div>
       <div data-ng-show="events.inviteEvents.length > 0">
@@ -117,7 +117,7 @@
         <div class="event" data-ng-repeat="e in events.inviteEvents" data-ng-click="openEventPage(e.status, e.ID)">
           <button class="btn btn-xs btn-info event-corner-btn" data-ng-click="attendEvent($event, e.ID)">Attend</button>
           <div class="event-title">{{e.name}}</div>
-          <div class="event-date">{{e.date}}</div>
+          <div class="event-date">{{e.date.toLocaleTimeString()}} {{e.date.toLocaleDateString()}}</div>
           <div class="event-location">{{e.loc}}</div>
         </div>
       </div>
@@ -242,11 +242,11 @@
     </div>
     <div class="eventview-carpool home-island">
       <label for="carpool">Willing to carpool?</label>
-      <input name="carpool" type="checkbox" data-ng-model="willingToCarpool" />
+      <input name="carpool" type="checkbox" data-ng-model="curEvent.isCarpooling" />
       <br />
       <div data-ng-show="willingToCarpool">
         <label for="seats">Number of open seats in your car (not counting yours):</label>
-        <input name="seats" type="number" min="0" step="1" max="20" data-ng-model="numSeats" />
+        <input name="seats" type="number" min="0" step="1" max="20" data-ng-model="curEvent.numOpenSeats" />
       </div>
       <button class="btn btn-primary" data-ng-click="getDirections()">Get directions to event</button>    
     </div> 
