@@ -372,7 +372,7 @@
 	});;
   };
 
-  $scope.radius = 10;
+  $scope.radius = 50;
   $scope.radiusOptions = [{ val: 10, text: "10 miles" },
                           { val: 25, text: "25 miles" },
                           { val: 50, text: "50 miles" },
