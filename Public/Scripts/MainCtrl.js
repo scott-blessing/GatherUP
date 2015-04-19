@@ -242,7 +242,7 @@
 		  console.log(data);
 		  var index;
 		  for	(index = 0; index < data.length; index++) {
-			  var event = {ID: data[index]['ID'], name: data[index]['Name'], date: new Date(data[index]['StartTime']), loc: data[index]['Location'], status: 3};
+			  var event = {ID: data[index]['ID'], name: data[index]['Name'], date: formatDate(data[index]['StartTime']), loc: data[index]['Location'], status: 3};
 			  $scope.events.hostedEvents.push(event);
 		  }
     });
@@ -257,7 +257,7 @@
 		  console.log(data);
 		  var index;
 		  for	(index = 0; index < data.length; index++) {
-			  var event = {ID: data[index]['ID'], name: data[index]['Name'], date: data[index]['StartTime'], loc: data[index]['Location'], status: data[index]['Status']};
+			  var event = {ID: data[index]['ID'], name: data[index]['Name'], date: formatDate(data[index]['StartTime']), loc: data[index]['Location'], status: data[index]['Status']};
 			  if (event.status == 1 || event.status == 2)
 				  $scope.events.attendEvents.push(event);
 			  else 
@@ -397,7 +397,7 @@
 			}
 
 			for (index = 0; index < comments.length; index++) {
-				var comment = {ID: comments[index]['ID'], email: comments[index]['Email'], username: comments[index]['Username'], text: comments[index]['Text'], date: comments[index]['Time']}
+				var comment = {ID: comments[index]['ID'], email: comments[index]['Email'], username: comments[index]['Username'], text: comments[index]['Text'], date: formatDate(comments[index]['Time'])}
 				$scope.curEvent.comments.push(comment);
 			}
 
