@@ -19,7 +19,7 @@ if ($_POST['ID'])
 		$endTime = mysqli_real_escape_string($conn, $_POST['end']);
 		$desc = mysqli_real_escape_string($conn, $_POST['desc']);
 		$isPublic = mysqli_real_escape_string($conn, $_POST['isPublic']);
-		mysqli_query($conn, "UPDATE Event SET Name = '$name',  Location = '$loc', StartTime = '$startTime', EndTime = '$endTime', Description = '$desc', isPublic = $isPublic");
+		mysqli_query($conn, "UPDATE Event SET Name = '$name',  Location = '$loc', StartTime = '$startTime', EndTime = '$endTime', Description = '$desc', isPublic = $isPublic WHERE ID = $id");
 	}
 mysqli_close($conn);	
 echo(json_encode($data));
