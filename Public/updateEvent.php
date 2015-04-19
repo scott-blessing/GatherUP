@@ -19,6 +19,11 @@ if ($_POST['ID'])
 		$endTime = mysqli_real_escape_string($conn, $_POST['end']);
 		$desc = mysqli_real_escape_string($conn, $_POST['desc']);
 		$isPublic = mysqli_real_escape_string($conn, $_POST['isPublic']);
+		if($isPublic){
+			$isPublic = 1;
+		}
+		else
+			$isPublic = 0;
 		$url = urlencode($loc);
 		$request_url = "http://maps.googleapis.com/maps/api/geocode/xml?address=".$url."&sensor=true";
 		$xml = simplexml_load_file($request_url) or die("url not loading");
