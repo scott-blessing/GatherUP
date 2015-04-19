@@ -27,7 +27,7 @@ if ($_POST['ID'] && $_POST['email'])
 			$data['numOpenSeats'] = 0;
 			$data['status'] = 3;
 		}
-		mysqli_query($conn, "SELECT Email, Username, Status FROM Attends LEFT JOIN User ON Attends.UserEmail = User.Email WHERE Attends.EventID = $id");
+		$result = mysqli_query($conn, "SELECT Email, Username, Status FROM Attends LEFT JOIN User ON Attends.UserEmail = User.Email WHERE Attends.EventID = $id");
 	}
 mysqli_close($conn);	
 echo(json_encode($data));
