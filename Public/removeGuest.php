@@ -8,14 +8,14 @@ $db_name = "vajpeyi2_gatherup"; //Database name
 //Connect to server and select database.
 $conn = mysqli_connect($host, $username, $password, $db_name) or die("cannot connect server "); 
 
-
+$data = array();
 //Deletes an attends entry where for a user and an event.
-$eventID = mysqli_real_escape_string($conn, $_POST['eventID'];
-$attendeeEmail = mysqli_real_escape_string($conn, $_POST['attendeeEmail']; 
+$eventID = mysqli_escape_string($conn, $_POST['eventID']);
+$attendeeEmail = mysqli_escape_string($conn, $_POST['attendeeEmail']); 
 
-$sql = "DELETE FROM `Attends` WHERE `EventID` =  $eventID AND `UserEmail` = $attendeeEmail";
+$sql = "DELETE FROM `Attends` WHERE `EventID` =  $eventID AND `UserEmail` = '$attendeeEmail'";
 mysqli_query($conn, $sql);
-
+$data['log'] = $sql;
 
 //STUFF - '".$_POST['ID']"' AND email = '".$_POST['email']"'"
 
