@@ -27,7 +27,22 @@ if ($_POST['ID'] && $_POST['email'])
 			$data['numOpenSeats'] = 0;
 			$data['status'] = 3;
 		}
+		$data['guests'] = array();
 		$result = mysqli_query($conn, "SELECT Email, Username, Status FROM Attends LEFT JOIN User ON Attends.UserEmail = User.Email WHERE Attends.EventID = $id");
+		$guest = mysqli_fetch_array($result);
+		while($guest != NULL){
+			if($guest['Status'] == 1 || $guest['Status'] == 2){
+				array_push($data['guests'], $guest);
+			}
+			$guest = mysqli_fetch_array($result);
+		}
+		$data['comments'] = array();
+		$result = mysqli_query($conn, "SELECT ID, Email, Username, Text, Time FROM Comment LEFT JOIN User ON Comment.UserEmail = User.Email WHERE Comment.EventID = $id");
+		$comment = mysqli_fetch_array($result);
+		while($comment != NULL){
+			array_push($data['comments'], $comment);
+			$comment = mysqli_fetch_array($result);
+		}
 	}
 mysqli_close($conn);	
 echo(json_encode($data));

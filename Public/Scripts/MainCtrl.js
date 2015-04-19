@@ -360,8 +360,32 @@
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
     }).success(function (data){
 			console.log(data);
+			$scope.curEvent.ID = data['ID'];
+			$scope.curEvent.name = data['Name'];
+			$scope.curEvent.loc = data['Location'];
+			$scope.curEvent.startTime = data['StartTime'];
+			$scope.curEvent.endTime = data['EndTime'];
+			$scope.curEvent.desc = data['Description'];
+			$scope.curEvent.hostName = data['hostName'];
+			$scope.curEvent.isPublic = data['isPublic'];
+			$scope.curEvent.isCarpooling = data['isCarpooling'];
+			$scope.curEvent.numOpenSeats = data['numOpenSeats'];
+			var index;
+			var guests = data['guests'];
+			var comments = data['comments'];
+			for	(index = 0; index < guests.length; index++) {
+				var stat = guests[index]['Status'];
+				if(stat == 2)
+					stat = 0;
+				var guest = {email: guests[index]['Email'], name: guests[index]['Username'], isGuest: stat};
+				$scope.curEvent.guests.push(guest);
+			}
+			for (index = 0; index < comments.length; index++) {
+				var comment = {ID: comments[index]['ID'], email: comments[index]['Email'], username: comments[index]['Username'], text: comments[index]['Text'], date: comments[index]['Time']}
+				$scope.curEvent.comments.push(comment);
+			}
 			$scope.curPageType = $scope.pageType.EVENTVIEW;
-			$scope.curEventStatus = status;
+			$scope.curEventStatus = data['status'];
 			initializeMap();
 		});
   };
