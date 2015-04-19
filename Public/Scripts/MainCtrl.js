@@ -372,8 +372,8 @@
 			$scope.curEvent.ID = data['ID'];
 			$scope.curEvent.name = data['Name'];
 			$scope.curEvent.loc = data['Location'];
-			$scope.curEvent.startTime = data['StartTime'];
-			$scope.curEvent.endTime = data['EndTime'];
+			$scope.curEvent.startTime = formatDate(data['StartTime']);
+			$scope.curEvent.endTime = formatDate(data['EndTime']);
 			$scope.curEvent.desc = data['Description'];
 			$scope.curEvent.hostName = data['hostName'];
 			$scope.curEvent.isPublic = data['isPublic'];
