@@ -496,10 +496,19 @@
 
   //Saves any changes made to curEvent back to the database
   $scope.saveEventChanges = function () {
+	var newEvent = {
+		ID: $scope.curEvent.ID,
+		name: $scope.curEvent.name,
+		loc: $scope.curEvent.loc,
+		start: formatDateForSQL($scope.curEvent.startTime),
+		end: formatDateForSQL($scope.curEvent.endTime),
+		desc: $scope.curEvent.desc,
+		isPublic: $scope.curEvent.isPublic
+	};
     $http({
             method: 'POST',
             url: 'updateEvent.php',
-            data: $.param($scope.curEvent),  // pass in data as strings
+            data: $.param(newEvent),  // pass in data as strings
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
           });
     alert("Not Implemented - saveEventChanges()");
