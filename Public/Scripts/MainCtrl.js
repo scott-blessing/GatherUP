@@ -469,13 +469,19 @@
 
   //Removes the guest from the event
   $scope.removeGuest = function (email) {
-    alert("NOT IMPLEMENTED - removeGuest(" + email + ")")
-    //TODO: This
     $http({
       method: 'POST',
       url: 'removeGuest.php',
       data: $.param({eventID: $scope.curEvent.ID ,attendeeEmail:email}),  // pass in data as strings
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
+    }).success(function (data) {
+      console.log(data);
+      for (var i = 0; i < $scope.curEvent.guests.length; i++) {
+        if ($scope.curEvent.guests[i].email === email) {
+          $scope.curEvent.guests.splice(i, 1);
+          break;
+        }
+      }
     });
   };
 
