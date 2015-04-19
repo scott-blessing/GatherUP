@@ -246,6 +246,21 @@
 			  $scope.events.hostedEvents.push(event);
 		  }
     });
+	
+	 //Events near you
+	  $http({
+		  method: 'POST',
+		  url: 'localEvents.php',
+		  data: $.param($scope.user),  // pass in data as strings
+		  headers: { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
+    }).success(function (data) {
+		  console.log(data);
+		  var index;
+		  for	(index = 0; index < data.length; index++) {
+			  var localEvent = {ID: data[index]['ID'], name: data[index]['Name'], date: formatDate(data[index]['StartTime']), loc: data[index]['Location'], status: 0};
+			  $scope.events.localEvents.push(localEvent);
+		  }
+    });
 
     //Invited and Attnding Events
 	  $http({
