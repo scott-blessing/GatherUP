@@ -223,8 +223,7 @@
           <h3><u>Guests</u> <small>{{curEvent.guests.length}} people attending</small></h3>
           <div class="eventview-guest" data-ng-repeat="g in curEvent.guests">
             <button class="btn btn-xs btn-danger eventview-title-rightbutton" 
-                    data-ng-click="removeGuest(g.email)"
-                    data-ng-show="curEventStatus >= eventStatus.ADMIN">x</button>
+                    data-ng-click="removeGuest(g.email)">x</button>
             <h5><span>{{g.name}}</span><span data-ng-show="g.isGuest == false"> (ADMIN)</span></h5>
           </div>
           <div data-ng-show="curEvent.guests.length == 1 && curEvent.isPublic == false">This event is private, so you'll need to invite anyone you want to come</div>

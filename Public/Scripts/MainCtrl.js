@@ -377,12 +377,15 @@
 			$scope.curEvent.isPublic = data['isPublic'];
 			$scope.curEvent.isCarpooling = data['isCarpooling'];
 			$scope.curEvent.numOpenSeats = data['numOpenSeats'];
+
 			var index;
 			var guests = data['guests'];
 			var comments = data['comments'];
+
 			$scope.curEvent.guests = [];
 			$scope.curEvent.supplies = [];
 			$scope.curEvent.comments = [];
+
 			for	(index = 0; index < guests.length; index++) {
 				var stat = guests[index]['Status'];
 				if(stat == 2)
@@ -390,10 +393,27 @@
 				var guest = {email: guests[index]['Email'], name: guests[index]['Username'], isGuest: stat};
 				$scope.curEvent.guests.push(guest);
 			}
+
 			for (index = 0; index < comments.length; index++) {
 				var comment = {ID: comments[index]['ID'], email: comments[index]['Email'], username: comments[index]['Username'], text: comments[index]['Text'], date: comments[index]['Time']}
 				$scope.curEvent.comments.push(comment);
 			}
+
+      //TODO: Actually load in supplies
+			$scope.curEvent.supplies.push({
+			  name: "Ribs",
+			  quantity: "5 lbs",
+			  userEmail: "bob@bob.com",
+			  username: "Bob Vance"
+			});
+			$scope.curEvent.supplies.push({
+        name: "BBQ Sauce",
+        quantity: "700 gallons",
+        userEmail: null,
+        username: null
+      });
+
+
 			$scope.curPageType = $scope.pageType.EVENTVIEW;
 			$scope.curEventStatus = status;
 			initializeMap();
