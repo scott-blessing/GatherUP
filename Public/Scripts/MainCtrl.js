@@ -13,7 +13,7 @@
     VIEWER: 0,  //View only
     GUEST: 1,   //Can comment
     ADMIN: 2,   //Can apply for supplies
-    HOST: 3,    //Able to remove comments
+    HOST: 3,    //Able to remove comments, edit event, and edit supplies
     HOSTEDIT: 4 //Edit event details
   };
 
@@ -471,6 +471,9 @@
 
     var locations = []; //Array of locations for driver's trip ([0] is their house, [last] is event location, [mid] is pickups)
 
+    locations.push("1517 Thornwood Dr, Downers Grove IL");
+    locations.push("505 E Healey, Champaign IL");
+    locations.push("992 Quiet Bay Circle, Cicero IN");
 
     calcRoute(locations);
     $scope.showMap = true;
