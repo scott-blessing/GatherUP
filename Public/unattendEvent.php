@@ -12,7 +12,9 @@ $data['log'] = "Invalid POST";
 //TODO: get email from user in JS
 if ($_POST['ID'] && $_POST['email'])
 	{
-		mysqli_query($conn, "DELETE FROM Attends WHERE UserEmail = '".$_POST['email']."' AND EventID = '".$_POST['ID']."'");
+		$id=mysqli_real_escape_string($conn, $_POST['ID']);
+		$email=mysqli_real_escape_string($conn, $_POST['email']);
+		mysqli_query($conn, "DELETE FROM Attends WHERE UserEmail = '".$email."' AND EventID = '".$id."'");
 		$data['log'] = "DELETE FROM Attends WHERE UserEmail = '".$_POST['email']."' AND EventID = '".$_POST['ID']."'";
 	}
 mysqli_close($conn);	

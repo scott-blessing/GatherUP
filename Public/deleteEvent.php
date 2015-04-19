@@ -11,8 +11,9 @@ $data = array();
 $data['log'] = "Invalid POST";
 if ($_POST['ID'])
 	{
-		mysqli_query($conn, "DELETE FROM Event WHERE ID=".$_POST['ID']);
-		$data['log'] = "DELETE FROM Event WHERE ID=".$_POST['ID'];
+		$id = mysqli_real_escape_string($conn, $_POST['ID']);
+		mysqli_query($conn, "DELETE FROM Event WHERE ID=".$id);
+		$data['log'] = "DELETE FROM Event WHERE ID=".$id;
 	}
 mysqli_close($conn);	
 echo(json_encode($data));

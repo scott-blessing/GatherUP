@@ -241,7 +241,7 @@
     $scope.events.hostedEvents = [];
     $scope.events.attendEvents = []; 
     $scope.events.inviteEvents = [];
-    //$scope.events.localEvents = []  (Status = VIEWER)
+    $scope.events.localEvents = [];
     //event {ID, name, date, loc, status}
     //Date should be a javascript date object - I need to fix this above and in the HTML
 	$http({
@@ -293,7 +293,7 @@
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
     }).success(function (data){
 			console.log(data);
-			$scope.events.hostedEvents.pop(angEvent);
+			$scope.loadEventListPage();
 		});
   };
 
@@ -311,7 +311,7 @@
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
     }).success(function (data){
 			console.log(data);
-			$scope.events.attendEvents.pop(angEvent);
+			$scope.loadEventListPage();
 		});
   };
 
@@ -355,9 +355,12 @@
     $http({
       method: 'POST',
       url: 'attendEvent.php',
-      data: $.param(eventID,scope.user.email),  // pass in data as strings
+      data: $.param({ID:eventID,email:$scope.user.email}),  // pass in data as strings
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
-    });
+    }).success(function (data){
+			console.log(data);
+			$scope.loadEventListPage();
+	});;
   };
 
 
