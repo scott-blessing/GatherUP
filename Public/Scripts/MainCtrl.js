@@ -319,24 +319,30 @@
   //Sends the user to that event's HOSTEDIT page
   $scope.createNewEvent = function () {
     //TODO: This
-    alert("Not Implemented - CreateNewEvent()");
-
-    //Get appropriate ID from DB 
-    $scope.curEvent = {
-      ID: 1,
-      name: "",
-      loc: "",
-      startTime: new Date(),
-      endTime: new Date(),
-      desc: "",
-      hostName: $scope.user.name,
-      isPublic: true,
-      guests: [],
-      supplies: [],
-      comments: []
-    };
-    $scope.curEventStatus = $scope.eventStatus.HOSTEDIT;
-    $scope.curPageType = $scope.pageType.EVENTVIEW;
+	console.log("Create event");
+    $http({
+      method: 'POST',
+      url: 'newEvent.php',
+      data: $.param({email:$scope.user.email}),  // pass in data as strings
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
+    }).success(function (data){
+			console.log(data);
+			$scope.curEvent = {
+				ID: data['id'],
+				name: "",
+				loc: "",
+				startTime: new Date(),
+				endTime: new Date(),
+				desc: "",
+				hostName: $scope.user.name,
+				isPublic: false,
+				guests: [],
+				supplies: [],
+				comments: []
+			};
+			$scope.curEventStatus = $scope.eventStatus.HOSTEDIT;
+			$scope.curPageType = $scope.pageType.EVENTVIEW;
+		});
   };
 
   //Signs the user up as a guest to the given event
