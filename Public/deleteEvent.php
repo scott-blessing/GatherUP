@@ -7,12 +7,13 @@ $db_name = "vajpeyi2_gatherup"; //Database name
 
 //Connect to server and select database.
 $conn = mysqli_connect($host, $username, $password, $db_name) or die("cannot connect server "); 
-
+$data = array();
+$data['log'] = "Invalid POST";
 if ($_POST['ID'])
 	{
-		mysqli_query($conn, "DELETE FROM Comment WHERE EventId ='".$_POST['ID']."'");
-		mysqli_query($conn, "DELETE FROM Supplies WHERE EventId ='".$_POST['ID']."'");
-		mysqli_query($conn, "DELETE FROM Event WHERE EventId='".$_POST['ID']."'");
+		mysqli_query($conn, "DELETE FROM Event WHERE ID=".$_POST['ID']);
+		$data['log'] = "DELETE FROM Event WHERE ID=".$_POST['ID'];
 	}
-
+mysqli_close($conn);	
+echo(json_encode($data));
 ?>

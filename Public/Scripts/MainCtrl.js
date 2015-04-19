@@ -270,8 +270,10 @@
 			if (event.status == 1 || event.status == 2)
 				$scope.events.attendEvents.push(event);
 			else 
-			if (event.status == 0)
+			if (event.status == -1 || event.status == -2){
+				event.status = 0;
 				$scope.events.inviteEvents.push(event);
+			}
 		}
     });
     $scope.curPageType = $scope.pageType.EVENTLIST;
@@ -287,10 +289,12 @@
     $http({
       method: 'POST',
       url: 'deleteEvent.php',
-      data: $.param(eventID),  // pass in data as strings
+      data: $.param({ID:eventID}),  // pass in data as strings
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
-    });
-
+    }).success(function (data){
+			console.log(data);
+			$scope.events.hostedEvents.pop(angEvent);
+		});
   };
 
   //Causes the current user to no longer be attending the given event
@@ -303,9 +307,12 @@
     $http({
       method: 'POST',
       url: 'unattendEvent.php',
-      data: $.param(eventID,scope.user.email),  // pass in data as strings
+      data: $.param({ID:eventID,email:$scope.user.email}),  // pass in data as strings
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
-    });
+    }).success(function (data){
+			console.log(data);
+			$scope.events.attendEvents.pop(angEvent);
+		});
   };
 
   //Creates a blank event hosted by the user
