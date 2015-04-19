@@ -463,24 +463,35 @@
     for (var i = 0; i < comments.length; i++) {
       if (comments[i].ID === commentID) {
         if (comments[i].email !== $scope.user.email) {
-          comments[i].text = "[Removed by Host]";
-        } else {
-          comments.splice(i, 1);
-		  
-		       
-          $scope.commentStruct = {
-				commentID: commentID
-			}
+          //Host removes comment
+          var commentStruct = {
+            ID: commentID
+          };
           $http({
-			method: 'POST',
-			url: 'deleteComment.php',
-			data: $.param($scope.commentStruct),  // pass in data as strings
-			headers: { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
+            method: 'POST',
+            url: 'hostRemoveComment.php',
+            data: $.param(commentStruct),  // pass in data as strings
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
+          }).success(function (data) {
+            console.log(data);
+            comments[i].text = "[Removed by Host]";
+          });
+        } else {
+          //User remove comment
+          commentStruct = {
+            commentID: commentID
+          };
+          $http({
+            method: 'POST',
+            url: 'deleteComment.php',
+            data: $.param(commentStruct),  // pass in data as strings
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
+          }).success(function (data) {
+            console.log(data);
+            comments.splice(i, 1);
+          });
+        break;      
         }
-        break;
-          
-        }
-        break;
       }
     }
   };
