@@ -360,13 +360,10 @@
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
     }).success(function (data){
 			console.log(data);
-			$scope.curEventStatus = $scope.eventStatus.HOSTEDIT;
 			$scope.curPageType = $scope.pageType.EVENTVIEW;
+			$scope.curEventStatus = status;
+			initializeMap();
 		});
-
-    $scope.curPageType = $scope.pageType.EVENTVIEW;
-    $scope.curEventStatus = status;
-    initializeMap();
   };
 
   //Propts the user for comment text, then creates the comment
@@ -506,15 +503,15 @@
     directionsDisplay.setPanel(document.getElementById('directions-panel')); //Panel with step-by-step directions.
 
     //Not sure what 3 lines below this do. 
-    var control = document.getElementById('control');
-    control.style.display = 'block';
-    map.controls[google.maps.ControlPosition.TOP_CENTER].push(control);
+    //var control = document.getElementById('control');
+    //control.style.display = 'block';
+    //map.controls[google.maps.ControlPosition.TOP_CENTER].push(control);
   }
 
   //Calculate a route from locations[0] to locations[last] stopping at all intermediate locs
   function calcRoute(locations) {
 
-    var len = locations.length();
+    var len = locations.length;
     var waypnts = locations.slice(1, len - 1);
     var waypnts2 = [];
     for (var i = 0; i < waypnts.length; i++) {

@@ -246,9 +246,10 @@
       <label for="carpool">Willing to carpool?</label>
       <input name="carpool" type="checkbox" data-ng-model="curEvent.isCarpooling" />
       <br />
+      <!--TODO: Trigger database updates on changes to these fields -->
       <div data-ng-show="curEvent.isCarpooling">
         <label for="seats">Number of open seats in your car (not counting yours):</label>
-        <input name="seats" type="number" min="0" step="1" max="20" data-ng-model="curEvent.numOpenSeats" />
+        <input name="seats" type="number" min="0" step="1" max="8" data-ng-model="curEvent.numOpenSeats" />
       </div>
       <button class="btn btn-primary" data-ng-click="getDirections()">Get directions to event</button>  
       <div class="eventview-carpool-map" data-ng-show="showMap">
