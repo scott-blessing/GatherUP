@@ -466,6 +466,28 @@
     $scope.inviteGuestEmail = "";
   };
 
+  //Set user as bringing the given supply
+  $scope.bringSupply = function (supply) {
+    //Note: supply = {name, quantity, userEmail, username}
+
+    //TODO: Update in DB
+    alert("NOT IMPLEMENTED - bringSupply()");
+
+    supply.userEmail = user.email;
+    supply.username = user.name;
+  };
+
+  //Set user as no longer bringing supply
+  $scope.bailOnSupply = function (supply) {
+    //Note: supply = {name, quantity, userEmail, username}
+
+    //TODO: Update in DB
+    alert("NOT IMPLEMENTED - bailOnSupply()");
+
+    supply.userEmail = null;
+    supply.username = null;
+  };
+
   //Update the user's carpooling info (curEvent.isCarpooling and curEvent.numOpenSeats)
   $scope.updateCarpool = function () {
     //TODO: Update the users carpool info in DB
