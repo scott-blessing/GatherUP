@@ -51,7 +51,7 @@ if ($_POST['email'] && $_POST['password1'])
 		else{
 			$Lat = $xml->result->geometry->location->lat;
 			$Lon = $xml->result->geometry->location->lng;
-			mysqli_query($conn, "INSERT INTO `User` (`Email`, `Password`, `Address`, `Username`, `lat`, `long`) VALUES ('".$email."','".$password1."','".$address."','".$username."', ".strval($Lat).", ".strval($Lon).")");
+			mysqli_query($conn, "INSERT INTO `User` (`Email`, `Password`, `Address`, `Username`, `lat`, `lon`) VALUES ('".$email."','".$password1."','".$address."','".$username."', ".strval($Lat).", ".strval($Lon).")");
 			$data['success']=true;
 			$data['email']=$email;
 			$data['error'] = "INSERT INTO 'User' ('Email', 'Password', 'Address', 'Username', 'lat', 'long') VALUES ('".$email."','".$password1."','".$address."','".$username."', ".strval($Lat).", ".strval($Lon).")";

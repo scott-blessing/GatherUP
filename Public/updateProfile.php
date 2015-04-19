@@ -40,7 +40,7 @@ if ($_POST['name'] && $_POST['addr'])
 			mysqli_query($conn, "UPDATE `User` SET Address='".$address."' WHERE Email='".$email."'");
 			mysqli_query($conn, "UPDATE `User` SET Username='".$username."' WHERE Email='".$email."'");
 			mysqli_query($conn, "UPDATE `User` SET lat=".strval($Lat)." WHERE Email='".$email."'");
-			mysqli_query($conn, "UPDATE `User` SET `long`=".strval($Lon)." WHERE Email='".$email."'");
+			mysqli_query($conn, "UPDATE `User` SET `lon`=".strval($Lon)." WHERE Email='".$email."'");
 			$data['success']=true;
 		}
 		
