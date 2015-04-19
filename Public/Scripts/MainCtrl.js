@@ -516,12 +516,19 @@
 
     var len = locations.length();
     var waypnts = locations.slice(1, len - 1);
+    var waypnts2 = [];
+    for (var i = 0; i < waypnts.length; i++) {
+      waypnts2.push({
+        location: waypnts[i],
+        stopover: true
+      });
+    }
 
     //Specifics of the route request. 
     var request = {
       origin: locations[0],
       destination: locations[len - 1],
-      waypoints: waypnts,
+      waypoints: waypnts2,
       travelMode: google.maps.TravelMode.DRIVING
     };
 
