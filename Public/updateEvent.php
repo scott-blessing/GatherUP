@@ -19,7 +19,19 @@ if ($_POST['ID'])
 		$endTime = mysqli_real_escape_string($conn, $_POST['end']);
 		$desc = mysqli_real_escape_string($conn, $_POST['desc']);
 		$isPublic = mysqli_real_escape_string($conn, $_POST['isPublic']);
-		mysqli_query($conn, "UPDATE Event SET Name = '$name',  Location = '$loc', StartTime = '$startTime', EndTime = '$endTime', Description = '$desc', isPublic = $isPublic WHERE ID = $id");
+		$url = urlencode($loc);
+		$request_url = "http://maps.googleapis.com/maps/api/geocode/xml?address=".$url."&sensor=true";
+		$xml = simplexml_load_file($request_url) or die("url not loading");
+		$status = $xml->status;
+		if ($status == "OK")
+		{
+			//Output to the user that they inputted an invalid address. 
+			$data['success'] = false;
+			$data['error'] = "Invalid address.";
+			$lat = $xml->result->geometry->location->lat;
+			$lon = $xml->result->geometry->location->lng;
+			mysqli_query($conn, "UPDATE Event SET Name = '$name',  Location = '$loc', StartTime = '$startTime', EndTime = '$endTime', Description = '$desc', isPublic = $isPublic, Lat = $lat, Lon = $lon WHERE ID = $id");
+		}
 	}
 mysqli_close($conn);	
 echo(json_encode($data));
