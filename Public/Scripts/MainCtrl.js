@@ -279,16 +279,20 @@
     angEvent.preventDefault();
     angEvent.stopPropagation();
 
+    deleteEvent(eventID);
+  };
+
+  function deleteEvent(eventID) {
     console.log("Delete event");
     $http({
       method: 'POST',
       url: 'deleteEvent.php',
-      data: $.param({ID:eventID}),  // pass in data as strings
+      data: $.param({ ID: eventID }),  // pass in data as strings
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
-    }).success(function (data){
-			console.log(data);
-			$scope.loadEventListPage();
-		});
+    }).success(function (data) {
+      console.log(data);
+      $scope.loadEventListPage();
+    });
   };
 
   //Causes the current user to no longer be attending the given event
@@ -457,8 +461,6 @@
 
   //Delete the given comment - if the comment's user email doesn't match user.email, don't delete but replace text with "[removed by host]"
   $scope.deleteComment = function (commentID) {
-    alert("Not Implemented Fully - DeleteComment(" + commentID + ")");
-
     var comments = $scope.curEvent.comments;
     for (var i = 0; i < comments.length; i++) {
       if (comments[i].ID === commentID) {
@@ -467,17 +469,17 @@
           var commentStruct = {
             ID: commentID
           };
+          comments[i].text = "[Removed by Host]";
           $http({
             method: 'POST',
             url: 'hostRemoveComment.php',
             data: $.param(commentStruct),  // pass in data as strings
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
-          }).success(function (data) {
-            console.log(data);
-            comments[i].text = "[Removed by Host]";
           });
+          break;
         } else {
           //User remove comment
+          comments.splice(i, 1);
           commentStruct = {
             commentID: commentID
           };
@@ -486,11 +488,8 @@
             url: 'deleteComment.php',
             data: $.param(commentStruct),  // pass in data as strings
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
-          }).success(function (data) {
-            console.log(data);
-            comments.splice(i, 1);
           });
-        break;      
+          break;      
         }
       }
     }
@@ -504,8 +503,7 @@
 
   //Deletes the curEvent from the DB and sends the user back to eventList
   $scope.deleteCurEvent = function () {
-    //TODO: This
-    alert("Not Implemented - deleteCurEvent()");
+    deleteEvent($scope.curEvent.eventID);
   };
 
   $scope.todayDate = new Date();
