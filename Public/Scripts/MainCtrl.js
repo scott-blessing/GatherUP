@@ -353,7 +353,7 @@
   $scope.openEventPage = function (status, eventID) {
     //TODO: this
     console.log("Open event page");
-	$http({
+	  $http({
       method: 'POST',
       url: 'openEvent.php',
       data: $.param({ID:eventID, email:$scope.user.email}),  // pass in data as strings

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 
   <head>
@@ -71,6 +71,7 @@ function initialize() {
   directionsDisplay = new google.maps.DirectionsRenderer();
   
   //Configuration of the original map before user types anything in.
+  //TODO: Set init coords to event loc
   var mapOptions = {
     zoom: 7,
     center: new google.maps.LatLng(52.5167, 13.3833) //Initial center coordinates before user types anything in. 
@@ -82,9 +83,9 @@ function initialize() {
   directionsDisplay.setPanel(document.getElementById('directions-panel')); //Panel with step-by-step directions.
 
   //Not sure what 3 lines below this do. 
-  var control = document.getElementById('control');
-  control.style.display = 'block';
-  map.controls[google.maps.ControlPosition.TOP_CENTER].push(control);
+  //var control = document.getElementById('control');
+  //control.style.display = 'block';
+  //map.controls[google.maps.ControlPosition.TOP_CENTER].push(control);
 }
 
 function calcRoute() {
