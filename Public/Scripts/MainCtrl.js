@@ -734,6 +734,18 @@
   //Converts sql DateTime strings into JS date objects
   function formatDate(sqlString) {
     var dateParts = sqlString.split("-");
-    return new Date(dateParts[0], dateParts[1] - 1, dateParts[2].substr(0, 2), dateParts[2].substr(3, 2), dateParts[2].substr(6, 2), dateParts[2].substr(9, 2));
+    return new Date(dateParts[0], dateParts[1] - 1, dateParts[2].substr(0, 2), dateParts[2].substr(3, 2),
+                    dateParts[2].substr(6, 2), dateParts[2].substr(9, 2));
+  };
+
+  //Converts JS Date object to SQL DateTime string
+  function formatDateForSQL(dateObj) {
+    var year = dateObj.getFullYear();
+    var mon = dateObj.getMonth() >= 10 ? dateObj.getMonth() : "0" + dateObj.getMonth();
+    var day = dateObj.getDate() >= 10 ? dateObj.getDate() : "0" + dateObj.getDate();
+    var hour = dateObj.getHours() >= 10 ? dateObj.getHours() : "0" + dateObj.getHours();
+    var min = dateObj.getMinutes() >= 10 ? dateObj.getMinutes() : "0" + dateObj.getMinutes();
+    var sec = dateObj.getSeconds() >= 10 ? dateObj.getSeconds() : "0" + dateObj.getSeconds();
+    return year + "-" + mon + "-" + day + " " + hour + ":" + min + ":" + sec;
   };
 };
