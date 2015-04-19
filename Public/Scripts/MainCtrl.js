@@ -372,6 +372,13 @@
 	});;
   };
 
+  $scope.radius = 10;
+  $scope.radiusOptions = [{ val: 10, text: "10 miles" },
+                          { val: 25, text: "25 miles" },
+                          { val: 50, text: "50 miles" },
+                          { val: 100, text: "100 miles" },
+                          { val: 200, text: "200 miles" }];
+
   /********************************************EVENT VIEW***************************************************************/
 
   //Sends the user to the event page of the given event
