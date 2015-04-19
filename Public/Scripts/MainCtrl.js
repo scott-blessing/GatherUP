@@ -347,7 +347,6 @@
 	});;
   };
 
-
   /********************************************EVENT VIEW***************************************************************/
 
   //Sends the user to the event page of the given event
@@ -367,6 +366,7 @@
 
     $scope.curPageType = $scope.pageType.EVENTVIEW;
     $scope.curEventStatus = status;
+    initializeMap();
   };
 
   //Propts the user for comment text, then creates the comment
@@ -464,13 +464,67 @@
 
   //Determine carpooling directions to event
   $scope.getDirections = function () {
-    //Generate carpooling setup
+    //TODO: Generate carpooling setup
     //Determine if curUser is a driver or not
     //If driver/not carpooling, return directions
     //If not driver, return user who is
 
+    var locations = []; //Array of locations for driver's trip ([0] is their house, [last] is event location, [mid] is pickups)
+
+
+    calcRoute(locations);
     $scope.showMap = true;
   };
+
+  /********************************************GOOGLE MAPS**************************************************************/
+
+  var directionsDisplay; //Displays route on map after we call route() and get the resulting directions. 
+  var directionsService = new google.maps.DirectionsService(); //Call route() function on this to get actual directions.
+
+  //Initializes page once all the HTML elements are loaded.
+  function initializeMap() {
+    directionsDisplay = new google.maps.DirectionsRenderer();
+
+    //Configuration of the original map before user types anything in.
+    var mapOptions = {
+      zoom: 7,
+      center: new google.maps.LatLng(52.5167, 13.3833) //Initial center coordinates before user types anything in. 
+    };
+
+    var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions); //Google map that will display the route.
+
+    directionsDisplay.setMap(map); //Map
+    directionsDisplay.setPanel(document.getElementById('directions-panel')); //Panel with step-by-step directions.
+
+    //Not sure what 3 lines below this do. 
+    var control = document.getElementById('control');
+    control.style.display = 'block';
+    map.controls[google.maps.ControlPosition.TOP_CENTER].push(control);
+  }
+
+  //Calculate a route from locations[0] to locations[last] stopping at all intermediate locs
+  function calcRoute(locations) {
+
+    var len = locations.length();
+    var waypnts = locations.slice(1, len - 1);
+
+    //Specifics of the route request. 
+    var request = {
+      origin: locations[0],
+      destination: locations[len - 1],
+      waypoints: waypnts,
+      travelMode: google.maps.TravelMode.DRIVING
+    };
+
+    //Call route() function with request and callback function to actual get the route. 
+    directionsService.route(request,
+    function (response, status) {
+      if (status == google.maps.DirectionsStatus.OK) {
+        directionsDisplay.setDirections(response);
+      }
+    }
+    );
+  }
 
   /********************************************PROFILE***************************************************************/
 

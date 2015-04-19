@@ -198,6 +198,7 @@
         <h2>{{curEvent.name}}</h2>
         <h4>{{curEvent.startTime.toLocaleTimeString()}} {{curEvent.startTime.toLocaleDateString()}} - {{curEvent.endTime.toLocaleTimeString()}} {{curEvent.endTime.toLocaleDateString()}}</h4>
         <h4>{{curEvent.loc}}</h4>
+        <h5>Hosted by {{curEvent.hostName}}</h5>
       </div>
       <div class="home-island eventview-desc">
         {{curEvent.desc}}
@@ -240,7 +241,7 @@
         </div>
       </div>
     </div>
-    <div class="eventview-carpool home-island">
+    <div class="eventview-carpool home-island" data-ng-show="curEventStatus != eventStatus.VIEWER">
       <h3><u>Directions</u></h3>
       <label for="carpool">Willing to carpool?</label>
       <input name="carpool" type="checkbox" data-ng-model="curEvent.isCarpooling" />
