@@ -232,38 +232,45 @@
     $scope.events.localEvents = [];
     //event {ID, name, date, loc, status}
     //Date should be a javascript date object - I need to fix this above and in the HTML
-	$http({
-		method: 'POST',
-		url: 'hostList.php',
-		data: $.param($scope.user),  // pass in data as strings
-		headers: { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
+
+    //Hosted Events
+	  $http({
+		  method: 'POST',
+		  url: 'hostList.php',
+		  data: $.param($scope.user),  // pass in data as strings
+		  headers: { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
     }).success(function (data) {
-		console.log(data);
-		var index;
-		for	(index = 0; index < data.length; index++) {
-			var event = {ID: data[index]['ID'], name: data[index]['Name'], date: data[index]['StartTime'], loc: data[index]['Location'], status: 3};
-			$scope.events.hostedEvents.push(event);
-		}
+		  console.log(data);
+		  var index;
+		  for	(index = 0; index < data.length; index++) {
+			  var event = {ID: data[index]['ID'], name: data[index]['Name'], date: data[index]['StartTime'], loc: data[index]['Location'], status: 3};
+			  $scope.events.hostedEvents.push(event);
+		  }
     });
-	$http({
-		method: 'POST',
-		url: 'attendList.php',
-		data: $.param($scope.user),  // pass in data as strings
-		headers: { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
+
+    //Invited and Attnding Events
+	  $http({
+		  method: 'POST',
+		  url: 'attendList.php',
+		  data: $.param($scope.user),  // pass in data as strings
+		  headers: { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
     }).success(function (data) {
-		console.log(data);
-		var index;
-		for	(index = 0; index < data.length; index++) {
-			var event = {ID: data[index]['ID'], name: data[index]['Name'], date: data[index]['StartTime'], loc: data[index]['Location'], status: data[index]['Status']};
-			if (event.status == 1 || event.status == 2)
-				$scope.events.attendEvents.push(event);
-			else 
-			if (event.status == -1 || event.status == -2){
-				event.status = 0;
-				$scope.events.inviteEvents.push(event);
-			}
-		}
+		  console.log(data);
+		  var index;
+		  for	(index = 0; index < data.length; index++) {
+			  var event = {ID: data[index]['ID'], name: data[index]['Name'], date: data[index]['StartTime'], loc: data[index]['Location'], status: data[index]['Status']};
+			  if (event.status == 1 || event.status == 2)
+				  $scope.events.attendEvents.push(event);
+			  else 
+			  if (event.status == -1 || event.status == -2){
+				  event.status = 0;
+				  $scope.events.inviteEvents.push(event);
+			  }
+		  }
     });
+
+    //TODO: Public events
+
     $scope.curPageType = $scope.pageType.EVENTLIST;
   };
 
@@ -373,6 +380,9 @@
 			var index;
 			var guests = data['guests'];
 			var comments = data['comments'];
+			$scope.curEvent.guests = [];
+			$scope.curEvent.supplies = [];
+			$scope.curEvent.comments = [];
 			for	(index = 0; index < guests.length; index++) {
 				var stat = guests[index]['Status'];
 				if(stat == 2)
@@ -385,7 +395,7 @@
 				$scope.curEvent.comments.push(comment);
 			}
 			$scope.curPageType = $scope.pageType.EVENTVIEW;
-			$scope.curEventStatus = data['status'];
+			$scope.curEventStatus = status;
 			initializeMap();
 		});
   };
