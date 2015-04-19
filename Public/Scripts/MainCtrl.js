@@ -474,7 +474,7 @@
     $http({
       method: 'POST',
       url: 'removeGuest.php',
-      data: $.param(eventID,scope.user.email,scope.curEvent),  // pass in data as strings
+      data: $.param({eventID: $scope.curEvent.ID ,attendeeEmail:email}),  // pass in data as strings
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
     });
   };
