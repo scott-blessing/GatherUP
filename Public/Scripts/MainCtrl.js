@@ -622,6 +622,7 @@
   //Invite inviteGuestEmail to the event as a Guest
   $scope.inviteAsGuest = function () {
     $http({
+<<<<<<< HEAD
       method: 'POST',
       url: 'inviteAsGuest.php',
       data: $.param({email:$scope.inviteGuestEmail, ID:$scope.curEvent.ID),  // pass in data as strings
@@ -630,6 +631,15 @@
       console.log(data);
       alert(data['error']);
     });
+=======
+            method: 'POST',
+            url: 'inviteAsGuest.php',
+            data: $.param({email:$scope.inviteGuestEmail, ID:$scope.curEvent.ID}),  // pass in data as strings
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
+          }).success(function (data) {
+            console.log(data);
+          });
+>>>>>>> origin/master
 
     $scope.inviteGuestEmail = "";
   };
@@ -658,7 +668,7 @@
     $http({
             method: 'POST',
             url: 'bringSupply.php',
-            data: $.param({$scope.user.email:email, $scope.curEvent.ID:ID, supply.name:name}),  // pass in data as strings
+            data: $.param({email:$scope.user.email, ID:$scope.curEvent.ID, name:supply.name}),  // pass in data as strings
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
           }).success(function (data) {
             console.log(data);
@@ -670,7 +680,14 @@
 
   //Update the user's carpooling info (curEvent.isCarpooling and curEvent.numOpenSeats)
   $scope.updateCarpool = function () {
-    //TODO: Update the users carpool info in DB
+    $http({
+            method: 'POST',
+            url: 'updateCarpool.php',
+            data: $.param({email:$scope.user.email, eventid:$scope.curEvent.ID, isCarpooling:$scope.curEvent.isCarpooling, numOpenSeats$scope.curEvent.numOpenSeats}),  // pass in data as strings
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
+          }).success(function (data) {
+            console.log(data);
+          });
   };
 
   $scope.showMap = false;
