@@ -149,6 +149,29 @@
       }]
   };
 
+  //The full list of supplies for curEvent
+  $scope.fullSupplies = [{
+    name: "Chips",
+    quantities: [{
+      min: 0,
+      max: 6,
+      quantity: "1 bag"
+    },
+    {
+      min: 7,
+      max: Number.MAX_SAFE_INTEGER,
+      quantity: "2 bags"
+    }]
+  },
+  {
+    name: "Salsa",
+    quantities: [{
+      min: 0,
+      max: Number.MAX_SAFE_INTEGER,
+      quantity: "1 gallon"
+    }]
+  }];
+
 
   /********************************************NAVBAR***************************************************************/
 
@@ -531,22 +554,26 @@
 
   //Saves any changes made to curEvent back to the database
   $scope.saveEventChanges = function () {
-	var newEvent = {
-		ID: $scope.curEvent.ID,
-		name: $scope.curEvent.name,
-		loc: $scope.curEvent.loc,
-		start: formatDateForSQL($scope.curEvent.startTime),
-		end: formatDateForSQL($scope.curEvent.endTime),
-		desc: $scope.curEvent.desc,
-		isPublic: $scope.curEvent.isPublic
-	};
+    if ($scope.curEvent.endTime <= $scope.curEvent.startTime) {
+      alert("Your event's end time must be after its start time");
+      return;
+    }
+
+	  var newEvent = {
+		  ID: $scope.curEvent.ID,
+		  name: $scope.curEvent.name,
+		  loc: $scope.curEvent.loc,
+		  start: formatDateForSQL($scope.curEvent.startTime),
+		  end: formatDateForSQL($scope.curEvent.endTime),
+		  desc: $scope.curEvent.desc,
+		  isPublic: $scope.curEvent.isPublic
+	  };
     $http({
             method: 'POST',
             url: 'updateEvent.php',
             data: $.param(newEvent),  // pass in data as strings
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
           });
-    alert("Not Implemented - saveEventChanges()");
   };
 
   //Deletes the curEvent from the DB and sends the user back to eventList
