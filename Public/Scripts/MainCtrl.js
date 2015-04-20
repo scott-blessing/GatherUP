@@ -1,4 +1,4 @@
-function MainCtrl($scope, $http) {
+﻿function MainCtrl($scope, $http) {
 
   //An "enum" of the current page
   $scope.pageType = {
@@ -837,7 +837,7 @@ function MainCtrl($scope, $http) {
   //Converts JS Date object to SQL DateTime string
   function formatDateForSQL(dateObj) {
     var year = dateObj.getFullYear();
-    var mon = dateObj.getMonth() >= 10 ? dateObj.getMonth() : "0" + dateObj.getMonth();
+    var mon = (dateObj.getMonth()+1) >= 10 ? (dateObj.getMonth()+1) : "0" + (dateObj.getMonth()+1);
     var day = dateObj.getDate() >= 10 ? dateObj.getDate() : "0" + dateObj.getDate();
     var hour = dateObj.getHours() >= 10 ? dateObj.getHours() : "0" + dateObj.getHours();
     var min = dateObj.getMinutes() >= 10 ? dateObj.getMinutes() : "0" + dateObj.getMinutes();
