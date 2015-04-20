@@ -277,10 +277,14 @@
 
 	function loadLocalEvents() {
 	  $scope.events.localEvents = [];
+	  var locEventStruct = {
+	    email: $scope.user.email,
+	    radius: $scope.radius
+	  };
 	  $http({
 	    method: 'POST',
 	    url: 'localEvents.php',
-	    data: $.param($scope.user),  // pass in data as strings
+	    data: $.param(locEventStruct),  // pass in data as strings
 	    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
 	  }).success(function (data) {
 	    console.log(data);
