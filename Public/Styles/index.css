@@ -21,7 +21,7 @@ body {
   min-height: 100%;
 }
 
-input .wide {
+input.wide {
   width: 300px;
 }
 
