@@ -30,7 +30,7 @@ $r = 3963.1676; //Radius of the earth in miles.
 $sql = "SELECT * FROM `Event` WHERE acos(sin(radians($lat))*sin(radians(lat)) + 
 cos(radians($lat))*cos(radians(lat))*cos(radians(lon)-radians($lon))) * $r < $rad"; //Selecting event IDs of public events near you.
 $result2 = mysqli_query($conn, $sql);
-$nearbyEvent = mysqli_fetch_array($result);
+$nearbyEvent = mysqli_fetch_array($result2);
 
 while($nearbyEvent != NULL){
 	//If the found nearby event is hosted by the user or if the user is already attending it, or if it's already over.
