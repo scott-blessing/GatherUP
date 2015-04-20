@@ -37,7 +37,7 @@ while($nearbyEvent != NULL){
 	if (strcmp($nearbyEvent['HostEmail'], $userEmail) != 0)
 	{
 		$nearbyEventID = $nearbyEvent['ID'];
-		$sql = "SELECT * FROM `Attends` WHERE `EventId` = $nearbyEventId AND `UserEmail` = '$userEmail'";
+		$sql = "SELECT * FROM `Attends` WHERE `EventId` = $nearbyEventID AND `UserEmail` = '$userEmail'";
 		$result = mysqli_query($conn, $sql);
 		$userAlreadyAttendingFlag = mysqli_fetch_array($result);
 		if (userAlreadyAttendingFlag == NULL)
@@ -52,8 +52,6 @@ while($nearbyEvent != NULL){
 		
 	}
 	$nearbyEvent = mysqli_fetch_array($result); //Get next nearby event.
-
-	
 }
 
 
