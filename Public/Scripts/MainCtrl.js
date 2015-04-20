@@ -609,7 +609,7 @@
     $http({
             method: 'POST',
             url: 'inviteAsAdmin.php',
-            data: $.param({$scope.inviteGuestEmail, $scope.curEvent.ID}),  // pass in data as strings
+            data: $.param({$scope.inviteGuestEmail:email, $scope.curEvent.ID:ID}),  // pass in data as strings
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
           }).success(function (data) {
             console.log(data);
@@ -625,7 +625,7 @@
     $http({
             method: 'POST',
             url: 'inviteAsGuest.php',
-            data: $.param({$scope.inviteGuestEmail, $scope.curEvent.ID}),  // pass in data as strings
+            data: $.param({$scope.inviteGuestEmail:email, $scope.curEvent.ID:ID}),  // pass in data as strings
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
           }).success(function (data) {
             console.log(data);
@@ -642,7 +642,7 @@
     $http({
             method: 'POST',
             url: 'bringSupply.php',
-            data: $.param({$scope.user.email, $scope.curEvent.ID, supply.name}),  // pass in data as strings
+            data: $.param({$scope.user.email:email, $scope.curEvent.ID:ID, supply.name:name}),  // pass in data as strings
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
           }).success(function (data) {
             console.log(data);
@@ -659,7 +659,7 @@
     $http({
             method: 'POST',
             url: 'bringSupply.php',
-            data: $.param({$scope.user.email, $scope.curEvent.ID, supply.name}),  // pass in data as strings
+            data: $.param({$scope.user.email:email, $scope.curEvent.ID:ID, supply.name:name}),  // pass in data as strings
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
           }).success(function (data) {
             console.log(data);
