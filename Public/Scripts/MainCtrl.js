@@ -1,4 +1,4 @@
-﻿function MainCtrl($scope, $http) {
+function MainCtrl($scope, $http) {
 
   //An "enum" of the current page
   $scope.pageType = {
@@ -606,17 +606,30 @@
 
   //Invite a guest as specified by inviteGuestEmail and set as Admin
   $scope.inviteAsAdmin = function () {
-    alert("NOT IMPLEMENTED - inviteAsAdmin(" + inviteGuestEmail + ")");
-    //TODO: This
-
+    $http({
+            method: 'POST',
+            url: 'inviteAsAdmin.php',
+            data: $.param({$scope.inviteGuestEmail, $scope.curEvent.ID}}),  // pass in data as strings
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
+          }).success(function (data) {
+            console.log(data);
+          });
+    
     alert("Invite sent");
     $scope.inviteGuestEmail = "";
+    
   };
 
   //Invite inviteGuestEmail to the event as a Guest
   $scope.inviteAsGuest = function () {
-    alert("NOT IMPLEMENTED - inviteAsGuest(" + inviteGuestEmail + ")");
-    //TODO: This
+    $http({
+            method: 'POST',
+            url: 'inviteAsGuest.php',
+            data: $.param({$scope.inviteGuestEmail, $scope.curEvent.ID}}),  // pass in data as strings
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
+          }).success(function (data) {
+            console.log(data);
+          });
 
     alert("Invite sent");
     $scope.inviteGuestEmail = "";
