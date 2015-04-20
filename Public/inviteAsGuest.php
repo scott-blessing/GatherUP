@@ -17,8 +17,8 @@ if ($_POST['ID'] && $_POST['email'])
 		$email = mysqli_real_escape_string($conn, $_POST['email']);
 		$eventid = mysqli_real_escape_string($conn, $_POST['ID']);
 
-		$check = mysqli_fetch_array(mysqli_query($conn, "SELECT FROM User WHERE Email = '$email'"));
-		$check2 = mysqli_fetch_array(mysqli_query($conn, "SELECT FROM Attends WHERE UserEmail = '$email' AND EventId = $eventid"));
+		$check = mysqli_fetch_array(mysqli_query($conn, "SELECT * FROM User WHERE Email = '$email'"));
+		$check2 = mysqli_fetch_array(mysqli_query($conn, "SELECT * FROM Attends WHERE UserEmail = '$email' AND EventId = $eventid"));
 		if($check==null)
 		{
 			$data['success'] = false;
@@ -34,7 +34,7 @@ if ($_POST['ID'] && $_POST['email'])
 		{
 			mysqli_query($conn, "INSERT INTO Attends (EventId, UserEmail, Status) VALUES ($eventid, '$email', -1)");
 			$data['success'] = true;
-			$data['error'] = "";
+			$data['error'] = "Invite Sent Successfully";
 		}
 		
 	}

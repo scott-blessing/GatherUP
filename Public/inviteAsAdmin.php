@@ -34,7 +34,7 @@ if ($_POST['ID'] && $_POST['email'])
 		{
 			mysqli_query($conn, "INSERT INTO Attends (EventId, UserEmail, Status) VALUES ($eventid, '$email', -2)");
 			$data['success'] = true;
-			$data['error'] = "";
+			$data['error'] = "Invite Sent Successfully";
 		}
 		
 	}
