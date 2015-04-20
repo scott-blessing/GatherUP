@@ -12,25 +12,15 @@ $data = array();
 $data['success']=false;
 $data['error']="Invalid parameters";
 
-if ($_POST['ID'] && $_POST['email'])
+if ($_POST['ID'] && $_POST['email']) && $_POST['name'])
 	{
 		$email = mysqli_real_escape_string($conn, $_POST['email']);
 		$eventid = mysqli_real_escape_string($conn, $_POST['ID']);
+		$supplyName = mysqli_real_escape_string($conn, $_POST['name']);
 
-		$check = mysqli_query($conn, "SELECT FROM User WHERE email = '$email'");
-
-		if($check==null)
-		{
-			$data['success'] = false;
-			$data['error'] = "Email does not exist.";
-		}
-		else
-		{
-			mysqli_query($conn, "INSERT INTO 'Attends' ('EventId','Email','Status') VALUES ('$eventid','$email','-2')");
-			$data['success'] = true;
-			$data['error'] = "";
-		}
-		
+		mysqli_query($conn, "DELETE FROM 'Bringing' WHERE 'EventId'='$eventid', 'Email'='$email', 'Name'='$supplyName')");
+		$data['success'] = true;
+		$data['error'] = "";
 	}
 mysqli_close($conn);
 echo(json_encode($data));

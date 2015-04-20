@@ -609,7 +609,7 @@ function MainCtrl($scope, $http) {
     $http({
             method: 'POST',
             url: 'inviteAsAdmin.php',
-            data: $.param({$scope.inviteGuestEmail, $scope.curEvent.ID}}),  // pass in data as strings
+            data: $.param({$scope.inviteGuestEmail, $scope.curEvent.ID}),  // pass in data as strings
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
           }).success(function (data) {
             console.log(data);
@@ -625,7 +625,7 @@ function MainCtrl($scope, $http) {
     $http({
             method: 'POST',
             url: 'inviteAsGuest.php',
-            data: $.param({$scope.inviteGuestEmail, $scope.curEvent.ID}}),  // pass in data as strings
+            data: $.param({$scope.inviteGuestEmail, $scope.curEvent.ID}),  // pass in data as strings
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
           }).success(function (data) {
             console.log(data);
@@ -639,8 +639,14 @@ function MainCtrl($scope, $http) {
   $scope.bringSupply = function (supply) {
     //Note: supply = {name, quantity, userEmail, username}
 
-    //TODO: Update in DB
-    alert("NOT IMPLEMENTED - bringSupply()");
+    $http({
+            method: 'POST',
+            url: 'bringSupply.php',
+            data: $.param({$scope.user.email, $scope.curEvent.ID, supply.name}),  // pass in data as strings
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
+          }).success(function (data) {
+            console.log(data);
+          });
 
     supply.userEmail = user.email;
     supply.username = user.name;
@@ -650,8 +656,14 @@ function MainCtrl($scope, $http) {
   $scope.bailOnSupply = function (supply) {
     //Note: supply = {name, quantity, userEmail, username}
 
-    //TODO: Update in DB
-    alert("NOT IMPLEMENTED - bailOnSupply()");
+    $http({
+            method: 'POST',
+            url: 'bringSupply.php',
+            data: $.param({$scope.user.email, $scope.curEvent.ID, supply.name}),  // pass in data as strings
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
+          }).success(function (data) {
+            console.log(data);
+          });
 
     supply.userEmail = null;
     supply.username = null;
