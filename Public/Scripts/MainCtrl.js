@@ -622,24 +622,14 @@
   //Invite inviteGuestEmail to the event as a Guest
   $scope.inviteAsGuest = function () {
     $http({
-<<<<<<< HEAD
       method: 'POST',
       url: 'inviteAsGuest.php',
-      data: $.param({email:$scope.inviteGuestEmail, ID:$scope.curEvent.ID),  // pass in data as strings
+      data: $.param({ email: $scope.inviteGuestEmail, ID: $scope.curEvent.ID }),  // pass in data as strings
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
     }).success(function (data) {
       console.log(data);
       alert(data['error']);
     });
-=======
-            method: 'POST',
-            url: 'inviteAsGuest.php',
-            data: $.param({email:$scope.inviteGuestEmail, ID:$scope.curEvent.ID}),  // pass in data as strings
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
-          }).success(function (data) {
-            console.log(data);
-          });
->>>>>>> origin/master
 
     $scope.inviteGuestEmail = "";
   };
