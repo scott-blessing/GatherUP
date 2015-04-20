@@ -19,7 +19,7 @@ if ($_POST['email'] && $_POST['eventid']) && $_POST['isCarpooling'] && $_POST['n
 		$isCarpooling = mysqli_real_escape_string($conn, $_POST['isCarpooling']);
 		$numOpenSeats = mysqli_real_escape_string($conn, $_POST['numOpenSeats']);
 
-		mysqli_query($conn, "INSERT INTO 'Bringing' ('EventId','Email','Name') VALUES ('$eventid','$email','$supplyName')");
+		mysqli_query($conn, "INSERT INTO 'Attending' SET Carpool = '$isCarpooling', Seats = '$numOpenSeats' WHERE Email = '$eventid' AND EventID = '$eventid'");
 		$data['success'] = true;
 		$data['error'] = "";
 	}
