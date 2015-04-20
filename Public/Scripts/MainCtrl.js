@@ -607,31 +607,30 @@
   //Invite a guest as specified by inviteGuestEmail and set as Admin
   $scope.inviteAsAdmin = function () {
     $http({
-            method: 'POST',
-            url: 'inviteAsAdmin.php',
-            data: $.param({email:$scope.inviteGuestEmail, ID:$scope.curEvent.ID}),  // pass in data as strings
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
-          }).success(function (data) {
-            console.log(data);
-          });
+      method: 'POST',
+      url: 'inviteAsAdmin.php',
+      data: $.param({email:$scope.inviteGuestEmail, ID:$scope.curEvent.ID}),  // pass in data as strings
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
+    }).success(function (data) {
+      console.log(data);
+      alert(data['error']);
+    });
     
-    alert("Invite sent");
     $scope.inviteGuestEmail = "";
-    
   };
 
   //Invite inviteGuestEmail to the event as a Guest
   $scope.inviteAsGuest = function () {
     $http({
-            method: 'POST',
-            url: 'inviteAsGuest.php',
-            data: $.param({email:$scope.inviteGuestEmail, ID:$scope.curEvent.ID),  // pass in data as strings
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
-          }).success(function (data) {
-            console.log(data);
-          });
+      method: 'POST',
+      url: 'inviteAsGuest.php',
+      data: $.param({email:$scope.inviteGuestEmail, ID:$scope.curEvent.ID),  // pass in data as strings
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
+    }).success(function (data) {
+      console.log(data);
+      alert(data['error']);
+    });
 
-    alert("Invite sent");
     $scope.inviteGuestEmail = "";
   };
 
