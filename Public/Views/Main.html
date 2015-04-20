@@ -287,7 +287,6 @@
              data-ng-model="curEvent.isCarpooling"
              data-ng-change="updateCarpool()" />
       <br />
-      <!--TODO: Trigger database updates on changes to these fields -->
       <div data-ng-show="curEvent.isCarpooling">
         <label for="seats">Number of open seats in your car (not counting yours):</label>
         <input name="seats" type="number" min="0" step="1" max="8" 
@@ -295,9 +294,9 @@
                data-ng-change="updateCarpool()"/>
       </div>
       <button class="btn btn-primary" data-ng-click="getDirections()">Get directions to event</button>  
-      <div class="eventview-carpool-map" data-ng-show="showMap">
+      <div class="eventview-carpool-map" style="height: 500px" data-ng-show="showMap">
         <!-- These divs will contain the google-created maps and directions -->
-        <div id="directions-panel"></div>
+        <div id="directions-panel" style="overflow-y: scroll"></div>
         <div id="map-canvas"></div>
       </div>  
     </div> 
