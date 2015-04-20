@@ -44,10 +44,10 @@ while($nearbyEvent != NULL){
 		{
 			$endTimeOfNearbyEvent = $nearbyEvent['EndTime'];
 			$currTime = date('Y-m-d H:i:s', time());
-			//if ($endTimeOfNearbyEvent > $currTime)
-			//{
+			if ($endTimeOfNearbyEvent > $currTime)
+			{
 				array_push($data, $nearbyEvent); //Display the event.
-			//}
+			}
 		}	
 		
 	}
