@@ -33,14 +33,14 @@ $result2 = mysqli_query($conn, $sql);
 $nearbyEvent = mysqli_fetch_array($result);
 
 while($nearbyEvent != NULL){
-	//If the found nearby event is hosted by the user or if the user is already attending it, or if it's already over. 
+	//If the found nearby event is hosted by the user or if the user is already attending it, or if it's already over.
 	if (strcmp($nearbyEvent['HostEmail'], $userEmail) != 0)
 	{
 		$nearbyEventID = $nearbyEvent['ID'];
 		$sql = "SELECT * FROM `Attends` WHERE `EventId` = $nearbyEventID AND `UserEmail` = '$userEmail'";
 		$result = mysqli_query($conn, $sql);
 		$userAlreadyAttendingFlag = mysqli_fetch_array($result);
-		if (userAlreadyAttendingFlag == NULL)
+		if ($userAlreadyAttendingFlag == NULL)
 		{
 			$endTimeOfNearbyEvent = $nearbyEvent['EndTime'];
 			$currTime = date('Y-m-d H:i:s', time());
