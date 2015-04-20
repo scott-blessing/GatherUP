@@ -222,6 +222,7 @@
 
   /********************************************EVENT LIST***************************************************************/
 
+  //Populate the eventList page
 	$scope.loadEventListPage = function () {
 
     //Clear JS arrays
@@ -246,21 +247,6 @@
 			  $scope.events.hostedEvents.push(event);
 		  }
     });
-	
-	 //Events near you
-	  $http({
-		  method: 'POST',
-		  url: 'localEvents.php',
-		  data: $.param($scope.user),  // pass in data as strings
-		  headers: { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
-    }).success(function (data) {
-		  console.log(data);
-		  var index;
-		  for	(index = 0; index < data.length; index++) {
-			  var localEvent = {ID: data[index]['ID'], name: data[index]['Name'], date: formatDate(data[index]['StartTime']), loc: data[index]['Location'], status: 0};
-			  $scope.events.localEvents.push(localEvent);
-		  }
-    });
 
     //Invited and Attnding Events
 	  $http({
@@ -283,10 +269,28 @@
 		  }
     });
 
-    //TODO: Public events
+    //Local events
+	  loadLocalEvents();
 
     $scope.curPageType = $scope.pageType.EVENTLIST;
-  };
+	};
+
+	function loadLocalEvents() {
+	  $scope.events.localEvents = [];
+	  $http({
+	    method: 'POST',
+	    url: 'localEvents.php',
+	    data: $.param($scope.user),  // pass in data as strings
+	    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
+	  }).success(function (data) {
+	    console.log(data);
+	    var index;
+	    for (index = 0; index < data.length; index++) {
+	      var localEvent = { ID: data[index]['ID'], name: data[index]['Name'], date: formatDate(data[index]['StartTime']), loc: data[index]['Location'], status: 0 };
+	      $scope.events.localEvents.push(localEvent);
+	    }
+	  });
+	};
 
   //Deletes the event with the given ID from the database
   $scope.deleteEvent = function (angEvent, eventID) {
@@ -378,6 +382,11 @@
                           { val: 50, text: "50 miles" },
                           { val: 100, text: "100 miles" },
                           { val: 200, text: "200 miles" }];
+
+  //When the radius DDL is changed
+  $scope.radiusChanged = function () {
+    loadLocalEvents();
+  };
 
   /********************************************EVENT VIEW***************************************************************/
 

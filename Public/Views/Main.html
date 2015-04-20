@@ -127,7 +127,9 @@
     </div>
     <div class="col-lg-4 event-list">
       <h5 class="event-list-title"><u>Nearby Events</u></h5>
-      <select data-ng-model="radius" data-ng-options="r.val as r.text for r in radiusOptions"></select>
+      <select data-ng-model="radius" 
+              data-ng-options="r.val as r.text for r in radiusOptions"
+              data-ng-change="radiusChanged()"></select>
       <div class="event" data-ng-repeat="e in events.localEvents" data-ng-click="openEventPage(e.status, e.ID)">
         <button class="btn btn-xs btn-info event-corner-btn" data-ng-click="attendEvent($event, e.ID)">Attend</button>
         <div class="event-title">{{e.name}}</div>
