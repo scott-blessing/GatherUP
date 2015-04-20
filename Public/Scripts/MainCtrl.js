@@ -152,23 +152,34 @@
   //The full list of supplies for curEvent
   $scope.fullSupplies = [{
     name: "Chips",
+    initName: "Chips",
     quantities: [{
       min: 0,
       max: 6,
-      quantity: "1 bag"
+      quantity: "1 bag",
+      initMin: 0,
+      initMax: 6,
+      initQuantity: "1 bag"
     },
     {
       min: 7,
       max: Number.MAX_SAFE_INTEGER,
-      quantity: "2 bags"
+      quantity: "2 bags",
+      initMin: 7,
+      initMax: Number.MAX_SAFE_INTEGER,
+      initQuantity: "2 bags"
     }]
   },
   {
     name: "Salsa",
+    initName: "Salsa",
     quantities: [{
       min: 0,
       max: Number.MAX_SAFE_INTEGER,
-      quantity: "1 gallon"
+      quantity: "1 gallon",
+      initMin: 0,
+      initMax: Number.MAX_SAFE_INTEGER,
+      initQuantity: "1 gallon"
     }]
   }];
 
@@ -381,8 +392,9 @@
 				supplies: [],
 				comments: []
 			};
-			$scope.curEventStatus = $scope.eventStatus.HOSTEDIT;
+
 			$scope.curPageType = $scope.pageType.EVENTVIEW;
+			$scope.editCurEvent();
 		});
   };
 
@@ -483,7 +495,14 @@
 
   //Loads all supplies data from DB and sends user to edit page
   $scope.editCurEvent = function () {
-    //TODO: Load complete supplies data into <tbd structure>
+    //TODO: Load complete supplies data into 'fullSupplies'
+    // *** each 'quantities' array needs to sorted by 'min' ascending ***
+    //Since all of the supplies are being loaded from the DB, set 'init's as well
+
+
+    //Reset tracker arrays
+    removedSupplies = [];
+    removedQuantities = [];
 
     $scope.curEventStatus = $scope.eventStatus.HOSTEDIT;
   };
@@ -699,7 +718,123 @@
     $scope.showMap = true;
   };
 
-  /********************************************GOOGLE MAPS**************************************************************/
+  /********************************************SUPPLIES EDITOR*******************************************************/
+
+  //An array of supplies the user has chosen to remove from the event
+  var removedSupplies = [];
+
+  //An array of quantities the user has chosen to remove from the event
+  var removedQuantities = [];
+
+  //Called when a quantity's max value is changed
+  $scope.quantityMaxUpdated = function (supply, index) {
+    var quan = supply.quantities[index];
+
+    //Force integer >= min
+    quan.max = quan.max.toFixed(0);
+    if (quan.max < quan.min)
+      quan.max = quan.min;
+
+    //Cause next quantity to have min = max+1
+    var len = supply.quantities.length;
+    if (index < len - 1) {
+      supply.quantities[index + 1].min = quan.max + 1;
+    }
+  };
+
+  //Add a quantity to the given supply
+  $scope.addQuantity = function (supply) {
+    var len = supply.quantities.length;
+    var prevQuan = supply.quantities[len - 1];
+
+    supply.quantities.push({
+      min: prevQuan.min + 1,
+      max: Number.MAX_SAFE_INTEGER,
+      quantity: "",
+      initMax: null,
+      initMin: null,
+      initQuantity: null
+    });
+
+    prevQuan.max = prevQuan.min;
+  };
+
+  //Removes the last quantity from the given supply
+  $scope.removeQuantity = function (supply) {
+    if (supply.quantities.length <= 1)
+      return;
+
+    var len = supply.quantities.length;
+    var remQuan = supply.quantities[len - 1];
+    var prevQuan = supply.quantities[len - 2];
+
+    supply.quantities.splice(len - 1, 1);
+    prevQuan.max = Number.MAX_SAFE_INTEGER;
+
+    //Add to 'removedQuantities' if from database
+    if (remQuan.initMin !== null) {
+      removedQuantities.push({
+        name: supply.initName,
+        min: remQuan.initMin
+      });
+    }
+  };
+
+  //Adds a new supply to the event
+  $scope.addSupply = function () {
+    $scope.fullSupplies.push({
+      name: "",
+      initName: null,
+      quantities: [{
+        min: 0,
+        max: Number.MAX_SAFE_INTEGER,
+        quantity: "",
+        initMin: null,
+        initMax: null,
+        initQuantity: null
+      }]
+    });
+  };
+
+  //Removes a supply and all its quantities from curEvent
+  $scope.removeSupply = function () {
+    var len = $scope.fullSupplies.length;
+    if (len <= 0) return;
+
+    var sup = $scope.fullSupplies[len - 1];
+
+    //Remove supply from array
+    $scope.fullSupplies.splice(len - 1, 1);
+
+    //Add supply and quantities to 'removed' arrays
+    if (sup.initName != null) {
+      removedSupplies.push(sup.initName);
+      for (var i = 0; i < sup.quantities.length; i++) {
+        var quan = sup.quantities[i];
+        if (quan.initMin != null) {
+          removedQuantities.push({
+            name: sup.initName,
+            min: quan.initMin
+          });
+        }
+      }
+    }
+  };
+
+  //Saves the changes made to fullSupplies
+  $scope.saveSupplyChanges = function () {
+    //TODO: Validate all inputs filled in
+
+    //TODO: Input changes into database
+    //Update/Add everything in fullSupplies
+    //  If initVal = null then entry is new and can be added
+    //  If initVal != null then entry exists.  Use init vals to update in database
+    //Delete everything in removedQuantities (all guaranteed originally from database)
+    //Delete everything in removedSupplies (all guaranteed originally from database) [just an array of strings (name)]
+  };
+
+
+  /********************************************GOOGLE MAPS***********************************************************/
 
   var directionsDisplay; //Displays route on map after we call route() and get the resulting directions. 
   var directionsService = new google.maps.DirectionsService(); //Call route() function on this to get actual directions.
