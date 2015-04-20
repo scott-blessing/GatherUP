@@ -196,30 +196,41 @@
     </div>
     <div class="home-island">
       <h3><u>Edit Supplies</u></h3>
-      <!-- TODO: Edit supplies -->
       <div class="eventview-supplyedit-supply"
            data-ng-repeat="s in fullSupplies">
         <div>
-          Name: <input class="wide" type="text" />
+          Name: <input class="wide" type="text" data-ng-model="s.name"/>
         </div>
         <div class="eventview-supplyedit-quantity"
              data-ng-repeat="q in s.quantities">
           <div>
-            Range: <input type="number"/> to <input type="number" />
+            <span>Range: </span>
+            <input type="number" data-ng-model="q.min" disabled />
+            <span> to </span> 
+            <input type="number" data-ng-model="q.max" 
+                   data-ng-disabled="$index == s.quantities.length-1"
+                   data-ng-change="quantityMaxUpdated(s, $index)"/>
           </div>
           <div>
-            Quantity: <input type="text" />
+            Quantity: <input type="text" data-ng-model="q.quantity"/>
           </div>
           <div>
-            <button class="btn btn-xs btn-info" >+</button>
-            <button class="btn btn-xs btn-warning">-</button>  
+            <button class="btn btn-xs btn-info" 
+                    data-ng-click="addQuantity(s)">+</button>
+            <button class="btn btn-xs btn-warning"
+                    data-ng-click="removeQuantity(s)"
+                    data-ng-disabled="s.quantities.length <= 1">-</button>  
           </div>
         </div>
         <div>
-          <button class="btn btn-xs btn-info">+</button>
-          <button class="btn btn-xs btn-warning">-</button>
+          <button class="btn btn-xs btn-info"
+                  data-ng-click="addSupply()">+</button>
+          <button class="btn btn-xs btn-warning"
+                  data-ng-click="removeSupply()"
+                  data-ng-disabled="fullSupplies.length <= 0">-</button>
         </div>
       </div>
+      <button class="btn btn-primary" data-ng-click="saveSupplyChanges()">Save Changes</button> 
     </div>
   </div>
   <div class="eventview-nonedit" data-ng-show="curEventStatus != eventStatus.HOSTEDIT">
