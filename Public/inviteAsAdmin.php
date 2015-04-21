@@ -19,16 +19,20 @@ if ($_POST['ID'] && $_POST['email'])
 
 		$check = mysqli_fetch_array(mysqli_query($conn, "SELECT * FROM User WHERE Email = '$email'"));
 		$check2 = mysqli_fetch_array(mysqli_query($conn, "SELECT * FROM Attends WHERE UserEmail = '$email' AND EventId = $eventid"));
+		$check3 = mysqli_fetch_array(mysqli_query($conn, "SELECT HostEmail FROM Event WHERE ID = $eventid"));
 		if($check==null)
 		{
-			$data['success'] = false;
 			$data['error'] = "Email does not exist.";
 		}
 		else
 		if($check2!=null)
 		{
-			$data['success'] = false;
 			$data['error'] = "User already invited.";
+		}
+		else
+		if($check3['HostEmail'] == $email)
+		{
+			$data['error'] = "Cannot invite host.";
 		}
 		else
 		{
