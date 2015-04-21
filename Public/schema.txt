@@ -1,0 +1,58 @@
+Database vajpeyi2_gatherup
+Table structure for table Attends
+Column	Type	Null	Default
+UserEmail	varchar(75)	No	
+EventId	int(11)	No	
+Carpool	tinyint(1)	No	
+Seats	int(11)	Yes	NULL
+Status	int(11)	No	
+
+Table structure for table Bringing
+Column	Type	Null	Default
+UserEmail	varchar(75)	No	
+EventId	int(11)	No	
+SuppliesName	varchar(50)	No	
+
+Table structure for table Comment
+Column	Type	Null	Default
+ID	int(11)	No	
+Text	varchar(100)	No	
+Time	datetime	No	
+EventId	int(11)	No	
+UserEmail	varchar(75)	No	
+
+Table structure for table Event
+Column	Type	Null	Default
+ID	int(11)	No	
+Name	varchar(50)	Yes	NULL
+StartTime	datetime	Yes	NULL
+EndTime	datetime	Yes	NULL
+Location	varchar(50)	No	
+Description	varchar(200)	Yes	NULL
+isPublic	tinyint(1)	No	0
+HostEmail	varchar(75)	No	
+lat	decimal(9,6)	No	
+lon	decimal(9,6)	No	
+
+Table structure for table Supplies
+Column	Type	Null	Default
+Name	varchar(50)	No	
+EventId	int(11)	No	
+
+Table structure for table Supply Counts
+Column	Type	Null	Default
+MinAttendeesToNecessetate	int(11)	No	
+MaxAttendeesToNecessetate	int(11)	No	
+Quantity	varchar(50)	No	
+Supply.Name	varchar(30)	No	
+Event.ID	int(11)	No	
+
+Table structure for table User
+Column	Type	Null	Default
+Email	varchar(75)	No	
+Password	char(128)	No	
+Address	varchar(100)	No	
+Username	varchar(50)	No	
+lat	decimal(9,6)	No	
+lon	decimal(9,6)	No	
+
