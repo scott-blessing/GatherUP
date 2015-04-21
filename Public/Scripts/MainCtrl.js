@@ -157,17 +157,13 @@
       min: 0,
       max: 6,
       quantity: "1 bag",
-      initMin: 0,
-      initMax: 6,
-      initQuantity: "1 bag"
+      initMin: 0
     },
     {
       min: 7,
       max: Number.MAX_SAFE_INTEGER,
       quantity: "2 bags",
-      initMin: 7,
-      initMax: Number.MAX_SAFE_INTEGER,
-      initQuantity: "2 bags"
+      initMin: 7
     }]
   },
   {
@@ -177,9 +173,7 @@
       min: 0,
       max: Number.MAX_SAFE_INTEGER,
       quantity: "1 gallon",
-      initMin: 0,
-      initMax: Number.MAX_SAFE_INTEGER,
-      initQuantity: "1 gallon"
+      initMin: 0
     }]
   }];
 
@@ -809,28 +803,39 @@
     //Add supply and quantities to 'removed' arrays
     if (sup.initName != null) {
       removedSupplies.push(sup.initName);
-      for (var i = 0; i < sup.quantities.length; i++) {
-        var quan = sup.quantities[i];
-        if (quan.initMin != null) {
-          removedQuantities.push({
-            name: sup.initName,
-            min: quan.initMin
-          });
-        }
-      }
     }
   };
 
   //Saves the changes made to fullSupplies
   $scope.saveSupplyChanges = function () {
-    //TODO: Validate all inputs filled in
+    //Validate all inputs filled in
+    var allFilledIn = true;
+    for (var i = 0; i < $scope.fullSupplies.length; i++) {
+      var sup = $scope.fullSupplies[i];
+      if (sup.name == null || sup.name == "") {
+        allFilledIn = false;
+        break;
+      }
+      for (var j = 0; j < sup.quantities.length; j++) {
+        var quan = sup.quantities[j];
+        if (quan.quantity == null || quan.quantity == "") {
+          allFilledIn = false;
+          break;
+        }
+        if (quan.max == null) {
+          allFilledIn = false;
+          break;
+        }
+      }
+    }
 
     //TODO: Input changes into database
     //Update/Add everything in fullSupplies
     //  If initVal = null then entry is new and can be added
     //  If initVal != null then entry exists.  Use init vals to update in database
-    //Delete everything in removedQuantities (all guaranteed originally from database)
+    //Delete everything in removedQuantities (all guaranteed originally from database) {name, min}
     //Delete everything in removedSupplies (all guaranteed originally from database) [just an array of strings (name)]
+    //IN THAT ORDER
   };
 
 
