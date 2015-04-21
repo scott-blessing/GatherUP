@@ -479,7 +479,7 @@
         console.log(data);
 
         //Load in supplies
-        supplies = data['supplies'];
+        var supplies = data['supplies'];
         for(var i = 0; i < supplies.length; index++)
         {
           var supply = {
@@ -497,7 +497,7 @@
         $scope.inviteGuestEmail = "";
         initializeMap(); //Displays Google Map.
       });
-		});
+	});
   };
 
   //Loads all supplies data from DB and sends user to edit page
