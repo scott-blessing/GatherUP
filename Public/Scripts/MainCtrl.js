@@ -979,7 +979,7 @@
         stopover: true
       });
     }
-
+	console.log(locations);
     //Specifics of the route request to be sent to Google Maps API. 
     var request = {
       origin: locations[0],
