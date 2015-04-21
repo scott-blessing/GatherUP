@@ -15,7 +15,10 @@ $email = mysqli_real_escape_string($conn, $_POST['email']);
 $result = mysqli_query($conn, "SELECT ID, Name, StartTime, Location, Status FROM Attends LEFT JOIN Event ON EventId = ID WHERE UserEmail='".$email."'");
 $event = mysqli_fetch_array($result);
 while($event != NULL){
-	array_push($data, $event);
+	$endTime = $event['EndTime'];
+	$currTime = date('Y-m-d H:i:s', time());
+	if($endTime > $currTime)
+		array_push($data, $event);
 	$event = mysqli_fetch_array($result);
 }
 
