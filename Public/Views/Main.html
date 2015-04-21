@@ -214,16 +214,20 @@
           <div>
             Quantity: <input type="text" data-ng-model="q.quantity"/>
           </div>
-          <div>
-            <button class="btn btn-xs btn-info" 
-                    data-ng-click="addQuantity(s)">+</button>
-            <button class="btn btn-xs btn-warning"
-                    data-ng-click="removeQuantity(s)"
-                    data-ng-disabled="s.quantities.length <= 1">-</button>  
-          </div>
+        </div>
+        <div class="eventview-supplyedit-buttonrow">
+          <button class="btn btn-xs btn-info"
+                  data-ng-click="addQuantity(s)">
+            +
+          </button>
+          <button class="btn btn-xs btn-warning"
+                  data-ng-click="removeQuantity(s)"
+                  data-ng-disabled="s.quantities.length <= 1">
+            -
+          </button>
         </div>
       </div>
-      <div>
+      <div class="eventview-supplyedit-buttonrow">
         <button class="btn btn-xs btn-info"
                 data-ng-click="addSupply()">
           +
