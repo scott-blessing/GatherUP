@@ -44,7 +44,7 @@
 }
 
 html, body, #map-canvas {
-  height: 500px;
+  height: 100%;
   margin: 0px;
   padding: 0px
 }
