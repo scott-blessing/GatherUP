@@ -19,7 +19,7 @@ if ($_POST['eventid'])
 		$numAttendees = mysqli_fetch_array($attendeesQuery);
 		$numAttendees = $numAttendees['numAttendees'];
 
-		$result = mysqli_query($conn, "SELECT S.Name, \"SC.Quantity\", U.Email, \"U.Name\" FROM Supplies AS S 
+		$result = mysqli_query($conn, "SELECT S.Name, SC.Quantity, U.Email, U.Username FROM Supplies AS S 
 				INNER JOIN SupplyCount AS SC ON SC.EventID = S.EventID AND SC.SupplyName = S.Name 
 				LEFT JOIN Bringing AS B ON S.EventID = B.EventID AND S.Name = B.SuppliesName
 					INNER JOIN User AS U ON B.UserEmail = U.Email
