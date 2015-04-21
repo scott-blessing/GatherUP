@@ -497,7 +497,7 @@
         $scope.inviteGuestEmail = "";
         initializeMap(); //Displays Google Map.
       });
-		});
+	});
   };
 
   //Loads all supplies data from DB and sends user to edit page
@@ -526,9 +526,8 @@
               min: q['SC.MinAttendees'],
               max: q['SC.MaxAttendees'],
               quantity: q['SC.Quantity'],
-              initMin: null,
-              initMax: null,
-              initQuantity: null};
+              initMin: q['SC.MinAttendees']
+            };
             quants.push(quant);
             name = q['S.Name'];
           }
@@ -628,13 +627,15 @@
 		  desc: $scope.curEvent.desc,
 		  isPublic: $scope.curEvent.isPublic
 	  };
+
     $http({
       method: 'POST',
       url: 'updateEvent.php',
       data: $.param(newEvent),  // pass in data as strings
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
     });
-	$scope.curEventStatus = $scope.eventStatus.HOST;
+
+	  $scope.curEventStatus = $scope.eventStatus.HOST;
   };
 
   //Deletes the curEvent from the DB and sends the user back to eventList
