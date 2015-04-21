@@ -498,6 +498,7 @@
     removedSupplies = [];
     removedQuantities = [];
 
+    alert(JSON.stringify($scope.curEvent)); //TODO: Delete after issues solved
     $scope.curEventStatus = $scope.eventStatus.HOSTEDIT;
   };
 
@@ -572,6 +573,8 @@
       return;
     }
 
+    alert(JSON.stringify($scope.curEvent)); //TODO: Delete after issues solved
+
 	  var newEvent = {
 		  ID: $scope.curEvent.ID,
 		  name: $scope.curEvent.name,
@@ -582,11 +585,13 @@
 		  isPublic: $scope.curEvent.isPublic
 	  };
     $http({
-            method: 'POST',
-            url: 'updateEvent.php',
-            data: $.param(newEvent),  // pass in data as strings
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
-          });
+      method: 'POST',
+      url: 'updateEvent.php',
+      data: $.param(newEvent),  // pass in data as strings
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
+    });
+
+    curEventStatus = eventStatus.HOST;
   };
 
   //Deletes the curEvent from the DB and sends the user back to eventList
@@ -838,6 +843,8 @@
     //Delete everything in removedQuantities (all guaranteed originally from database) {name, min}
     //Delete everything in removedSupplies (all guaranteed originally from database) [just an array of strings (name)]
     //IN THAT ORDER
+
+    curEventStatus = eventStatus.HOST;
   };
 
 
