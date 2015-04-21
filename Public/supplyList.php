@@ -22,7 +22,7 @@ if ($_POST['eventid'])
 				INNER JOIN SupplyCounts AS SC ON SC.EventID = S.EventID AND SC.SuppliesName = S.Name 
 					LEFT JOIN Bringing AS B ON S.EventID = B.EventID AND S.Name = B.SuppliesName
 						INNER JOIN User AS U ON B.UserEmail = U.Email
-				WHERE S.EventID=$eventid AND SC.MinAttendees < $numAttendees AND SC.MaxAttendees > $numAttendees");
+				WHERE S.EventID=$eventid AND SC.MinAttendees <= $numAttendees AND SC.MaxAttendees >= $numAttendees");
 		$supplies = mysqli_fetch_array($result);
 		while ($supplies != NULL) {
 			array_push($data['supplies'], $supplies)
