@@ -756,7 +756,7 @@
 
   //Determine carpooling directions to event.
   $scope.getDirections = function () {
-    var locations = []; //Array of locations for driver's trip ([0] is their house, [last] is event location, everything in between is pickups.
+    var locations = []; //Array of locations for driver's trip ([0] is their house, [last] is event location, everything in between is pickups. 
 
 	if (!$scope.curEvent.isCarpooling) { //If driver is not carpooling, just return directions from his/her house to event.
 		//Get logged in user's address. 
@@ -771,6 +771,8 @@
 			var eventAddress = $scope.curEvent.loc; 
 			locations.push(userAddress); //Driver's address - Origin.
 			locations.push(eventAddress); //Event's address - Destination. 
+			console.log(locations); 
+			calcRoute(locations); //Calculates and displays the route.
 		});
 	}
 	else //Else, if person is carpooling, then have figure out carpooling calculations. 
@@ -785,9 +787,9 @@
 		//Push into locations the addresses of people who need to get picked up.
 		locations.push("505 E Healey, Champaign IL");
 		locations.push("992 Quiet Bay Circle, Cicero IN"); //Should contain event's address.
+		calcRoute(locations); //Calculates and displays the route.
 	}
-
-    calcRoute(locations); //Calculates and displays the route.
+	
     $scope.showMap = true;
   };
 
@@ -968,7 +970,7 @@
   //Calculate a route from locations[0] to locations[last] stopping at all intermediate locations and display it on map and direction panel.
   function calcRoute(locations) {
     var len = locations.length; //# of stops in total including destination and driver home. 
-	
+	/*
     var waypts = locations.slice(1, len - 1); //Array of all the intermediate stops i.e. the people that the driver will pick up. 
     var waypts2 = []; //Array containing waypoint objects that Google Maps API will use. 
 	
@@ -979,13 +981,14 @@
         stopover: true
       });
     }
+	*/
 	console.log(locations);
     //Specifics of the route request to be sent to Google Maps API. 
     var request = {
       origin: locations[0],
       destination: locations[len - 1],
-      waypoints: waypts2,
-	  optimizeWaypoints: true,
+      //waypoints: waypts2,
+	  //optimizeWaypoints: true,
       travelMode: google.maps.TravelMode.DRIVING
     };
 
