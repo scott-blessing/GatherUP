@@ -25,7 +25,7 @@ if ($_POST['eventid'])
 				WHERE S.EventID=$eventid AND SC.MinAttendees <= $numAttendees AND SC.MaxAttendees >= $numAttendees");
 		$supplies = mysqli_fetch_array($result);
 		while ($supplies != NULL) {
-			array_push($data['supplies'], $supplies)
+			array_push($data['supplies'], $supplies);
 			$supplies = mysqli_fetch_array($result);
 		}
 

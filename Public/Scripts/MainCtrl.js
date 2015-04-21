@@ -476,7 +476,12 @@
         supplies = data['supplies'];
         for(index = 0; index < supplies.length; index++)
         {
-          var supply = {name: supplies[index]['S.Name'], quantity: supplies[index]['SQ.Quantity'], userEmail: supplies[index]['U.Email'], username: supplies[index]['U.Name']}
+          var supply = {
+            name: supplies[index]['S.Name'], 
+            quantity: supplies[index]['SQ.Quantity'], 
+            userEmail: supplies[index]['U.Email'], 
+            username: supplies[index]['U.Name']
+          };
           $scope.curEvent.supplies.push(supplies);
         }
     });
@@ -505,10 +510,44 @@
 
   //Loads all supplies data from DB and sends user to edit page
   $scope.editCurEvent = function () {
-    //TODO: Load complete supplies data into 'fullSupplies'
+    //: Load complete supplies data into 'fullSupplies'
     // *** each 'quantities' array needs to sorted by 'min' ascending ***
     //Since all of the supplies are being loaded from the DB, set 'init's as well
-
+    /*$http({
+        method: 'POST',
+        url: 'supplyListComplete.php',
+        data: $.param({eventid:eventID}),  // pass in data as strings
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
+      }).success(function (data){
+        console.log(data);
+        var index;
+        supplies = data['supplies'];
+        for(index = 0; index < supplies.length; index++)
+        {
+          var s = supplies[index];
+          var quants = [];
+          var j;
+          var name;
+          for(j = 0; j < s.length; j++){
+            var q = s[j];
+            var quant = {
+              min: q['SC.MinAttendees'],
+              max: q['SC.MaxAttendees'],
+              quantity: q['SC.Quantity'],
+              initMin: null,
+              initMax: null,
+              initQuantity: null};
+            quants.push(quant);
+            name = q['S.Name'];
+          }
+          sup = {
+            name: name,
+            initName: null,
+            quantities: quants
+          };
+          $scope.curEvent.supplies.push(supplies);
+        }
+    });*/
 
     //Reset tracker arrays
     removedSupplies = [];
