@@ -739,6 +739,9 @@
 		//TODO: Do carpooling calculation.
 		//Determine if curUser is a driver or not.
 		//If not driver, return user who is going to pick you up.
+		
+		
+		//Put into locations array all the stops. 
 		locations.push("1517 Thornwood Dr, Downers Grove IL"); //Should contain driver's address.
 		//Push into locations the addresses of people who need to get picked up.
 		locations.push("505 E Healey, Champaign IL");
@@ -942,7 +945,7 @@
     var request = {
       origin: locations[0],
       destination: locations[len - 1],
-      waypoints: waypnts2,
+      waypoints: waypts2,
 	  optimizeWaypoints: true,
       travelMode: google.maps.TravelMode.DRIVING
     };
