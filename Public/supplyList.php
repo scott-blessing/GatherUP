@@ -15,8 +15,9 @@ $data['supplies'] = array();
 if ($_POST['eventid'])
 	{
 		$eventid = mysqli_real_escape_string($conn, $_POST['eventid']);
-		$attendeesQuery = mysqli_query($conn, "SELECT COUNT(UserEmail) FROM Attends WHERE EventID = $eventid");
-		$numAttendees = $attendeesQuery[0];
+		$attendeesQuery = mysqli_query($conn, "SELECT COUNT(UserEmail) AS numAttendees FROM Attends WHERE EventID = $eventid");
+		$numAttendees = mysqli_fetch_array($numAttendees);
+		$numAttendees = $numAttendees['numAttendees'];
 
 		$result = mysqli_query($conn, "SELECT S.Name, SC.Quantity, U.Email, U.Name FROM Supplies AS S 
 				INNER JOIN SupplyCounts AS SC ON SC.EventID = S.EventID AND SC.SuppliesName = S.Name 

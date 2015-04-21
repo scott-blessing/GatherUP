@@ -513,7 +513,7 @@
     //: Load complete supplies data into 'fullSupplies'
     // *** each 'quantities' array needs to sorted by 'min' ascending ***
     //Since all of the supplies are being loaded from the DB, set 'init's as well
-    /*$http({
+    $http({
         method: 'POST',
         url: 'supplyListComplete.php',
         data: $.param({eventid:eventID}),  // pass in data as strings
@@ -547,7 +547,7 @@
           };
           $scope.curEvent.supplies.push(supplies);
         }
-    });*/
+    });
 
     //Reset tracker arrays
     removedSupplies = [];
