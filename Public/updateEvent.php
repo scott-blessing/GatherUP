@@ -25,9 +25,7 @@ if ($_POST['ID'])
 		$status = $xml->status;
 		if ($status == "OK")
 		{
-			//Output to the user that they inputted an invalid address. 
-			$data['success'] = false;
-			$data['error'] = "Invalid address.";
+
 			$lat = $xml->result->geometry->location->lat;
 			$lon = $xml->result->geometry->location->lng;
 			mysqli_query($conn, "UPDATE Event SET Name = '$name',  Location = '$loc', StartTime = '$startTime', EndTime = '$endTime', Description = '$desc', isPublic = $isPublic, Lat = $lat, Lon = $lon WHERE ID = $id");

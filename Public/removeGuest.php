@@ -15,6 +15,7 @@ $attendeeEmail = mysqli_escape_string($conn, $_POST['attendeeEmail']);
 
 $sql = "DELETE FROM `Attends` WHERE `EventID` =  $eventID AND `UserEmail` = '$attendeeEmail'";
 mysqli_query($conn, $sql);
+mysqli_query($conn, "DELETE FROM Bringing WHERE EventId = $eventID AND UserEmail = '$attendeeEmail'");
 $data['log'] = $sql;
 
 //STUFF - '".$_POST['ID']"' AND email = '".$_POST['email']"'"

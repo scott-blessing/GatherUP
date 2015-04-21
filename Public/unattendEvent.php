@@ -15,6 +15,7 @@ if ($_POST['ID'] && $_POST['email'])
 		$id=mysqli_real_escape_string($conn, $_POST['ID']);
 		$email=mysqli_real_escape_string($conn, $_POST['email']);
 		mysqli_query($conn, "DELETE FROM Attends WHERE UserEmail = '".$email."' AND EventID = '".$id."'");
+		mysqli_query($conn, "DELETE FROM Bringing WHERE UserEmail = '$email' AND EventId = $id");
 		$data['log'] = "DELETE FROM Attends WHERE UserEmail = '".$_POST['email']."' AND EventID = '".$_POST['ID']."'";
 	}
 mysqli_close($conn);	
