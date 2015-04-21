@@ -440,8 +440,8 @@
 			$scope.curEvent.endTime = formatDate(data['EndTime']);
 			$scope.curEvent.desc = data['Description'];
 			$scope.curEvent.hostName = data['hostName'];
-			$scope.curEvent.isPublic = Boolean(data['isPublic']);
-			$scope.curEvent.isCarpooling = Boolean(data['isCarpooling']);
+			$scope.curEvent.isPublic = Boolean(Number(data['isPublic']));
+			$scope.curEvent.isCarpooling = Boolean(Number(data['isCarpooling']));
 			$scope.curEvent.numOpenSeats = data['numOpenSeats'];
 
 			var index;
