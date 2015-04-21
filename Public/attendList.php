@@ -12,7 +12,7 @@ $data = array();
 
 $username = mysqli_real_escape_string($conn, $_POST['name']); 
 $email = mysqli_real_escape_string($conn, $_POST['email']); 
-$result = mysqli_query($conn, "SELECT ID, Name, StartTime, Location, Status FROM Attends LEFT JOIN Event ON EventId = ID WHERE UserEmail='".$email."'");
+$result = mysqli_query($conn, "SELECT ID, Name, StartTime, EndTime, Location, Status FROM Attends LEFT JOIN Event ON EventId = ID WHERE UserEmail='".$email."'");
 $event = mysqli_fetch_array($result);
 while($event != NULL){
 	$endTime = $event['EndTime'];

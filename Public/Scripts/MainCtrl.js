@@ -728,12 +728,11 @@
 			headers: { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
 		}).success(function (data) {
 			console.log(data);
+			var userAddress = data['userAddress']; 
+			var eventAddress = $scope.curEvent.loc; 
+			locations.push(userAddress); //Driver's address - Origin.
+			locations.push(eventAddress); //Event's address - Destination. 
 		});
-		
-		var userAddress = data['userAddress]; 
-		var eventAddress = $scope.curEvent.loc; 
-		locations.push(userAddress); //Driver's address - Origin.
-		locations.push(eventAddress); //Event's address - Destination. 
 	}
 	else //Else, if person is carpooling, then have figure out carpooling calculations. 
 	{	
