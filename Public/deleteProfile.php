@@ -11,6 +11,5 @@ $conn = mysqli_connect($host, $username, $password, $db_name) or die("cannot con
 if ($_POST['email'])
 	{
 		mysqli_query($conn, "DELETE FROM User WHERE Email='".$_POST['email']."'");
-		mysqli_query($conn, "DELETE FROM Event WHERE HostEmail='".$_POST['email']."'");
 	}
 ?>
