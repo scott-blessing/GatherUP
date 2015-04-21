@@ -24,6 +24,17 @@
   float: right; 
 }
 
+.eventview-supplyedit-supply {
+  padding: 5px 0px;
+  border-bottom: solid 1px gray;
+}
+
+.eventview-supplyedit-quantity {
+  margin-left: 10px;
+  padding-left: 5px;
+  border-left: solid 1px darkgray;
+}
+
 html, body, #map-canvas {
   height: 100%;
   margin: 0px;

@@ -725,7 +725,9 @@
     var quan = supply.quantities[index];
 
     //Force integer >= min
-    quan.max = quan.max.toFixed(0);
+    if (quan.max == null)
+      quan.max = quan.min;
+    quan.max = Math.floor(quan.max);
     if (quan.max < quan.min)
       quan.max = quan.min;
 
