@@ -440,8 +440,8 @@
 			$scope.curEvent.endTime = formatDate(data['EndTime']);
 			$scope.curEvent.desc = data['Description'];
 			$scope.curEvent.hostName = data['hostName'];
-			$scope.curEvent.isPublic = boolean(data['isPublic']);
-			$scope.curEvent.isCarpooling = boolean(data['isCarpooling']);
+			$scope.curEvent.isPublic = Boolean(data['isPublic']);
+			$scope.curEvent.isCarpooling = Boolean(data['isCarpooling']);
 			$scope.curEvent.numOpenSeats = data['numOpenSeats'];
 
 			var index;
@@ -589,9 +589,8 @@
       url: 'updateEvent.php',
       data: $.param(newEvent),  // pass in data as strings
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
-    }).success(function () {
-      curEventStatus = eventStatus.HOST;
     });
+	curEventStatus = $scope.eventStatus.HOST;
   };
 
   //Deletes the curEvent from the DB and sends the user back to eventList
@@ -856,7 +855,7 @@
     //Delete everything in removedSupplies (all guaranteed originally from database) [just an array of strings (name)]
     //IN THAT ORDER
 
-    curEventStatus = eventStatus.HOST; //Put this line into success callback
+    curEventStatus = $scope.eventStatus.HOST; 
   };
 
 
