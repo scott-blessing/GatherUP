@@ -791,6 +791,7 @@
 	}
 	
     $scope.showMap = true;
+
   };
 
   /********************************************SUPPLIES EDITOR*******************************************************/
@@ -960,7 +961,6 @@
 
     directionsDisplay.setMap(map); //Map
     directionsDisplay.setPanel(document.getElementById('directions-panel')); //Panel with step-by-step directions.
-
     //Not sure what 3 lines below this do - seem useless. 
     //var control = document.getElementById('control');
     //control.style.display = 'block';
