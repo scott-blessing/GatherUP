@@ -16,7 +16,7 @@ $sql = "SELECT Address FROM `User` WHERE email = '$userEmail'";
 $result = mysqli_query($conn, $sql);
 
 $userAddress = mysqli_fetch_array($result); 
-$userAddress =  $useraddress['Address']; 
+$userAddress =  $userAddress['Address']; 
 
 $data['userAddress'] = $userAddress;
 
