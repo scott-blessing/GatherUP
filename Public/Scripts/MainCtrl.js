@@ -590,7 +590,7 @@
       data: $.param(newEvent),  // pass in data as strings
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
     });
-	curEventStatus = $scope.eventStatus.HOST;
+	$scope.curEventStatus = $scope.eventStatus.HOST;
   };
 
   //Deletes the curEvent from the DB and sends the user back to eventList
@@ -855,7 +855,7 @@
     //Delete everything in removedSupplies (all guaranteed originally from database) [just an array of strings (name)]
     //IN THAT ORDER
 
-    curEventStatus = $scope.eventStatus.HOST; 
+    $scope.curEventStatus = $scope.eventStatus.HOST; 
   };
 
 
