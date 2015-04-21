@@ -846,6 +846,11 @@
         }
       }
     }
+	
+	if(!allFilledIn){
+		alert("You must fill in all fields");
+		return;
+	}
 
     //TODO: Input changes into database
     //Update/Add everything in fullSupplies
