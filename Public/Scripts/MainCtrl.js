@@ -432,7 +432,9 @@
       data: $.param({ID:eventID, email:$scope.user.email}),  // pass in data as strings
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
     }).success(function (data){
-			console.log(data);
+      console.log(data);
+
+      //Load values into curEvent
 			$scope.curEvent.ID = data['ID'];
 			$scope.curEvent.name = data['Name'];
 			$scope.curEvent.loc = data['Location'];
@@ -448,10 +450,12 @@
 			var guests = data['guests'];
 			var comments = data['comments'];
 
+      //Reset curEvent arrays
 			$scope.curEvent.guests = [];
 			$scope.curEvent.supplies = [];
 			$scope.curEvent.comments = [];
 
+      //Load in guests
 			for	(index = 0; index < guests.length; index++) {
 				var stat = guests[index]['Status'];
 				if(stat == 2)
@@ -460,6 +464,7 @@
 				$scope.curEvent.guests.push(guest);
 			}
 
+      //Load in comments
 			for (index = 0; index < comments.length; index++) {
 				var comment = {ID: comments[index]['ID'], email: comments[index]['Email'], username: comments[index]['Username'], text: comments[index]['Text'], date: formatDate(comments[index]['Time'])}
 				$scope.curEvent.comments.push(comment);
@@ -472,39 +477,26 @@
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
       }).success(function (data){
         console.log(data);
-        var index;
-        supplies = data['supplies'];
-        for(index = 0; index < supplies.length; index++)
+
+        //Load in supplies
+        var supplies = data['supplies'];
+        for(var i = 0; i < supplies.length; index++)
         {
           var supply = {
-            name: supplies[index]['S.Name'], 
-            quantity: supplies[index]['SQ.Quantity'], 
-            userEmail: supplies[index]['U.Email'], 
-            username: supplies[index]['U.Name']
+            name: supplies[i]['S.Name'], 
+            quantity: supplies[i]['SQ.Quantity'], 
+            userEmail: supplies[i]['U.Email'], 
+            username: supplies[i]['U.Name']
           };
-          $scope.curEvent.supplies.push(supplies);
+          $scope.curEvent.supplies.push(supply);
         }
-    });
-      //TODO: Test loading in of supplies
-      // Old filler code
-			/*$scope.curEvent.supplies.push({
-			  name: "Ribs",
-			  quantity: "5 lbs",
-			  userEmail: "bob@bob.com",
-			  username: "Bob Vance"
-			});
-			$scope.curEvent.supplies.push({
-        name: "BBQ Sauce",
-        quantity: "700 gallons",
-        userEmail: null,
-        username: null
-      });*/
 
-
-			$scope.curPageType = $scope.pageType.EVENTVIEW;
-			$scope.curEventStatus = status;
-			$scope.inviteGuestEmail = "";
-			initializeMap(); //Displays Google Map.
+        //Switch page to eventview
+        $scope.curPageType = $scope.pageType.EVENTVIEW;
+        $scope.curEventStatus = status;
+        $scope.inviteGuestEmail = "";
+        initializeMap(); //Displays Google Map.
+      });
 		});
   };
 
@@ -547,14 +539,13 @@
           };
           $scope.curEvent.supplies.push(supplies);
         }
+
+        //Reset tracker arrays
+        removedSupplies = [];
+        removedQuantities = [];
+
+        $scope.curEventStatus = $scope.eventStatus.HOSTEDIT;
     });
-
-    //Reset tracker arrays
-    removedSupplies = [];
-    removedQuantities = [];
-
-    alert(JSON.stringify($scope.curEvent)); //TODO: Delete after issues solved
-    $scope.curEventStatus = $scope.eventStatus.HOSTEDIT;
   };
 
   //Propts the user for comment text, then creates the comment
@@ -627,8 +618,6 @@
       alert("Your event's end time must be after its start time");
       return;
     }
-
-    alert(JSON.stringify($scope.curEvent)); //TODO: Delete after issues solved
 
 	  var newEvent = {
 		  ID: $scope.curEvent.ID,
@@ -790,6 +779,7 @@
 	}
 	
     $scope.showMap = true;
+
   };
 
   /********************************************SUPPLIES EDITOR*******************************************************/
@@ -959,7 +949,6 @@
 
     directionsDisplay.setMap(map); //Map
     directionsDisplay.setPanel(document.getElementById('directions-panel')); //Panel with step-by-step directions.
-
     //Not sure what 3 lines below this do - seem useless. 
     //var control = document.getElementById('control');
     //control.style.display = 'block';
