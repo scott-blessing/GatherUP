@@ -20,7 +20,7 @@ if ($_POST['eventid'])
 		$numAttendees = $numAttendees['numAttendees'];
 
 		$result = mysqli_query($conn, "SELECT S.Name, SC.Quantity, U.Email, U.Name FROM Supplies AS S 
-				INNER JOIN Supply Counts AS SC ON SC.EventID = S.EventID AND SC.SupplyName = S.Name 
+				INNER JOIN SupplyCounts AS SC ON SC.EventID = S.EventID AND SC.SupplyName = S.Name 
 				LEFT JOIN Bringing AS B ON S.EventID = B.EventID AND S.Name = B.SuppliesName
 					INNER JOIN User AS U ON B.UserEmail = U.Email
 				WHERE S.EventID=$eventid AND SC.MinAttendeesToNecessetate <= $numAttendees AND SC.MaxAttendeesToNecessetate >= $numAttendees");
