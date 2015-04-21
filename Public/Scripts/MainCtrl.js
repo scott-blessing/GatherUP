@@ -499,7 +499,7 @@
 			$scope.curPageType = $scope.pageType.EVENTVIEW;
 			$scope.curEventStatus = status;
 			$scope.inviteGuestEmail = "";
-			initializeMap();
+			initializeMap(); //Displays Google Map.
 		});
   };
 
@@ -715,20 +715,22 @@
 
   $scope.showMap = false;
 
-  //Determine carpooling directions to event
+  //Determine carpooling directions to event.
   $scope.getDirections = function () {
-    //TODO: Generate carpooling setup
-    //Determine if curUser is a driver or not
-    //If driver/not carpooling, return directions
-    //If not driver, return user who is
+    //TODO: Generate carpooling setup.
+    //Determine if curUser is a driver or not.
+    //If driver/not carpooling, return directions.
+    //If not driver, return user who is going to pick you up.
 
-    var locations = []; //Array of locations for driver's trip ([0] is their house, [last] is event location, [mid] is pickups)
+    var locations = []; //Array of locations for driver's trip ([0] is their house, [last] is event location, everything in between is pickups.
 
-    locations.push("1517 Thornwood Dr, Downers Grove IL");
+    locations.push("1517 Thornwood Dr, Downers Grove IL"); //Should contain driver's address.
+	//Push into locations the addresses of people who need to get picked up.
     locations.push("505 E Healey, Champaign IL");
-    locations.push("992 Quiet Bay Circle, Cicero IN");
+	
+    locations.push("992 Quiet Bay Circle, Cicero IN"); //Should contain event's address.
 
-    calcRoute(locations);
+    calcRoute(locations); //Calculates and displays the route.
     $scope.showMap = true;
   };
 
@@ -900,46 +902,49 @@
     directionsDisplay.setMap(map); //Map
     directionsDisplay.setPanel(document.getElementById('directions-panel')); //Panel with step-by-step directions.
 
-    //Not sure what 3 lines below this do. 
+    //Not sure what 3 lines below this do - seem useless. 
     //var control = document.getElementById('control');
     //control.style.display = 'block';
     //map.controls[google.maps.ControlPosition.TOP_CENTER].push(control);
   }
 
-  //Calculate a route from locations[0] to locations[last] stopping at all intermediate locs
+  //Calculate a route from locations[0] to locations[last] stopping at all intermediate locations and display it on map and direction panel.
   function calcRoute(locations) {
-
-    var len = locations.length;
-    var waypnts = locations.slice(1, len - 1);
-    var waypnts2 = [];
-    for (var i = 0; i < waypnts.length; i++) {
-      waypnts2.push({
-        location: waypnts[i],
+    var len = locations.length; //# of stops in total including destination and driver home. 
+	
+    var waypts = locations.slice(1, len - 1); //Array of all the intermediate stops i.e. the people that the driver will pick up. 
+    var waypts2 = []; //Array containing waypoint objects that Google Maps API will use. 
+	
+	//Fill waypts2 array, which contains waypoint objects that Google Maps API will use. 
+    for (var i = 0; i < waypts.length; i++) {
+      waypts2.push({
+        location: waypts[i],
         stopover: true
       });
     }
 
-    //Specifics of the route request. 
+    //Specifics of the route request to be sent to Google Maps API. 
     var request = {
       origin: locations[0],
       destination: locations[len - 1],
       waypoints: waypnts2,
+	  optimizeWaypoints: true,
       travelMode: google.maps.TravelMode.DRIVING
     };
 
     //Call route() function with request and callback function to actual get the route. 
     directionsService.route(request,
     function (response, status) {
-      if (status == google.maps.DirectionsStatus.OK) {
+      if (status == google.maps.DirectionsStatus.OK)  {
         directionsDisplay.setDirections(response);
       }
-    }
-    );
-  }
+    } //End of callback function. 
+    ); //End of route() request.
+  } //End of calcRoute()
 
   /********************************************PROFILE***************************************************************/
 
-  //Swithches the page to profile and loads in userData
+  //Switches the page to profile and loads in userData
   $scope.loadProfilePage = function () {
     console.log("Profile");
     $http({

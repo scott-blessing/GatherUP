@@ -9,20 +9,23 @@ $db_name = "vajpeyi2_gatherup"; //Database name
 $conn = mysqli_connect($host, $username, $password, $db_name) or die("cannot connect server ");
 
 $data = array();
-$data['success']=false;
-$data['error']="Invalid parameters";
+$data['success'] = false;
+$data['error'] = "Invalid parameters";
 
 if ($_POST['email'] && $_POST['eventid']) && $_POST['isCarpooling'] && $_POST['numOpenSeats'])
-	{
-		$email = mysqli_real_escape_string($conn, $_POST['email']);
-		$eventid = mysqli_real_escape_string($conn, $_POST['eventid']);
-		$isCarpooling = mysqli_real_escape_string($conn, $_POST['isCarpooling']);
-		$numOpenSeats = mysqli_real_escape_string($conn, $_POST['numOpenSeats']);
+{
+	$email = mysqli_real_escape_string($conn, $_POST['email']);
+	$eventid = mysqli_real_escape_string($conn, $_POST['eventid']);
+	$isCarpooling = mysqli_real_escape_string($conn, $_POST['isCarpooling']);
+	$numOpenSeats = mysqli_real_escape_string($conn, $_POST['numOpenSeats']);
 
-		mysqli_query($conn, "INSERT INTO 'Attending' SET Carpool = '$isCarpooling', Seats = '$numOpenSeats' WHERE Email = '$eventid' AND EventID = '$eventid'");
-		$data['success'] = true;
-		$data['error'] = "";
-	}
+	mysqli_query($conn, "INSERT INTO 'Attending' SET Carpool = '$isCarpooling', Seats = '$numOpenSeats' WHERE Email = '$email' AND EventID = '$eventid'");
+	
+	$data['success'] = true;
+	$data['error'] = "";
+}
+
+
 mysqli_close($conn);
 echo(json_encode($data));
 ?>
