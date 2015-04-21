@@ -480,7 +480,8 @@
           $scope.curEvent.supplies.push(supplies);
         }
     });
-      //TODO: Actually load in supplies
+      //TODO: Test loading in of supplies
+      // Old filler code
 			/*$scope.curEvent.supplies.push({
 			  name: "Ribs",
 			  quantity: "5 lbs",
