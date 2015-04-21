@@ -771,7 +771,6 @@
 			var eventAddress = $scope.curEvent.loc; 
 			locations.push(userAddress); //Driver's address - Origin.
 			locations.push(eventAddress); //Event's address - Destination. 
-			console.log(locations); 
 			calcRoute(locations); //Calculates and displays the route.
 		});
 	}
