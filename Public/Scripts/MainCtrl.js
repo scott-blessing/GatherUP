@@ -465,8 +465,23 @@
 				$scope.curEvent.comments.push(comment);
 			}
 
+      $http({
+        method: 'POST',
+        url: 'supplyList.php',
+        data: $.param({eventid:eventID}),  // pass in data as strings
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
+      }).success(function (data){
+        console.log(data);
+        var index;
+        supplies = data['supplies'];
+        for(index = 0; index < supplies.length; index++)
+        {
+          var supply = {name: supplies[index]['S.Name'], quantity: supplies[index]['SQ.Quantity'], userEmail: supplies[index]['U.Email'], username: supplies[index]['U.Name']}
+          $scope.curEvent.supplies.push(supplies);
+        }
+    });
       //TODO: Actually load in supplies
-			$scope.curEvent.supplies.push({
+			/*$scope.curEvent.supplies.push({
 			  name: "Ribs",
 			  quantity: "5 lbs",
 			  userEmail: "bob@bob.com",
@@ -477,7 +492,7 @@
         quantity: "700 gallons",
         userEmail: null,
         username: null
-      });
+      });*/
 
 
 			$scope.curPageType = $scope.pageType.EVENTVIEW;
