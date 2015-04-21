@@ -480,6 +480,9 @@
 
         //Load in supplies
         var supplies = data['supplies'];
+        if (supplies == null)
+          supplies = [];
+
         for(var i = 0; i < supplies.length; index++)
         {
           var supply = {
