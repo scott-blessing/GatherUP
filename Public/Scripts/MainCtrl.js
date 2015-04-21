@@ -276,7 +276,7 @@
 		  }
     });
 
-    //Invited and Attnding Events
+    //Invited and Attending Events
 	  $http({
 		  method: 'POST',
 		  url: 'attendList.php',
@@ -717,18 +717,34 @@
 
   //Determine carpooling directions to event.
   $scope.getDirections = function () {
-    //TODO: Generate carpooling setup.
-    //Determine if curUser is a driver or not.
-    //If driver/not carpooling, return directions.
-    //If not driver, return user who is going to pick you up.
-
     var locations = []; //Array of locations for driver's trip ([0] is their house, [last] is event location, everything in between is pickups.
 
-    locations.push("1517 Thornwood Dr, Downers Grove IL"); //Should contain driver's address.
-	//Push into locations the addresses of people who need to get picked up.
-    locations.push("505 E Healey, Champaign IL");
-	
-    locations.push("992 Quiet Bay Circle, Cicero IN"); //Should contain event's address.
+	if (!$scope.curEvent.isCarpooling) { //If driver is not carpooling, just return directions from his/her house to event.
+		//Get logged in user's address. 
+		$http({
+			method: 'POST',
+			url: 'getUserAddress.php',
+			data: $.param({email:$scope.user.email}),  // pass in data as strings
+			headers: { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
+		}).success(function (data) {
+			console.log(data);
+		});
+		
+		var userAddress = data['userAddress]; 
+		var eventAddress = $scope.curEvent.loc; 
+		locations.push(userAddress); //Driver's address - Origin.
+		locations.push(eventAddress); //Event's address - Destination. 
+	}
+	else //Else, if person is carpooling, then have figure out carpooling calculations. 
+	{	
+		//TODO: Do carpooling calculation.
+		//Determine if curUser is a driver or not.
+		//If not driver, return user who is going to pick you up.
+		locations.push("1517 Thornwood Dr, Downers Grove IL"); //Should contain driver's address.
+		//Push into locations the addresses of people who need to get picked up.
+		locations.push("505 E Healey, Champaign IL");
+		locations.push("992 Quiet Bay Circle, Cicero IN"); //Should contain event's address.
+	}
 
     calcRoute(locations); //Calculates and displays the route.
     $scope.showMap = true;
