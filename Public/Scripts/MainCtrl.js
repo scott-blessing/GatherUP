@@ -511,7 +511,7 @@
     $http({
         method: 'POST',
         url: 'supplyListComplete.php',
-        data: $.param({eventid:eventID}),  // pass in data as strings
+        data: $.param({eventid: $scope.curEvent.ID}),  // pass in data as strings
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
       }).success(function (data){
         console.log(data);
