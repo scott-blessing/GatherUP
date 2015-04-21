@@ -733,21 +733,26 @@
     if (quan.max == null)
       quan.max = quan.min;
     quan.max = Math.floor(quan.max);
-    if (quan.max < quan.min)
+    if (quan.max < quan.min) {
       quan.max = quan.min;
+    } 
 
     //Cause next quantity to have min = max+1
     var len = supply.quantities.length;
     if (index < len - 1) {
       supply.quantities[index + 1].min = quan.max + 1;
+      $scope.quantityMinUpdated(supply, index + 1);
     }
   };
 
   //Called when a quantity's min value is changed
   $scope.quantityMinUpdated = function (supply, index) {
     var quan = supply.quantities[index];
-    if (quan.max < quan.min)
+    if (quan.max < quan.min) {
       quan.max = quan.min;
+      $scope.quantityMaxUpdated(supply, index);
+    }
+      
   };
 
   //Add a quantity to the given supply
