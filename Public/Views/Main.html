@@ -205,7 +205,8 @@
              data-ng-repeat="q in s.quantities">
           <div>
             <span>Range: </span>
-            <input type="number" data-ng-model="q.min" disabled />
+            <input type="number" data-ng-model="q.min" disabled
+                   data-ng-change="quantityMinUpdated(s, $index)" />
             <span> to </span> 
             <input type="number" data-ng-model="q.max" 
                    data-ng-disabled="$index == s.quantities.length-1"

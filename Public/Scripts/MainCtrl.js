@@ -743,6 +743,13 @@
     }
   };
 
+  //Called when a quantity's min value is changed
+  $scope.quantityMinUpdated = function (supply, index) {
+    var quan = supply.quantities[index];
+    if (quan.max < quan.min)
+      quan.max = quan.min;
+  };
+
   //Add a quantity to the given supply
   $scope.addQuantity = function (supply) {
     var len = supply.quantities.length;
