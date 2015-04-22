@@ -539,14 +539,20 @@
               curSupply = { name: curName, initName: curName, quantities: [] };
             }
             if (curName === sName) {
-              curSupply.quantities.push({ min: s.MinGuests, initMin: s.MinGuests, max: s.MaxGuests, quantity: s.Quantity });
+              curSupply.quantities.push({
+                min: Number(s.MinGuests), initMin: Number(s.MinGuests),
+                max: Number(s.MaxGuests), quantity: s.Quantity
+              });
             }
             else {
               $scope.fullSupplies.push(curSupply);
               curName = sName;
               curSupply = {
                 name: curName, initName: curName,
-                quantities: [{ min: s.MinGuests, initMin: s.MinGuests, max: s.MaxGuests, quantity: s.Quantity }]
+                quantities: [{
+                  min: Number(s.MinGuests), initMin: Number(s.MinGuests),
+                  max: Number(s.MaxGuests), quantity: s.Quantity
+                }]
               };
             }
           }
