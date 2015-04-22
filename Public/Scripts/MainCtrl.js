@@ -488,10 +488,10 @@
         for(var i = 0; i < supplies.length; index++)
         {
           var supply = {
-            name: supplies[i]['S.Name'], 
-            quantity: supplies[i]['SQ.Quantity'], 
-            userEmail: supplies[i]['U.Email'], 
-            username: supplies[i]['U.Name']
+            name: supplies[i]['SupplyName'], 
+            quantity: supplies[i]['Quantity'], 
+            userEmail: supplies[i]['UserEmail'], 
+            username: supplies[i]['Username']
           };
           $scope.curEvent.supplies.push(supply);
         }
