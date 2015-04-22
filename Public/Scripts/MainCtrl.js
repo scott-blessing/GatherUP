@@ -508,6 +508,9 @@
     //: Load complete supplies data into 'fullSupplies'
     // *** each 'quantities' array needs to sorted by 'min' ascending ***
     //Since all of the supplies are being loaded from the DB, set 'init's as well
+
+    $scope.fullSupplies = [];
+
     $http({
         method: 'POST',
         url: 'supplyListComplete.php',
@@ -515,32 +518,40 @@
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
       }).success(function (data){
         console.log(data);
-        var index;
-        supplies = data['supplies'];
-        for(index = 0; index < supplies.length; index++)
-        {
-          var s = supplies[index];
-          var quants = [];
-          var j;
-          var name;
-          for(j = 0; j < s.length; j++){
-            var q = s[j];
-            var quant = {
-              min: q['SC.MinAttendees'],
-              max: q['SC.MaxAttendees'],
-              quantity: q['SC.Quantity'],
-              initMin: q['SC.MinAttendees']
-            };
-            quants.push(quant);
-            name = q['S.Name'];
+
+        var supplies = data['supplies']; //1D array ordered by name, min (Name, Quantity, MinGuests, MaxGuests)
+        if (supplies == null)
+          supplies = [];
+          
+
+        alert("From DB: " + JSON.stringify(supplies));
+
+        if (supplies.length > 0) {
+          var curName = "";
+          var curSupply = null;
+          for (var i = 0; i < supplies.length; i++) {
+            var s = supplies[i];
+            var sName = s.Name;
+            if (curName === "") {
+              curName = sName;
+              curSupply = { name: curName, initName: curName };
+            }
+            if (curName === sName) {
+              curSupply.quantities.push({ min: s.MinGuests, initMin: s.MinGuests, max: s.MaxGuests, quantity: s.Quantity });
+            }
+            else {
+              $scope.fullSupplies.push(curSupply);
+              curName = sName;
+              curSupply = {
+                name: curName, initName: curName,
+                quantities: [{ min: s.MinGuests, initMin: s.MinGuests, max: s.MaxGuests, quantity: s.Quantity }]
+              };
+            }
           }
-          sup = {
-            name: name,
-            initName: null,
-            quantities: quants
-          };
-          $scope.curEvent.supplies.push(supplies);
+          $scope.fullSupplies.push(curSupply);
         }
+        
+        alert("After Reading: " + JSON.stringify($scope.fullSupplies));
 
         //Reset tracker arrays
         removedSupplies = [];
