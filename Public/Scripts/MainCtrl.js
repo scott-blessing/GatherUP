@@ -725,8 +725,8 @@
             console.log(data);
           });
 
-    supply.userEmail = user.email;
-    supply.username = user.name;
+    supply.userEmail = $scope.user.email;
+    supply.username = $scope.user.name;
   };
 
   //Set user as no longer bringing supply
@@ -735,7 +735,7 @@
 
     $http({
             method: 'POST',
-            url: 'bringSupply.php',
+            url: 'bailOnSupply.php',
             data: $.param({email:$scope.user.email, ID:$scope.curEvent.ID, name:supply.name}),  // pass in data as strings
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
           }).success(function (data) {
