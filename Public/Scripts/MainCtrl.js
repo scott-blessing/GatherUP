@@ -966,6 +966,13 @@
     //  Delete anything in SupplyCount with (name, $scope.cureEvent.ID)
 
     //IN THAT ORDER
+    $http({
+      method: 'POST',
+      url: 'updateSupplyList.php',
+      data: $.param({supplies:$scope.fullSupplies, removedQuantities: removedQuantities,  removedSupplies: removedSupplies}),  // pass in data as strings
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
+    }).success(function (data) {
+    });
 
     $scope.curEventStatus = $scope.eventStatus.HOST; 
   };
