@@ -16,20 +16,20 @@ function tree(&$tree, &$leaves, &$data)
 	$newLeaf;
 	$index;
 	$newEmail;
-	$data['tree']=true;
 	for($i=0; $i<sizeof($leaves); $i++){
 		$leaf = $leaves[i];
-		$data['tree']=$leaf;
+		array_push($data['tree'], $leaf->myUsername);
 		foreach((array)$leaf->otherCarpoolers as $email => $carpooler){
-			$data['child'] = $carpooler;
+			array_push($data['tree'], $email);
 			if($carpooler[1] < $minval && $carpooler[0]->myNumOfSeats > $leaf->height && !in_array($email, $tree)){
 				$minval = $carpooler[1];
 				$newLeaf = $carpooler[0];
 				$index = $i;
 				$newEmail = $email;
-				$data['found']=true;
+				array_push($data['tree'], $email);
 			}
-		}	
+		}
+		array_push($data['tree'], "//////");	
 	}
 	if($minval==1000000)
 		return;
@@ -155,16 +155,14 @@ foreach((array)$peopleCarpooling as $email => $carpooler)
 	$eventNode->addCarpooler($email, [$carpooler, $distanceToEvent]);
 }
 
-$data['event'] = $eventNode;
 $leaves = array(); 
 array_push($leaves, $eventNode);
-
+$data['tree']=array();
 $tree = array(); 
 
 tree($tree, $leaves, $data);
 
 $queryingCarpooler = $peopleCarpooling[$email]; //Dude who asked for directions.
-$data['Searcher'] = $queryingCarpooler;
 $child = $queryingCarpooler->child; 
 $isDriver = true;
 $arrayOfAddresses = array();   
