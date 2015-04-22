@@ -12,10 +12,11 @@ $conn = mysqli_connect($host, $username, $password, $db_name) or die("cannot con
 $data = array();
 $data['success']=false;
 $data['error']="Invalid parameters";
-$data['supplies'] = array();
 
 if ($_POST['eventid'])
 	{
+
+		$data['error'] = "start\n";
 		$eventid = mysqli_real_escape_string($conn, $_POST['eventid']);
 
 		$supplies = $_POST['supplies'];
@@ -23,15 +24,18 @@ if ($_POST['eventid'])
 		// UPDATE or CREATE any nessesary supplies
 		for($i=0;$i<count($supplies);$i++)
 		{
+			$data['error'] += "Got supply\n";
 			$supply = $supplies[$i];
 			$supply_name = "";
 
 			if($supply['initName'] == null)
 			{	
+				$data['error'] += "initName null\n";
 				$supply_name = $supply['name'];
 			}
 			else
 			{
+				$data['error'] += "initName not null\n";
 				$old_name = $supply['initName'];
 				$supply_name = $supply['name'];
 
@@ -39,33 +43,43 @@ if ($_POST['eventid'])
 				mysqli_query($conn, "UPDATE SupplyCount SET SupplyName='$supply_name' WHERE EventID = $eventid AND SupplyName = '$old_name'");
 				mysqli_query($conn, "UPDATE Bringing SET SuppliesName='$supply_name' WHERE EventID = $eventid AND SuppliesName = '$old_name'");
 			}
-			
+			$data['error'] += "get quantities\n";
 			$quantities = $supply['quantities'];
 			
 			// UPDATE or CREATE Supply Counts
 			for($j=0;$j<count($quantities);$j++)
 			{
+				$data['error'] += "got a quant\n";
 				$quantity = $quantities[$j];
 
-				if($quantities['initMin'] == null)
+				if($quantity['initMin'] == null)
 				{
+					$data['error'] += "new quant\n";
 					// Create the new quantity
-					$result = mysqli_query($conn, "INSERT INTO SupplyCount (SupplyName, EventID, Quantity, MinAttendeesToNecessetate, MaxAttendeesToNecessetate) VALUES ('$supply_name', $eventid, ".$quantities['quantity'].", ".$quantities['min'].",".$quantities['max'].")");
+					$query = "INSERT INTO SupplyCount (SupplyName, EventID, Quantity, MinAttendeesToNecessetate, MaxAttendeesToNecessetate) VALUES ('$supply_name', $eventid, ".$quantity['quantity'].", ".$quantity['min'].",".$quantity['max'].")";
+					$result = mysqli_query($conn, $query);
+					$data['query'] = $query;
 					if($result == false)
 					{
+						$data['error'] += "sql error\n";
 						$data['success'] = false;
-						$data['error'] = "Bad supply count insert";
+						//$data['error'] = "Bad supply count insert";
+						break;
 					}
 
 				}
 				else
 				{
-					// Update the quantity
-					mysqli_query($conn, "UPDATE SupplyCount SET SupplyName = '$supply_name',
+					$data['error'] += "update quant\n";
+					$query = "UPDATE SupplyCount SET SupplyName = '$supply_name',
 						EventID = $eventid,
-						Quantity = ".$quantities['quantity'].",
-						MinAttendeesToNecessetate = ".$quantities['min'].",
-						MaxAttendeesToNecessetate = ".$quantities['max']." WHERE EvnetID = $eventid AND SupplyName = '$supply_name'");
+						Quantity = ".$quantity['quantity'].",
+						MinAttendeesToNecessetate = ".$quantity['min'].",
+						MaxAttendeesToNecessetate = ".$quantity['max']." WHERE EventID = $eventid AND SupplyName = '$supply_name'
+							AND MinAttendeesToNecessetate = ".$quantity['initMin']."";
+					// Update the quantity
+					mysqli_query($conn, $query);
+					$data['query'] = $query;
 				}
 			}
 		}
@@ -74,23 +88,20 @@ if ($_POST['eventid'])
 		for($i=0;$i<count($removedQuantities);$i++)
 		{
 			$rq = $removedQuantities[$i];
-			mysqli_query($conn, "DELETE FROM SupplyCount WHERE 
-								SupplyName='".$rq['name']."' AND
-								MinAttendeesToNecessetate=".$rq['min']." AND
-								EventID=$eventid");
+			mysqli_query($conn, "DELETE FROM SupplyCount WHERE SupplyName='".$rq['name']."' AND MinAttendeesToNecessetate=".$rq['min']." AND EventID=$eventid");
 		}
 		$removedSupplies = $_POST['removedSupps'];
 		for($i=0;$i<count($removedSupplies);$i++)
 		{
-			$rq = $removedSupplies[i];
-			mysqli_query($conn, "DELETE FROM SupplyCount WHERE 
-								SupplyName='".$rq['name']."' AND
-								EventID=$eventid");
+			$rq = $removedSupplies[$i];
+			$query = "DELETE FROM SupplyCount WHERE SupplyName='$rq' AND EventID=$eventid";
+			mysqli_query($conn, $query);
+			$data['query'] = $query;
 		}
 
 
 		$data['success'] = true;
-		$data['error'] = "";
+		//$data['error'] = "";
 		
 	}
 	else
