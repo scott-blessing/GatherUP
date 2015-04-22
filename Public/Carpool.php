@@ -131,14 +131,14 @@ $lonEvent = $result['lon'];
 
 
 //Loop through all the carpoolers, and set their distances to all the other carpoolers. 
-for ($i = 0; $i < sizeof($peopleCarpooling); $i++) 
+foreach((array)$peopleCarpooling as $email1 => $carpooler1)
 {
-	for ($j = 0; $j < sizeof($peopleCarpooling); $j++)
+	foreach((array)$peopleCarpooling as $email2 => $carpooler2)
 	{
-		if ($j == $i) //Don't figure out distance to ourselves. 
+		if ($email1 == $email2) //Don't figure out distance to ourselves. 
 			continue; 
-		$distance = distance($peopleCarpooling[$i], $peopleCarpooling[$j]);
-		$peopleCarpooling[$i]->addCarpooler($peopleCarpooling[$j]->myUsername, [$peopleCarpooling[$j], $distance]); 
+		$distance = distance($carpooler1, $carpooler2);
+		$carpooler1->addCarpooler($email2, [$arpooler2, $distance]); 
 	}	
 }
 
@@ -147,10 +147,10 @@ $eventNode = new Node();
 $eventNode->init("Event", -1, -1, $latEvent, $lonEvent, $addressEvent); 
 
 //Get everyone's distance to the event. 
-for ($i = 0; $i < sizeof($peopleCarpooling); $i++)
+foreach((array)$peopleCarpooling as $email => $carpooler)
 {
-	$distanceToEvent = distance($peopleCarpooling[$i], $eventNode);
-	$eventNode->addCarpooler($peopleCarpooling[$i]->myUsername, [$peopleCarpooling[$i], $distanceToEvent]);
+	$distanceToEvent = distance($carpooler, $eventNode);
+	$eventNode->addCarpooler($email, [$carpooler, $distanceToEvent]);
 }
 
 $data['event'] = $eventNode;
