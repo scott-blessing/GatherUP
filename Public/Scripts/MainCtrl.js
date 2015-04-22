@@ -1,5 +1,7 @@
 ﻿function MainCtrl($scope, $http) {
 
+  var SQL_MAX_INT = 2147483647;
+
   //An "enum" of the current page
   $scope.pageType = {
     HOME: 0,
@@ -161,7 +163,7 @@
     },
     {
       min: 7,
-      max: Number.MAX_SAFE_INTEGER,
+      max: SQL_MAX_INT,
       quantity: "2 bags",
       initMin: 7
     }]
@@ -171,7 +173,7 @@
     initName: "Salsa",
     quantities: [{
       min: 0,
-      max: Number.MAX_SAFE_INTEGER,
+      max: SQL_MAX_INT,
       quantity: "1 gallon",
       initMin: 0
     }]
@@ -842,7 +844,7 @@
 
     supply.quantities.push({
       min: prevQuan.min + 1,
-      max: Number.MAX_SAFE_INTEGER,
+      max: SQL_MAX_INT,
       quantity: "",
       initMax: null,
       initMin: null,
@@ -862,7 +864,7 @@
     var prevQuan = supply.quantities[len - 2];
 
     supply.quantities.splice(len - 1, 1);
-    prevQuan.max = Number.MAX_SAFE_INTEGER;
+    prevQuan.max = SQL_MAX_INT;
 
     //Add to 'removedQuantities' if from database
     if (remQuan.initMin !== null) {
@@ -880,7 +882,7 @@
       initName: null,
       quantities: [{
         min: 0,
-        max: Number.MAX_SAFE_INTEGER,
+        max: SQL_MAX_INT,
         quantity: "",
         initMin: null,
         initMax: null,
