@@ -485,7 +485,7 @@
         if (supplies == null)
           supplies = [];
 
-        for(var i = 0; i < supplies.length; index++)
+        for(var i = 0; i < supplies.length; i++)
         {
           var supply = {
             name: supplies[i]['SupplyName'], 
