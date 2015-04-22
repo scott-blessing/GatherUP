@@ -10,7 +10,7 @@ function findDriver($child)
 		return findDriver($child->child);
 }
 
-function tree(&$tree, &$leaves, &$data)
+function tree($tree, $leaves, &$data)
 {
 	$minval = 1000000;
 	$newLeaf;
@@ -159,7 +159,7 @@ $leaves = array();
 array_push($leaves, $eventNode);
 $data['tree']=array();
 $tree = array(); 
-
+$data['event']=$eventNode;
 tree($tree, $leaves, $data);
 
 $queryingCarpooler = $peopleCarpooling[$email]; //Dude who asked for directions.
