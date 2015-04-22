@@ -41,13 +41,12 @@ if ($_POST['eventid'] && $_POST['supplies'])
 				if(!name_exist($supply['name'], $eventid))
 				{
 					$supply_name = $supply['name'];
-					
-					// Create the supply
-					mysqli_query($conn, "INSERT INTO Supplies (Name, EventID) VALUES ($supply_name, $eventid");
 				}
 				else
 				{
 					// ERROR
+					$data['success'] = false;
+					$data['error'] = "SupplyName not in DB";
 				}
 			}
 			else if($supply['initName'] == $supply['name'])
@@ -58,17 +57,15 @@ if ($_POST['eventid'] && $_POST['supplies'])
 					$old_name = $supply['initName'];
 					$supply_name = $supply['name'];
 
-					// Update the supply
-					mysqli_query($conn, "UPDATE Supplies SET Name=$supply_name WHERE EventID = $eventid AND Name = $old_name");
-
 					// Update Bringing and SupplyCounts
-					mysqli_query($conn, "UPDATE SupplyCounts SET Name=$supply_name WHERE EventID = $eventid AND Name = $old_name");
+					mysqli_query($conn, "UPDATE SupplyCount SET SupplyName=$supply_name WHERE EventID = $eventid AND SupplyName = $old_name");
 					mysqli_query($conn, "UPDATE Bringing SET Name=$supply_name WHERE EventID = $eventid AND Name = $old_name");
-
 				}
 				else
 				{
 					// ERROR
+					$data['success'] = false;
+					$data['error'] = "SupplyName not in DB";
 				}
 			}
 			
@@ -97,7 +94,24 @@ if ($_POST['eventid'] && $_POST['supplies'])
 			}
 		}
 
-		$attendeesQuery = mysqli_query($conn, "SELECT COUNT(UserEmail) AS numAttendees FROM Attends WHERE EventID = $eventid");
+		$removedQuantities = $_POST['removedQuantities'];
+		for($i=0;$<count($removedQuantities);$i++)
+		{
+			$rq = $removedQuantities[i];
+			mysqli_query($conn, "DELETE FROM SupplyCount WHERE 
+								SupplyName=".$rq['name'].",
+								MinAttendeesToNecessetate=".$rq['min'].",
+								EventID=$eventid");
+		}
+		$removedSupplies = $_POST['removedSupplies'];
+		for($i=0;$<count($removedSupplies);$i++)
+		{
+			$rq = $removedSupplies[i];
+			mysqli_query($conn, "DELETE FROM SupplyCount WHERE 
+								SupplyName=".$rq['name'].",
+								EventID=$eventid");
+		}
+
 
 		$data['success'] = true;
 		$data['error'] = "";
@@ -106,7 +120,7 @@ if ($_POST['eventid'] && $_POST['supplies'])
 	else
 	{
 		$data['success'] = false;
-		$data['error'] = "";
+		$data['error'] = "Wrong parameters";
 	}
 	
 mysqli_close($conn);	
