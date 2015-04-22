@@ -23,7 +23,7 @@ function name_exist($supply_name, $eventid)
 }
 fun
 
-if ($_POST['eventid'] && $_POST['supplies'])
+if ($_POST['eventid'] && $_POST['removedSupps'] && $_POST['removedQuants'] && $_POST['supplies'])
 	{
 		$eventid = mysqli_real_escape_string($conn, $_POST['eventid']);
 
