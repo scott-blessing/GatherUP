@@ -18,7 +18,7 @@ if ($_POST['ID'] && $_POST['email'] && $_POST['name'])
 		$eventid = mysqli_real_escape_string($conn, $_POST['ID']);
 		$supplyName = mysqli_real_escape_string($conn, $_POST['name']);
 
-		mysqli_query($conn, "INSERT INTO 'Bringing' ('EventId','Email','Name') VALUES ('$eventid','$email','$supplyName')");
+		mysqli_query($conn, "INSERT INTO Bringing (EventId, UserEmail, SuppliesName) VALUES ('$eventid','$email','$supplyName')");
 		$data['success'] = true;
 		$data['error'] = "";
 	}

@@ -12,13 +12,13 @@ $data = array();
 $data['success']=false;
 $data['error']="Invalid parameters";
 
-if ($_POST['ID'] && $_POST['email']) && $_POST['name'])
+if ($_POST['ID'] && $_POST['email'] && $_POST['name'])
 	{
 		$email = mysqli_real_escape_string($conn, $_POST['email']);
 		$eventid = mysqli_real_escape_string($conn, $_POST['ID']);
 		$supplyName = mysqli_real_escape_string($conn, $_POST['name']);
 
-		mysqli_query($conn, "DELETE FROM 'Bringing' WHERE 'EventId'='$eventid', 'Email'='$email', 'Name'='$supplyName')");
+		mysqli_query($conn, "DELETE FROM Bringing WHERE EventId='$eventid', UserEmail='$email', SuppliesName='$supplyName')");
 		$data['success'] = true;
 		$data['error'] = "";
 	}
