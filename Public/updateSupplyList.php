@@ -29,49 +29,29 @@ if ($_POST['eventid'] && $_POST['removedSupps'] && $_POST['removedQuants'] && $_
 		$supplies = $_POST['supplies'];
 
 		// UPDATE or CREATE any nessesary supplies
-		for($i=0;i<count($supplies);$i++)
+		for($i=0;$i<count($supplies);$i++)
 		{
 			$supply = $supplies[$i];
 			$supply_name = "";
 
 			if($supply['initName'] == null)
 			{	
-				// Check if name already exist
-				if(!name_exist($supply['name'], $eventid))
-				{
-					$supply_name = $supply['name'];
-				}
-				else
-				{
-					// ERROR
-					$data['success'] = false;
-					$data['error'] = "SupplyName not in DB";
-				}
+				$supply_name = $supply['name'];
 			}
 			else if($supply['initName'] == $supply['name'])
 			{
-				// Check if name already exist
-				if(!name_exist($supply['name'], $eventid))
-				{
-					$old_name = $supply['initName'];
-					$supply_name = $supply['name'];
+				$old_name = $supply['initName'];
+				$supply_name = $supply['name'];
 
-					// Update Bringing and SupplyCounts
-					mysqli_query($conn, "UPDATE SupplyCount SET SupplyName=$supply_name WHERE EventID = $eventid AND SupplyName = $old_name");
-					mysqli_query($conn, "UPDATE Bringing SET Name=$supply_name WHERE EventID = $eventid AND Name = $old_name");
-				}
-				else
-				{
-					// ERROR
-					$data['success'] = false;
-					$data['error'] = "SupplyName not in DB";
-				}
+				// Update Bringing and SupplyCounts
+				mysqli_query($conn, "UPDATE SupplyCount SET SupplyName=$supply_name WHERE EventID = $eventid AND SupplyName = $old_name");
+				mysqli_query($conn, "UPDATE Bringing SET SuppliesName=$supply_name WHERE EventID = $eventid AND SuppliesName = $old_name");
 			}
 			
 			$quantities = $supply['quantities'];
 			
 			// UPDATE or CREATE Supply Counts
-			for($j=0;$j<count($quantities);j++)
+			for($j=0;$j<count($quantities);$j++)
 			{
 				$quatity = $quantities[$j];
 
@@ -94,20 +74,20 @@ if ($_POST['eventid'] && $_POST['removedSupps'] && $_POST['removedQuants'] && $_
 		}
 
 		$removedQuantities = $_POST['removedQuants'];
-		for($i=0;$<count($removedQuantities);$i++)
+		for($i=0;$i<count($removedQuantities);$i++)
 		{
-			$rq = $removedQuantities[i];
+			$rq = $removedQuantities[$i];
 			mysqli_query($conn, "DELETE FROM SupplyCount WHERE 
-								SupplyName=".$rq['name'].",
-								MinAttendeesToNecessetate=".$rq['min'].",
+								SupplyName=".$rq['name']." AND
+								MinAttendeesToNecessetate=".$rq['min']." AND
 								EventID=$eventid");
 		}
 		$removedSupplies = $_POST['removedSupps'];
-		for($i=0;$<count($removedSupplies);$i++)
+		for($i=0;$i<count($removedSupplies);$i++)
 		{
 			$rq = $removedSupplies[i];
 			mysqli_query($conn, "DELETE FROM SupplyCount WHERE 
-								SupplyName=".$rq['name'].",
+								SupplyName=".$rq['name']." AND
 								EventID=$eventid");
 		}
 
