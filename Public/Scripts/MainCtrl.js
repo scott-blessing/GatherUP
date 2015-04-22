@@ -981,7 +981,7 @@
   //Calculate a route from locations[0] to locations[last] stopping at all intermediate locations and display it on map and direction panel.
   function calcRoute(locations) {
     var len = locations.length; //# of stops in total including destination and driver home. 
-	/*
+	
     var waypts = locations.slice(1, len - 1); //Array of all the intermediate stops i.e. the people that the driver will pick up. 
     var waypts2 = []; //Array containing waypoint objects that Google Maps API will use. 
 	
@@ -992,14 +992,14 @@
         stopover: true
       });
     }
-	*/
+	
 	console.log(locations);
     //Specifics of the route request to be sent to Google Maps API. 
     var request = {
       origin: locations[0],
       destination: locations[len - 1],
-      //waypoints: waypts2,
-	  //optimizeWaypoints: true,
+      waypoints: waypts2,
+	  optimizeWaypoints: true,
       travelMode: google.maps.TravelMode.DRIVING
     };
 
