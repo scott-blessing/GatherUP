@@ -10,7 +10,7 @@ function findDriver($child)
 		return findDriver($child->child);
 }
 
-function tree($tree, $leaves, $data)
+function tree(&$tree, &$leaves, &$data)
 {
 	$minval = 1000000;
 	$newLeaf;
@@ -153,7 +153,7 @@ for ($i = 0; $i < sizeof($peopleCarpooling); $i++)
 	$eventNode->addCarpooler($peopleCarpooling[$i]->myUsername, [$peopleCarpooling[$i], $distanceToEvent]);
 }
 
-
+$data['event'] = $eventNode;
 $leaves = array(); 
 array_push($leaves, $eventNode);
 
