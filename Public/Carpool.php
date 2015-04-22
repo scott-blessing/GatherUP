@@ -10,12 +10,13 @@ function findDriver($child)
 		return findDriver($child->child);
 }
 
-function tree($tree, $leaves)
+function tree($tree, $leaves, $data)
 {
 	$minval = 1000000;
 	$newLeaf;
 	$index;
 	$newEmail;
+	$data['tree']=true;
 	for($i=0; $i<sizeof($leaves); $i++){
 		$leaf = $leaves[i];
 		foreach((array)$leaf->otherCarpoolers as $email => $carpooler){
@@ -24,6 +25,7 @@ function tree($tree, $leaves)
 				$newLeaf = $carpooler[0];
 				$index = $i;
 				$newEmail = $email;
+				$data['found']=true;
 			}
 		}	
 	}
@@ -36,7 +38,7 @@ function tree($tree, $leaves)
 		unset($leaves[$index]);
 	array_push($leaves, $newLeaf);
 	array_push($tree, $newEmail);
-	tree($tree, $leaves);
+	tree($tree, $leaves, $data);
 }
 
  
@@ -157,7 +159,7 @@ array_push($leaves, $eventNode);
 
 $tree = array(); 
 
-tree($tree, $leaves);
+tree($tree, $leaves, $data);
 
 $queryingCarpooler = $peopleCarpooling[$email]; //Dude who asked for directions.
 $data['Searcher'] = $queryingCarpooler;
