@@ -28,7 +28,7 @@ $lon = $lon['lon'];
 
 $r = 3963.1676; //Radius of the earth in miles.  
 $sql = "SELECT * FROM `Event` WHERE acos(sin(radians($lat))*sin(radians(lat)) + 
-cos(radians($lat))*cos(radians(lat))*cos(radians(lon)-radians($lon))) * $r < $rad"; //Selecting event IDs of public events near you.
+cos(radians($lat))*cos(radians(lat))*cos(radians(lon)-radians($lon))) * $r < $rad AND isPublic = 1"; //Selecting event IDs of public events near you.
 $result2 = mysqli_query($conn, $sql);
 $nearbyEvent = mysqli_fetch_array($result2);
 
