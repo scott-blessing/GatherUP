@@ -149,6 +149,7 @@
     <div class="home-island">
       <h3><u>Edit Event</u></h3>
       <button class="btn btn-danger eventview-title-rightbutton" data-ng-click="deleteCurEvent()">Cancel Event</button>
+      <button class="btn btn-info eventview-title-rightbutton" data-ng-click="openEventPage(eventStatus.HOST, curEvent.ID)">Back</button>
       <form>
         <table>
           <tbody>
@@ -248,6 +249,8 @@
         <button class="btn btn-warning eventview-title-rightbutton" 
                 data-ng-show="curEventStatus == eventStatus.HOST"
                 data-ng-click="editCurEvent()">Edit</button>
+        <button class="btn btn-info eventview-title-rightbutton" 
+                data-ng-click="openEventPage(eventStatus.HOST, curEvent.ID)">Refresh</button>
         <h2>{{curEvent.name}}</h2>
         <h4>{{curEvent.startTime.toLocaleTimeString()}} {{curEvent.startTime.toLocaleDateString()}} - {{curEvent.endTime.toLocaleTimeString()}} {{curEvent.endTime.toLocaleDateString()}}</h4>
         <h4>{{curEvent.loc}}</h4>
