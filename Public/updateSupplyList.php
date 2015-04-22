@@ -94,7 +94,7 @@ if ($_POST['eventid'] && $_POST['supplies'])
 			}
 		}
 
-		$removedQuantities = $_POST['removedQuantities'];
+		$removedQuantities = $_POST['removedQuants'];
 		for($i=0;$<count($removedQuantities);$i++)
 		{
 			$rq = $removedQuantities[i];
@@ -103,7 +103,7 @@ if ($_POST['eventid'] && $_POST['supplies'])
 								MinAttendeesToNecessetate=".$rq['min'].",
 								EventID=$eventid");
 		}
-		$removedSupplies = $_POST['removedSupplies'];
+		$removedSupplies = $_POST['removedSupps'];
 		for($i=0;$<count($removedSupplies);$i++)
 		{
 			$rq = $removedSupplies[i];

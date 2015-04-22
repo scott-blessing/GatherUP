@@ -951,7 +951,7 @@
 		  return;
 	  }
 
-    //TODO: Input changes into database
+    //TODO: TEST Input changes into database
 
     //Update/Add everything in fullSupplies
     //  (initName = null && initMin = null) - Create new SupplyCount entry (name, min, max, quantity, $scope.curEvent.ID)
@@ -969,9 +969,10 @@
     $http({
       method: 'POST',
       url: 'updateSupplyList.php',
-      data: $.param({supplies:$scope.fullSupplies, removedQuantities: removedQuantities,  removedSupplies: removedSupplies}),  // pass in data as strings
+      data: $.param({supplies:$scope.fullSupplies, removedQuants: removedQuantities,  removedSupps: removedSupplies}),  // pass in data as strings
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
     }).success(function (data) {
+      console.log(data);
     });
 
     $scope.curEventStatus = $scope.eventStatus.HOST; 
