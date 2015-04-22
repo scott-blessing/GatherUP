@@ -119,10 +119,11 @@ while ($result2 != NULL)
 }
 
 //Get lat, lon, and address of event. 
-$sql = "SELECT Address, lat,lon FROM Event WHERE id = $ID"; 
+$sql = "SELECT Location, lat, lon FROM Event WHERE id = $ID"; 
+$data['sql']=$sql;
 $result = mysqli_query($conn, $sql);
 $result = mysqli_fetch_array($result);
-$addressEvent = $result['Address']; 
+$addressEvent = $result['Location']; 
 $latEvent = $result['lat'];
 $lonEvent = $result['lon'];
 

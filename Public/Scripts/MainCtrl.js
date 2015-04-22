@@ -798,7 +798,7 @@
 		$http({
 			method: 'POST',
 			url: 'Carpool.php',
-			data: $.param({email: $scope.user.email, id: $scope.curEvent.id}),  // pass in data as strings
+			data: $.param({email: $scope.user.email, id: $scope.curEvent.ID}),  // pass in data as strings
 			headers: { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
 		}).success(function (data) {
 			console.log(data);
