@@ -569,6 +569,8 @@
     });
   };
 
+  $scope.showComments = true;
+
   //Propts the user for comment text, then creates the comment
   $scope.createComment = function () {
     var commText = prompt("Comment");

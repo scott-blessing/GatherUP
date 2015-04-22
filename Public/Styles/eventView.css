@@ -80,3 +80,7 @@ html, body, #map-canvas {
   box-shadow: 0 2px 2px rgba(33, 33, 33, 0.4);
   display: none;
 }
+
+#commentTitle:hover {
+  cursor: pointer;
+}

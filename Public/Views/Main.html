@@ -250,7 +250,7 @@
                 data-ng-show="curEventStatus == eventStatus.HOST"
                 data-ng-click="editCurEvent()">Edit</button>
         <button class="btn btn-info eventview-title-rightbutton" 
-                data-ng-click="openEventPage(eventStatus.HOST, curEvent.ID)">Refresh</button>
+                data-ng-click="openEventPage(curEventStatus, curEvent.ID)">Refresh</button>
         <h2>{{curEvent.name}}</h2>
         <h4>{{curEvent.startTime.toLocaleTimeString()}} {{curEvent.startTime.toLocaleDateString()}} - {{curEvent.endTime.toLocaleTimeString()}} {{curEvent.endTime.toLocaleDateString()}}</h4>
         <h4>{{curEvent.loc}}</h4>
@@ -261,7 +261,7 @@
       </div>
     </div>
     <div class="eventview-commentlist home-island">
-      <h3 data-ng-click="showComments = (showComments == null) ? false : !showComments"><u>Comments</u></h3>
+      <h3 data-ng-click="showComments = !showComments" id="commentTitle"><u>Comments</u></h3>
       <div class="eventview-comment" 
            data-ng-repeat="comm in curEvent.comments"
            data-ng-show="showComments">
