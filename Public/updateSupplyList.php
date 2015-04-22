@@ -14,15 +14,7 @@ $data['success']=false;
 $data['error']="Invalid parameters";
 $data['supplies'] = array();
 
-function name_exist($supply_name, $eventid)
-{
-	$result = mysqli_query($conn, "SELECT Name FROM Supplies WHERE EventID = $eventid AND Name = $supply_name");
-
-	$r = mysqli_fetch_array($result);
-	return $r == null;
-}
-
-if ($_POST['eventid'] && $_POST['removedSupps'] && $_POST['removedQuants'] && $_POST['supplies'])
+if ($_POST['eventid'])
 	{
 		$eventid = mysqli_real_escape_string($conn, $_POST['eventid']);
 
@@ -53,12 +45,12 @@ if ($_POST['eventid'] && $_POST['removedSupps'] && $_POST['removedQuants'] && $_
 			// UPDATE or CREATE Supply Counts
 			for($j=0;$j<count($quantities);$j++)
 			{
-				$quatity = $quantities[$j];
+				$quantity = $quantities[$j];
 
 				if($quantities['initMin'] == null)
 				{
 					// Create the new quantity
-					mysqli_query($conn, "INSERT INTO SupplyCount (SupplyName, EventID, Quantity, MinAttendeesToNecessetate, MaxAttendeesToNecessetate) VALUES ($supply_name, $eventid, ".$quantities['quatity'].", ".$quantities['min'].",".$quantities['max'].")");
+					mysqli_query($conn, "INSERT INTO SupplyCount (SupplyName, EventID, Quantity, MinAttendeesToNecessetate, MaxAttendeesToNecessetate) VALUES ($supply_name, $eventid, ".$quantities['quantity'].", ".$quantities['min'].",".$quantities['max'].")");
 
 				}
 				else if($quantities['initMin'] == $quantities['min'])
@@ -66,7 +58,7 @@ if ($_POST['eventid'] && $_POST['removedSupps'] && $_POST['removedQuants'] && $_
 					// Update the quantity
 					mysqli_query($conn, "UPDATE SupplyCount SET SupplyName = $supply_name,
 						EventID = $eventid,
-						Quantity = ".$quantities['quatity'].",
+						Quantity = ".$quantities['quantity'].",
 						MinAttendeesToNecessetate = ".$quantities['min'].",
 						MaxAttendeesToNecessetate = ".$quantities['max']."");
 				}
@@ -103,5 +95,5 @@ if ($_POST['eventid'] && $_POST['removedSupps'] && $_POST['removedQuants'] && $_
 	}
 	
 mysqli_close($conn);	
-echo(json_encode($result));
+echo(json_encode($data));
 ?>
