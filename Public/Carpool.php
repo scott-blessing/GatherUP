@@ -113,7 +113,7 @@ $peopleCarpooling = array(); //Array of people who are carpooling.
 while ($result2 != NULL) 
 {
 	$node = new Node(); 
-	$node->init($result2['Email'], $result2['Seats'], 0, $result2['lat'], $result2['lon'], $result['Address']);
+	$node->init($result2['Email'], $result2['Seats'], 0, $result2['lat'], $result2['lon'], $result2['Address']);
 	$peopleCarpooling[$result2['Email']] = $node; //Add this carpooler to the list of people carpooling.
 	$result2 = mysqli_fetch_array($result); //Next tuple of someone carpooling.
 }
