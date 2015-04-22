@@ -536,7 +536,7 @@
             var sName = s.Name;
             if (curName === "") {
               curName = sName;
-              curSupply = { name: curName, initName: curName };
+              curSupply = { name: curName, initName: curName, quantities: [] };
             }
             if (curName === sName) {
               curSupply.quantities.push({ min: s.MinGuests, initMin: s.MinGuests, max: s.MaxGuests, quantity: s.Quantity });
