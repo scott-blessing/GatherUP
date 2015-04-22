@@ -1,109 +1,8 @@
+
 <?php
-//Variables to be used to connect to MySQL database.
-$host = "engr-cpanel-mysql.engr.illinois.edu"; //Host name
-$username = "vajpeyi2_dhruv"; //Mysql username
-$password = "pass(1234)"; //Mysql password
-$db_name = "vajpeyi2_gatherup"; //Database name
-
-//Connect to server and select database.
-$conn = mysqli_connect($host, $username, $password, $db_name) or die("cannot connect server ");
-$data = array();
-
-$email = $_POST['email']; //Email of user who is asking for directions calculation. 
-$ID = $_POST['id']; //ID of event that we are figuring out carpooling calculation for. 
-
-//SQL to get all the carpoolers of an event. 
-$sql = "SELECT Email, Seats, Address, lat, lon FROM Attends LEFT JOIN User ON UserEmail = Email WHERE EventId = $ID AND Carpool = 1";
-$result = mysqli_query($conn, $sql);
-
-$result2 = mysqli_fetch_array($result); //Tuple of someone who is carpooling.
-
-$peopleCarpooling = array(); //Array of people who are carpooling.
-while ($result2 != NULL) 
-{
-	$node = new Node(); 
-	$node.init($result2['Email'], $result2['Seats'], 0, $result2['lat'], $result2['lon'], $result['Address']);
-	$peopleCarpooling[$result2['Email']] = $node; //Add this carpooler to the list of people carpooling.
-	$result2 = mysqli_fetch_array($result); //Next tuple of someone carpooling.
-}
-
-//Get lat, lon, and address of event. 
-$sql = "SELECT Address, lat,lon FROM Event WHERE id = $ID"; 
-$result = mysqli_query($conn, $sql);
-$result = mysqli_fetch_array($result);
-$addressEvent = $result['Address']; 
-$latEvent = $result['lat'];
-$lonEvent = $result['lon'];
-
-
-//Loop through all the carpoolers, and set their distances to all the other carpoolers. 
-for ($i = 0; $i < sizeof($peopleCarpooling); $i++) 
-{
-	for ($j = 0; $j < sizeof($peopleCarpooling); $j++)
-	{
-		if ($j == $i) //Don't figure out distance to ourselves. 
-			continue; 
-		$distance = distance($peopleCarpooling[$i], $peopleCarpooling[$j]);
-		$peopleCarpooling[$i]->addCarpooler($peopleCarpooling[$j]->myUsername, [$peopleCarpooling[$j], $distance]); 
-	}	
-}
-
-//Create node for the event
-$eventNode = new Node();
-$eventNode.init("Event", -1, -1, $latEvent, $lonEvent); 
-
-//Get everyone's distance to the event. 
-for ($i = 0; $i < sizeof($peopleCarpooling); $i++)
-{
-	$distanceToEvent = distance($peopleCarpooling[$i], $eventNode);
-	$eventNode->addCarpooler($peopleCarpooling[$i]->myUsername, [$peopleCarpooling[$i], $distanceToEvent]);
-}
-
-
-$leaves = array(); 
-array_push($leaves, $eventNode);
-
-$tree = array(); 
-
-tree($tree, $leaves);
-
-$queryingCarpooler = $peopleCarpooling[$email]; //Dude who asked for directions.
-$child = $queryingCarpooler->child; 
-$isDriver = true;
-$arrayOfAddresses = array();   
-
-if ($child != null)
-{
-	$driver = findDriver($child);
-	$driverEmail = $driver->myUsername;
-	$isDriver = false; //We are not a driver 
-}
-else //Querying Carpooler is a driver, so have to return his route. 
-{
-	$currAddr = $queryingCarpooler->address;
-	array_push($arrayOfAddresses, $currAddr);
-
-	$nextNode = $queryingCarpooler->parent; 
-	while ($nextNode != null)
-	{	
-		$currAddr = $nextNode->address;
-		array_push($arrayOfAddresses, $currAddr);
-		$nextNode = $nextNode->parent; 
-	}
-}
-
-$data['addresses'] = $arrayOfAddresses;
-mysqli_close($conn);
-echo(json_encode($data)); 
-
-
-
-
-
-
 /*******************************************************Helper functions**********************************************************/
 
-function findDriver(&$child)
+function findDriver($child)
 {
 	if ($child->child == null)
 		return $child;
@@ -111,7 +10,7 @@ function findDriver(&$child)
 		return findDriver($child->child);
 }
 
-function tree(&$tree, &$leaves)
+function tree($tree, $leaves)
 {
 	$minval = 1000000;
 	$newLeaf;
@@ -191,6 +90,102 @@ class Node
 	}
 }
 
+//Variables to be used to connect to MySQL database.
+$host = "engr-cpanel-mysql.engr.illinois.edu"; //Host name
+$username = "vajpeyi2_dhruv"; //Mysql username
+$password = "pass(1234)"; //Mysql password
+$db_name = "vajpeyi2_gatherup"; //Database name
+
+//Connect to server and select database.
+$conn = mysqli_connect($host, $username, $password, $db_name) or die("cannot connect server ");
+$data = array();
+
+$email = $_POST['email']; //Email of user who is asking for directions calculation. 
+$ID = $_POST['id']; //ID of event that we are figuring out carpooling calculation for. 
+
+//SQL to get all the carpoolers of an event. 
+$sql = "SELECT Email, Seats, Address, lat, lon FROM Attends LEFT JOIN User ON UserEmail = Email WHERE EventId = $ID AND Carpool = 1";
+$result = mysqli_query($conn, $sql);
+
+$result2 = mysqli_fetch_array($result); //Tuple of someone who is carpooling.
+
+$peopleCarpooling = array(); //Array of people who are carpooling.
+while ($result2 != NULL) 
+{
+	$node = new Node(); 
+	$node->init($result2['Email'], $result2['Seats'], 0, $result2['lat'], $result2['lon'], $result['Address']);
+	$peopleCarpooling[$result2['Email']] = $node; //Add this carpooler to the list of people carpooling.
+	$result2 = mysqli_fetch_array($result); //Next tuple of someone carpooling.
+}
+
+//Get lat, lon, and address of event. 
+$sql = "SELECT Address, lat,lon FROM Event WHERE id = $ID"; 
+$result = mysqli_query($conn, $sql);
+$result = mysqli_fetch_array($result);
+$addressEvent = $result['Address']; 
+$latEvent = $result['lat'];
+$lonEvent = $result['lon'];
+
+
+//Loop through all the carpoolers, and set their distances to all the other carpoolers. 
+for ($i = 0; $i < sizeof($peopleCarpooling); $i++) 
+{
+	for ($j = 0; $j < sizeof($peopleCarpooling); $j++)
+	{
+		if ($j == $i) //Don't figure out distance to ourselves. 
+			continue; 
+		$distance = distance($peopleCarpooling[$i], $peopleCarpooling[$j]);
+		$peopleCarpooling[$i]->addCarpooler($peopleCarpooling[$j]->myUsername, [$peopleCarpooling[$j], $distance]); 
+	}	
+}
+
+//Create node for the event
+$eventNode = new Node();
+$eventNode->init("Event", -1, -1, $latEvent, $lonEvent $addressEvent); 
+
+//Get everyone's distance to the event. 
+for ($i = 0; $i < sizeof($peopleCarpooling); $i++)
+{
+	$distanceToEvent = distance($peopleCarpooling[$i], $eventNode);
+	$eventNode->addCarpooler($peopleCarpooling[$i]->myUsername, [$peopleCarpooling[$i], $distanceToEvent]);
+}
+
+
+$leaves = array(); 
+array_push($leaves, $eventNode);
+
+$tree = array(); 
+
+tree($tree, $leaves);
+
+$queryingCarpooler = $peopleCarpooling[$email]; //Dude who asked for directions.
+$child = $queryingCarpooler->child; 
+$isDriver = true;
+$arrayOfAddresses = array();   
+
+if ($child != null)
+{
+	$driver = findDriver($child);
+	$driverEmail = $driver->myUsername;
+	$isDriver = false; //We are not a driver 
+}
+else //Querying Carpooler is a driver, so have to return his route. 
+{
+	$currAddr = $queryingCarpooler->address;
+	array_push($arrayOfAddresses, $currAddr);
+
+	$nextNode = $queryingCarpooler->parent; 
+	while ($nextNode != null)
+	{	
+		$currAddr = $nextNode->address;
+		array_push($arrayOfAddresses, $currAddr);
+		$nextNode = $nextNode->parent; 
+	}
+}
+
+$data['addresses'] = $arrayOfAddresses;
+mysqli_close($conn);
+echo(json_encode($data)); 
 
 
 
