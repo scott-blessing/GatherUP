@@ -949,11 +949,19 @@
 	  }
 
     //TODO: Input changes into database
+
     //Update/Add everything in fullSupplies
-    //  If initVal = null then entry is new and can be added
-    //  If initVal != null then entry exists.  Use init vals to update in database
+    //  (initName = null && initMin = null) - Create new SupplyCount entry (name, min, max, quantity, $scope.curEvent.ID)
+    //  (initName != null && initMin = null) - Update (initName, initMin, eventID) to (newName, initMin, max, quantity, eventID)
+    //  (initName = null && initMin != null) - Can't happen
+    //  (initName != null && initMin != null) - Update (initName, initMin, max, quantity, eventID)
+
     //Delete everything in removedQuantities (all guaranteed originally from database) {name, min}
+    //  Delete anything in SupplyCount with (name, min, $scope.curEvent.ID)
+
     //Delete everything in removedSupplies (all guaranteed originally from database) [just an array of strings (name)]
+    //  Delete anything in SupplyCount with (name, $scope.cureEvent.ID)
+
     //IN THAT ORDER
 
     $scope.curEventStatus = $scope.eventStatus.HOST; 
