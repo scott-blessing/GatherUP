@@ -19,7 +19,9 @@ function tree(&$tree, &$leaves, &$data)
 	$data['tree']=true;
 	for($i=0; $i<sizeof($leaves); $i++){
 		$leaf = $leaves[i];
+		$data['tree']=$leaf;
 		foreach((array)$leaf->otherCarpoolers as $email => $carpooler){
+			$data['child'] = $carpooler;
 			if($carpooler[1] < $minval && $carpooler[0]->myNumOfSeats > $leaf->height && !in_array($email, $tree)){
 				$minval = $carpooler[1];
 				$newLeaf = $carpooler[0];
@@ -138,7 +140,7 @@ foreach((array)$peopleCarpooling as $email1 => $carpooler1)
 		if ($email1 == $email2) //Don't figure out distance to ourselves. 
 			continue; 
 		$distance = distance($carpooler1, $carpooler2);
-		$carpooler1->addCarpooler($email2, [$arpooler2, $distance]); 
+		$carpooler1->addCarpooler($email2, [$carpooler2, $distance]); 
 	}	
 }
 
