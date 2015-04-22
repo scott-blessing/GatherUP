@@ -261,8 +261,10 @@
       </div>
     </div>
     <div class="eventview-commentlist home-island">
-      <h3><u>Comments</u></h3>
-      <div class="eventview-comment" data-ng-repeat="comm in curEvent.comments">
+      <h3 data-ng-click="showComments = (showComments == null) ? false : !showComments"><u>Comments</u></h3>
+      <div class="eventview-comment" 
+           data-ng-repeat="comm in curEvent.comments"
+           data-ng-show="showComments">
         <button class="eventview-comment-delete btn btn-xs btn-danger" 
                 data-ng-show="curEventStatus >= eventStatus.HOST || comm.email == user.email" 
                 data-ng-click="deleteComment(comm.ID)">x</button>
