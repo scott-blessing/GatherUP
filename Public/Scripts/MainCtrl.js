@@ -797,14 +797,14 @@
 		
 		$http({
 			method: 'POST',
-			url: 'carpool.php',
-			data: $.param({email:$scope.user.email, id: $scope.curEvent.id}),  // pass in data as strings
+			url: 'Carpool.php',
+			data: $.param({email: $scope.user.email, id: $scope.curEvent.id}),  // pass in data as strings
 			headers: { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
 		}).success(function (data) {
 			console.log(data);
 			for(index = 0; index < data['addresses'].length; index++) 
 			{
-				locations.push(data['addresse'][index]); //Push the next address. 
+				locations.push(data['addresses'][index]); //Push the next address. 
 			}
 			
 			calcRoute(locations); //Calculates and displays the route.
