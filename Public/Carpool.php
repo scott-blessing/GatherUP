@@ -73,20 +73,20 @@ class Node
 
 	public function init($username, $numOfSeats, $height, $lat, $lon, $address)
 	{
-		$myUsername = $username; 
-		$myLat = $lat; 
-		$myLong = $lon;
-		$myNumOfSeats = $numOfSeats;
-		$myHeight = $height;
-		$myAddress = $address; 
-		$parentNode = null;
+		$this->myUsername = $username; 
+		$this->myLat = $lat; 
+		$this->myLon = $lon;
+		$this->myNumOfSeats = $numOfSeats;
+		$this->height = $height;
+		$this->myAddress = $address; 
+		$this->parent = null;
 		$child = null;      
 	}
 
 	//Adds a carpooler. 
 	public function addCarpooler($key, $value) 
 	{
-		$otherCarpoolers[$key] = $value;
+		$this->otherCarpoolers[$key] = $value;
 	}
 }
 
@@ -160,6 +160,7 @@ $tree = array();
 tree($tree, $leaves);
 
 $queryingCarpooler = $peopleCarpooling[$email]; //Dude who asked for directions.
+$data['Searcher'] = $queryingCarpooler;
 $child = $queryingCarpooler->child; 
 $isDriver = true;
 $arrayOfAddresses = array();   
@@ -172,13 +173,13 @@ if ($child != null)
 }
 else //Querying Carpooler is a driver, so have to return his route. 
 {
-	$currAddr = $queryingCarpooler->address;
+	$currAddr = $queryingCarpooler->myAddress;
 	array_push($arrayOfAddresses, $currAddr);
 
 	$nextNode = $queryingCarpooler->parent; 
 	while ($nextNode != null)
 	{	
-		$currAddr = $nextNode->address;
+		$currAddr = $nextNode->myAddress;
 		array_push($arrayOfAddresses, $currAddr);
 		$nextNode = $nextNode->parent; 
 	}
