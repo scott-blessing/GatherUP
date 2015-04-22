@@ -30,14 +30,14 @@ if ($_POST['eventid'])
 			{	
 				$supply_name = $supply['name'];
 			}
-			else if($supply['initName'] == $supply['name'])
+			else
 			{
 				$old_name = $supply['initName'];
 				$supply_name = $supply['name'];
 
 				// Update Bringing and SupplyCounts
-				mysqli_query($conn, "UPDATE SupplyCount SET SupplyName=$supply_name WHERE EventID = $eventid AND SupplyName = $old_name");
-				mysqli_query($conn, "UPDATE Bringing SET SuppliesName=$supply_name WHERE EventID = $eventid AND SuppliesName = $old_name");
+				mysqli_query($conn, "UPDATE SupplyCount SET SupplyName='$supply_name' WHERE EventID = $eventid AND SupplyName = '$old_name'");
+				mysqli_query($conn, "UPDATE Bringing SET SuppliesName='$supply_name' WHERE EventID = $eventid AND SuppliesName = '$old_name'");
 			}
 			
 			$quantities = $supply['quantities'];
@@ -50,17 +50,22 @@ if ($_POST['eventid'])
 				if($quantities['initMin'] == null)
 				{
 					// Create the new quantity
-					mysqli_query($conn, "INSERT INTO SupplyCount (SupplyName, EventID, Quantity, MinAttendeesToNecessetate, MaxAttendeesToNecessetate) VALUES ($supply_name, $eventid, ".$quantities['quantity'].", ".$quantities['min'].",".$quantities['max'].")");
+					$result = mysqli_query($conn, "INSERT INTO SupplyCount (SupplyName, EventID, Quantity, MinAttendeesToNecessetate, MaxAttendeesToNecessetate) VALUES ('$supply_name', $eventid, ".$quantities['quantity'].", ".$quantities['min'].",".$quantities['max'].")");
+					if($result == false)
+					{
+						$data['success'] = false;
+						$data['error'] = "Bad supply count insert";
+					}
 
 				}
-				else if($quantities['initMin'] == $quantities['min'])
+				else
 				{
 					// Update the quantity
-					mysqli_query($conn, "UPDATE SupplyCount SET SupplyName = $supply_name,
+					mysqli_query($conn, "UPDATE SupplyCount SET SupplyName = '$supply_name',
 						EventID = $eventid,
 						Quantity = ".$quantities['quantity'].",
 						MinAttendeesToNecessetate = ".$quantities['min'].",
-						MaxAttendeesToNecessetate = ".$quantities['max']."");
+						MaxAttendeesToNecessetate = ".$quantities['max']." WHERE EvnetID = $eventid AND SupplyName = '$supply_name'");
 				}
 			}
 		}
@@ -70,7 +75,7 @@ if ($_POST['eventid'])
 		{
 			$rq = $removedQuantities[$i];
 			mysqli_query($conn, "DELETE FROM SupplyCount WHERE 
-								SupplyName=".$rq['name']." AND
+								SupplyName='".$rq['name']."' AND
 								MinAttendeesToNecessetate=".$rq['min']." AND
 								EventID=$eventid");
 		}
@@ -79,7 +84,7 @@ if ($_POST['eventid'])
 		{
 			$rq = $removedSupplies[i];
 			mysqli_query($conn, "DELETE FROM SupplyCount WHERE 
-								SupplyName=".$rq['name']." AND
+								SupplyName='".$rq['name']."' AND
 								EventID=$eventid");
 		}
 
