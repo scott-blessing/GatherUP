@@ -794,13 +794,20 @@
 		//Determine if curUser is a driver or not.
 		//If not driver, return user who is going to pick you up.
 		
-		
-		//Put into locations array all the stops. 
-		locations.push("1517 Thornwood Dr, Downers Grove IL"); //Should contain driver's address.
-		//Push into locations the addresses of people who need to get picked up.
-		locations.push("505 E Healey, Champaign IL");
-		locations.push("992 Quiet Bay Circle, Cicero IN"); //Should contain event's address.
-		calcRoute(locations); //Calculates and displays the route.
+		$http({
+			method: 'POST',
+			url: 'carpool.php',
+			data: $.param({email:$scope.user.email, id: $scope.curEvent.id}),  // pass in data as strings
+			headers: { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
+		}).success(function (data) {
+			console.log(data);
+			for(index = 0; index < data['addresses'].length; index++) 
+			{
+				locations.push(data['addresse'][index]); //Push the next address. 
+			}
+			
+			calcRoute(locations); //Calculates and displays the route.
+		});
 	}
 	
     $scope.showMap = true;
