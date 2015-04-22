@@ -12,7 +12,7 @@ $data = array();
 $data['success']=false;
 $data['error']="Invalid parameters";
 
-if ($_POST['ID'] && $_POST['email']) && $_POST['name'])
+if ($_POST['ID'] && $_POST['email'] && $_POST['name'])
 	{
 		$email = mysqli_real_escape_string($conn, $_POST['email']);
 		$eventid = mysqli_real_escape_string($conn, $_POST['ID']);
