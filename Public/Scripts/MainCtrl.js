@@ -965,6 +965,7 @@
     //Delete everything in removedSupplies (all guaranteed originally from database) [just an array of strings (name)]
     //  Delete anything in SupplyCount with (name, $scope.cureEvent.ID)
 
+    console.log("submitting data");
     //IN THAT ORDER
     $http({
       method: 'POST',
@@ -973,9 +974,10 @@
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
     }).success(function (data) {
       console.log(data);
+      $scope.curEventStatus = $scope.eventStatus.HOST;
     });
 
-    $scope.curEventStatus = $scope.eventStatus.HOST; 
+     
   };
 
 
