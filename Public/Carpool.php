@@ -19,7 +19,7 @@ function tree($tree, $leaves)
 	for($i=0; $i<sizeof($leaves); $i++){
 		$leaf = $leaves[i];
 		foreach((array)$leaf->otherCarpoolers as $email => $carpooler){
-			if($carpooler[1] < $minval && $carpooler[0]->myNumOfSeats > $leaf->height && notIn($tree, $email)){
+			if($carpooler[1] < $minval && $carpooler[0]->myNumOfSeats > $leaf->height && !in_array($email, $tree)){
 				$minval = $carpooler[1];
 				$newLeaf = $carpooler[0];
 				$index = $i;
@@ -80,7 +80,7 @@ class Node
 		$this->height = $height;
 		$this->myAddress = $address; 
 		$this->parent = null;
-		$child = null;      
+		$this->child = null;      
 	}
 
 	//Adds a carpooler. 
