@@ -261,7 +261,7 @@
       </div>
     </div>
     <div class="eventview-commentlist home-island">
-      <h3 data-ng-click="showComments = !showComments" id="commentTitle"><u>Comments</u></h3>
+      <h3 data-ng-click="showComments = !showComments" id="commentTitle"><u>Comments</u> <small data-ng-hide="showComments">(hidden)</small></h3>
       <div class="eventview-comment" 
            data-ng-repeat="comm in curEvent.comments"
            data-ng-show="showComments">
@@ -305,7 +305,7 @@
         </div>
       </div>
     </div>
-    <div class="eventview-carpool home-island" data-ng-show="curEventStatus != eventStatus.VIEWER">
+    <div class="eventview-carpool home-island" data-ng-show="curEventStatus != eventStatus.VIEWER && curEventStatus != eventStatus.HOST">
       <h3><u>Directions</u></h3>
       <label for="carpool">Willing to carpool?</label>
       <input name="carpool" type="checkbox" 

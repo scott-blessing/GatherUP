@@ -412,11 +412,16 @@
   };
 
   $scope.radius = 50;
-  $scope.radiusOptions = [{ val: 10, text: "10 miles" },
+  $scope.radiusOptions = [{ val: 1, text: "1 mile" },
+                          { val: 5, text: "5 miles" },
+                          { val: 10, text: "10 miles" },
                           { val: 25, text: "25 miles" },
                           { val: 50, text: "50 miles" },
                           { val: 100, text: "100 miles" },
-                          { val: 200, text: "200 miles" }];
+                          { val: 200, text: "200 miles" },
+                          { val: 500, text: "500 miles" },
+                          { val: 1000, text: "1,000 miles" },
+                          { val: 10000, text: "10,000 miles" }];
 
   //When the radius DDL is changed
   $scope.radiusChanged = function () {
@@ -938,10 +943,10 @@
       }
     }
 	
-	if(!allFilledIn){
-		alert("You must fill in all fields");
-		return;
-	}
+	  if(!allFilledIn){
+		  alert("You must fill in all fields");
+		  return;
+	  }
 
     //TODO: Input changes into database
     //Update/Add everything in fullSupplies
