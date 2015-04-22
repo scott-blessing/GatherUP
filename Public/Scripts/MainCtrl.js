@@ -528,10 +528,7 @@
 
         var supplies = data['supplies']; //1D array ordered by name, min (Name, Quantity, MinGuests, MaxGuests)
         if (supplies == null)
-          supplies = [];
-          
-
-        alert("From DB: " + JSON.stringify(supplies));
+          supplies = [];         
 
         if (supplies.length > 0) {
           var curName = "";
@@ -563,8 +560,6 @@
           }
           $scope.fullSupplies.push(curSupply);
         }
-        
-        alert("After Reading: " + JSON.stringify($scope.fullSupplies));
 
         //Reset tracker arrays
         removedSupplies = [];
