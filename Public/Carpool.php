@@ -18,7 +18,7 @@ function tree($tree, $leaves)
 	$newEmail;
 	for($i=0; $i<sizeof($leaves); $i++){
 		$leaf = $leaves[i];
-		foreach($leaf->otherCarpoolers as $email => $carpooler){
+		foreach((array)$leaf->otherCarpoolers as $email => $carpooler){
 			if($carpooler[1] < $minval && $carpooler[0]->myNumOfSeats > $leaf->height && notIn($tree, $email)){
 				$minval = $carpooler[1];
 				$newLeaf = $carpooler[0];
@@ -141,7 +141,7 @@ for ($i = 0; $i < sizeof($peopleCarpooling); $i++)
 
 //Create node for the event
 $eventNode = new Node();
-$eventNode->init("Event", -1, -1, $latEvent, $lonEvent $addressEvent); 
+$eventNode->init("Event", -1, -1, $latEvent, $lonEvent, $addressEvent); 
 
 //Get everyone's distance to the event. 
 for ($i = 0; $i < sizeof($peopleCarpooling); $i++)
