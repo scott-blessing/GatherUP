@@ -451,7 +451,7 @@
 			$scope.curEvent.hostName = data['hostName'];
 			$scope.curEvent.isPublic = Boolean(Number(data['isPublic']));
 			$scope.curEvent.isCarpooling = Boolean(Number(data['isCarpooling']));
-			$scope.curEvent.numOpenSeats = data['numOpenSeats'];
+			$scope.curEvent.numOpenSeats = Number(data['numOpenSeats']);
 
 			var index;
 			var guests = data['guests'];
