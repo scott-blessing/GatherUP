@@ -966,15 +966,25 @@
     //  Delete anything in SupplyCount with (name, $scope.cureEvent.ID)
 
     console.log("submitting data");
+
+    var uslStruct = {
+      eventid: $scope.curEvent.ID, 
+      supplies:$scope.fullSupplies, 
+      removedQuants: removedQuantities,  
+      removedSupps: removedSupplies
+    };
+
+    console.log(JSON.stringify(uslStruct));
+
     //IN THAT ORDER
     $http({
       method: 'POST',
       url: 'updateSupplyList.php',
-      data: $.param({eventid: $scope.curEvent.ID, supplies:$scope.fullSupplies, removedQuants: removedQuantities,  removedSupps: removedSupplies}),  // pass in data as strings
+      data: $.param(uslStruct),  // pass in data as strings
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
     }).success(function (data) {
       console.log(data);
-      $scope.curEventStatus = $scope.eventStatus.HOST;
+      $scope.openEventPage($scope.eventStatus.HOST, $scope.curEvent.ID);
     });
 
      
