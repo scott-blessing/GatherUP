@@ -21,7 +21,6 @@ function name_exist($supply_name, $eventid)
 	$r = mysqli_fetch_array($result);
 	return $r == null;
 }
-fun
 
 if ($_POST['eventid'] && $_POST['removedSupps'] && $_POST['removedQuants'] && $_POST['supplies'])
 	{
