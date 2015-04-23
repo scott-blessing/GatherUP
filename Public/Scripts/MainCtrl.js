@@ -806,8 +806,10 @@
 			{
 				locations.push(data['addresses'][index]); //Push the next address. 
 			}
-			
-			calcRoute(locations); //Calculates and displays the route.
+			if(data['addresses'].length == 0)
+				alert("You will be picked up at your address by " + data['driver']);
+			else
+				calcRoute(locations); //Calculates and displays the route.
 		});
 	}
 	
