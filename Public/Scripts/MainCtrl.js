@@ -995,6 +995,8 @@
 
   //Initializes page once all the HTML elements are loaded.
   function initializeMap() {
+    $scope.showMap=false;
+	document.getElementById("directions_panel").innerHTML = "";
     directionsDisplay = new google.maps.DirectionsRenderer();
 
     //Configuration of the original map before user types anything in.
