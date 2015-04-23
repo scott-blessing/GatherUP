@@ -89,7 +89,7 @@ if ($_POST['eventid'])
 					$data['error'] += "update quant\n";
 					$query = "UPDATE SupplyCount SET SupplyName = '$supply_name',
 						EventID = $eventid,
-						Quantity = ".$quantity['quantity'].",
+						Quantity = '".$quantity['quantity']."',
 						MinAttendeesToNecessetate = ".$quantity['min'].",
 						MaxAttendeesToNecessetate = ".$quantity['max']." WHERE EventID = $eventid AND SupplyName = '$supply_name'
 							AND MinAttendeesToNecessetate = ".$quantity['initMin']."";
