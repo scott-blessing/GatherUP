@@ -199,6 +199,10 @@
       <h3><u>Edit Supplies</u></h3>
       <div class="eventview-supplyedit-supply"
            data-ng-repeat="s in fullSupplies">
+        <button class="btn btn-xs btn-warning eventview-title-rightbutton"
+                data-ng-click="removeSupply($index)">
+          x
+        </button>
         <div>
           Name: <input class="wide" type="text" data-ng-model="s.name"/>
         </div>
@@ -233,11 +237,6 @@
         <button class="btn btn-xs btn-info"
                 data-ng-click="addSupply()">
           +
-        </button>
-        <button class="btn btn-xs btn-warning"
-                data-ng-click="removeSupply()"
-                data-ng-disabled="fullSupplies.length <= 0">
-          -
         </button>
       </div>
       <button class="btn btn-primary" data-ng-click="saveSupplyChanges()">Save Changes</button> 

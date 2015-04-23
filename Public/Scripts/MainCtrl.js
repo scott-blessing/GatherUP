@@ -908,14 +908,11 @@
   };
 
   //Removes a supply and all its quantities from curEvent
-  $scope.removeSupply = function () {
-    var len = $scope.fullSupplies.length;
-    if (len <= 0) return;
-
-    var sup = $scope.fullSupplies[len - 1];
+  $scope.removeSupply = function (index) {
+    var sup = $scope.fullSupplies[index];
 
     //Remove supply from array
-    $scope.fullSupplies.splice(len - 1, 1);
+    $scope.fullSupplies.splice(index, 1);
 
     //Add supply and quantities to 'removed' arrays
     if (sup.initName != null) {
@@ -950,6 +947,8 @@
 		  alert("You must fill in all fields");
 		  return;
 	  }
+
+    //Force unique supply names
 
     //TODO: TEST Input changes into database
 
