@@ -37,7 +37,7 @@ function tree($tree, $leaves, &$data)
 	$newLeaf->parent = $leaves[$index];
 	$leaves[$index]->child = $newLeaf; 
 	if($index!=0)
-		unset($leaves[$index]);
+		array_splice($leaves, $index, 1);
 	array_push($leaves, $newLeaf);
 	array_push($tree, $newEmail);
 	tree($tree, $leaves, $data);
@@ -116,7 +116,7 @@ $result2 = mysqli_fetch_array($result); //Tuple of someone who is carpooling.
 $peopleCarpooling = array(); //Array of people who are carpooling.
 while ($result2 != NULL) 
 {
-	$node = new Node(); 
+	$node = new Node();
 	$node->init($result2['Email'], $result2['Seats'], 0, $result2['lat'], $result2['lon'], $result2['Address']);
 	$peopleCarpooling[$result2['Email']] = $node; //Add this carpooler to the list of people carpooling.
 	$result2 = mysqli_fetch_array($result); //Next tuple of someone carpooling.
@@ -159,7 +159,6 @@ $leaves = array();
 array_push($leaves, $eventNode);
 $data['tree']=array();
 $tree = array(); 
-$data['event']=$eventNode;
 tree($tree, $leaves, $data);
 
 $queryingCarpooler = $peopleCarpooling[$email]; //Dude who asked for directions.
