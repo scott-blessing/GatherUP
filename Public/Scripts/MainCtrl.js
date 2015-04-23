@@ -996,7 +996,7 @@
   //Initializes page once all the HTML elements are loaded.
   function initializeMap() {
     $scope.showMap=false;
-	document.getElementById("directions_panel").innerHTML = "";
+	
     directionsDisplay = new google.maps.DirectionsRenderer();
 
     //Configuration of the original map before user types anything in.
@@ -1009,6 +1009,7 @@
 
     directionsDisplay.setMap(map); //Map
     directionsDisplay.setPanel(document.getElementById('directions-panel')); //Panel with step-by-step directions.
+	//map.setCenter(locations[0]);
     //Not sure what 3 lines below this do - seem useless. 
     //var control = document.getElementById('control');
     //control.style.display = 'block';
@@ -1017,6 +1018,7 @@
 
   //Calculate a route from locations[0] to locations[last] stopping at all intermediate locations and display it on map and direction panel.
   function calcRoute(locations) {
+    document.getElementById("directions-panel").innerHTML = "";
     var len = locations.length; //# of stops in total including destination and driver home. 
 	
     var waypts = locations.slice(1, len - 1); //Array of all the intermediate stops i.e. the people that the driver will pick up. 
