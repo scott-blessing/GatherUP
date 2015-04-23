@@ -21,6 +21,22 @@ if ($_POST['eventid'])
 
 		$supplies = $_POST['supplies'];
 
+		$removedQuantities = $_POST['removedQuants'];
+		//DELETE Supply Quantities
+		for($i=0;$i<count($removedQuantities);$i++)
+		{
+			$rq = $removedQuantities[$i];
+			mysqli_query($conn, "DELETE FROM SupplyCount WHERE SupplyName='".$rq['name']."' AND MinAttendeesToNecessetate=".$rq['min']." AND EventID=$eventid");
+		}
+		$removedSupplies = $_POST['removedSupps'];
+		for($i=0;$i<count($removedSupplies);$i++)
+		{
+			$rq = $removedSupplies[$i];
+			$query = "DELETE FROM SupplyCount WHERE SupplyName='$rq' AND EventID=$eventid";
+			mysqli_query($conn, $query);
+			$data['query'] = $query;
+		}
+		
 		// UPDATE or CREATE any nessesary supplies
 		for($i=0;$i<count($supplies);$i++)
 		{
@@ -56,7 +72,7 @@ if ($_POST['eventid'])
 				{
 					$data['error'] += "new quant\n";
 					// Create the new quantity
-					$query = "INSERT INTO SupplyCount (SupplyName, EventID, Quantity, MinAttendeesToNecessetate, MaxAttendeesToNecessetate) VALUES ('$supply_name', $eventid, ".$quantity['quantity'].", ".$quantity['min'].",".$quantity['max'].")";
+					$query = "INSERT INTO SupplyCount (SupplyName, EventID, Quantity, MinAttendeesToNecessetate, MaxAttendeesToNecessetate) VALUES ('$supply_name', $eventid, '".$quantity['quantity']."', ".$quantity['min'].",".$quantity['max'].")";
 					$result = mysqli_query($conn, $query);
 					$data['query'] = $query;
 					if($result == false)
@@ -82,21 +98,6 @@ if ($_POST['eventid'])
 					$data['query'] = $query;
 				}
 			}
-		}
-
-		$removedQuantities = $_POST['removedQuants'];
-		for($i=0;$i<count($removedQuantities);$i++)
-		{
-			$rq = $removedQuantities[$i];
-			mysqli_query($conn, "DELETE FROM SupplyCount WHERE SupplyName='".$rq['name']."' AND MinAttendeesToNecessetate=".$rq['min']." AND EventID=$eventid");
-		}
-		$removedSupplies = $_POST['removedSupps'];
-		for($i=0;$i<count($removedSupplies);$i++)
-		{
-			$rq = $removedSupplies[$i];
-			$query = "DELETE FROM SupplyCount WHERE SupplyName='$rq' AND EventID=$eventid";
-			mysqli_query($conn, $query);
-			$data['query'] = $query;
 		}
 
 
