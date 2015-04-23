@@ -862,9 +862,7 @@
       min: prevQuan.min + 1,
       max: SQL_MAX_INT,
       quantity: "",
-      initMax: null,
       initMin: null,
-      initQuantity: null
     });
 
     prevQuan.max = prevQuan.min;
@@ -900,9 +898,7 @@
         min: 0,
         max: SQL_MAX_INT,
         quantity: "",
-        initMin: null,
-        initMax: null,
-        initQuantity: null
+        initMin: null
       }]
     });
   };
@@ -950,19 +946,19 @@
 
     //Force unique supply names
 
-    //TODO: TEST Input changes into database
 
-    //Update/Add everything in fullSupplies
-    //  (initName = null && initMin = null) - Create new SupplyCount entry (name, min, max, quantity, $scope.curEvent.ID)
-    //  (initName != null && initMin = null) - Update (initName, initMin, eventID) to (newName, initMin, max, quantity, eventID)
-    //  (initName = null && initMin != null) - Can't happen
-    //  (initName != null && initMin != null) - Update (initName, initMin, max, quantity, eventID)
 
     //Delete everything in removedQuantities (all guaranteed originally from database) {name, min}
     //  Delete anything in SupplyCount with (name, min, $scope.curEvent.ID)
 
     //Delete everything in removedSupplies (all guaranteed originally from database) [just an array of strings (name)]
     //  Delete anything in SupplyCount with (name, $scope.cureEvent.ID)
+
+    //Update/Add everything in fullSupplies
+    //  (initName = null && initMin = null) - Create new SupplyCount entry (name, min, max, quantity, $scope.curEvent.ID)
+    //  (initName != null && initMin = null) - Update (initName, initMin, eventID) to (newName, initMin, max, quantity, eventID)
+    //  (initName = null && initMin != null) - Can't happen
+    //  (initName != null && initMin != null) - Update (initName, initMin, max, quantity, eventID)
 
     console.log("submitting data");
 
@@ -975,7 +971,6 @@
 
     console.log(JSON.stringify(uslStruct));
 
-    //IN THAT ORDER
     $http({
       method: 'POST',
       url: 'updateSupplyList.php',
