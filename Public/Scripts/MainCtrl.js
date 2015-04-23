@@ -505,6 +505,7 @@
         $scope.curPageType = $scope.pageType.EVENTVIEW;
         $scope.curEventStatus = status;
         $scope.inviteGuestEmail = "";
+		$scope.mapMessage = "";
         initializeMap(); //Displays Google Map.
       });
 	});
@@ -787,6 +788,7 @@
 			locations.push(userAddress); //Driver's address - Origin.
 			locations.push(eventAddress); //Event's address - Destination. 
 			calcRoute(locations); //Calculates and displays the route.
+			$scope.showMap = true;
 		});
 	}
 	else //Else, if person is carpooling, then have figure out carpooling calculations. 
@@ -807,14 +809,13 @@
 				locations.push(data['addresses'][index]); //Push the next address. 
 			}
 			if(data['addresses'].length == 0)
-				alert("You will be picked up at your address by " + data['driver']);
-			else
+				$scope.mapMessage="You will be picked up at your address by " + data['driver'];
+			else{
 				calcRoute(locations); //Calculates and displays the route.
+				$scope.showMap = true;
+			}
 		});
 	}
-	
-    $scope.showMap = true;
-
   };
 
   /********************************************SUPPLIES EDITOR*******************************************************/
@@ -989,9 +990,10 @@
 
 
   /********************************************GOOGLE MAPS***********************************************************/
-
+  var map;
   var directionsDisplay; //Displays route on map after we call route() and get the resulting directions. 
   var directionsService = new google.maps.DirectionsService(); //Call route() function on this to get actual directions.
+  $scope.mapMessage="";
 
   //Initializes page once all the HTML elements are loaded.
   function initializeMap() {
@@ -1005,8 +1007,7 @@
       center: new google.maps.LatLng(52.5167, 13.3833) //Initial center coordinates before user types anything in. 
     };
 
-    var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions); //Google map that will display the route.
-
+	map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
     directionsDisplay.setMap(map); //Map
     directionsDisplay.setPanel(document.getElementById('directions-panel')); //Panel with step-by-step directions.
 	//map.setCenter(locations[0]);
@@ -1018,6 +1019,10 @@
 
   //Calculate a route from locations[0] to locations[last] stopping at all intermediate locations and display it on map and direction panel.
   function calcRoute(locations) {
+	var geocoder = new google.maps.Geocoder();
+	geocoder.geocode({'address': locations[0]}, function(results, status){
+		map.setCenter(results[0].geometry.location);
+	});
     document.getElementById("directions-panel").innerHTML = "";
     var len = locations.length; //# of stops in total including destination and driver home. 
 	
@@ -1050,6 +1055,7 @@
       }
     } //End of callback function. 
     ); //End of route() request.
+	google.maps.event.trigger(map, 'resize');
   } //End of calcRoute()
 
   /********************************************PROFILE***************************************************************/

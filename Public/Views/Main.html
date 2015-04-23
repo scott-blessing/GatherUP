@@ -321,8 +321,9 @@
       <div class="eventview-carpool-map" style="height: 500px" data-ng-show="showMap">
         <!-- These divs will contain the google-created maps and directions -->
         <div id="directions-panel" style="overflow-y: scroll"></div>
-        <div id="map-canvas" style="width:500px;height:500px;"></div>
-      </div>  
+        <div id="map-canvas" style="width:1000px;height:500px;"></div>
+      </div>
+	  <div data-ng-show="mapMessage != ''">{{mapMessage}}</div>
     </div> 
   </div> 
 </div>
